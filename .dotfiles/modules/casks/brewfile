@@ -10,6 +10,7 @@ cask "1password-cli"
 
 # Everything VM related
 cask "docker"
+cask "parallels"
 
 # Web browsers
 cask "google-chrome"
