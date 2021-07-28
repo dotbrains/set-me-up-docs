@@ -9,25 +9,44 @@ Instead of enforcing a certain setup it tries to act as a solid template that is
 
 ## Table of Contents
 
-- [🔧 Usage](#usage)
-  - [💎 Use the blueprint](#use-the-blueprint)
-  - [💰 Obtaining `set-me-up`](#obtaining-set-me-up)
-  - [🏃 Running `set-me-up`](#running-set-me-up)
-  - [🚚 Customize `set-me-up`](#customize-set-me-up)
-    - [🎣 Using hooks](#using-hooks)
-    - [✏️ Using `rcm`](#using-rcm)
-      - [✨ Creating a custom tag](#creating-a-custom-tag)
-  - [Wait! I am confused 😕](#wait-i-am-confused-)
-- [A Closer Look 🤓](#a-closer-look)
-  - [📦 Available modules](#available-modules)
-  - [🚀 Other components](#other-components)
-  - [🌐 Local Settings](#local-settings)
-    - [🐠 `~/.fish.local`](#fishlocal)
-    - [🐚 `~/.bash.local`](#bashlocal)
-- [🙇🏻 Credits](#credits)
-- [👨🏼‍⚖️ Liability](#liability)
-- [🔃 Contributions](#contributions)
-- [📄 License](#license)
+- [`set-me-up`](#set-me-up)
+	- [Table of Contents](#table-of-contents)
+	- [Usage](#usage)
+		- [Use the blueprint](#use-the-blueprint)
+		- [Obtaining `set-me-up`](#obtaining-set-me-up)
+		- [Running `set-me-up`](#running-set-me-up)
+		- [Customize `set-me-up`](#customize-set-me-up)
+			- [Using hooks](#using-hooks)
+			- [Using `rcm`](#using-rcm)
+				- [Creating a custom tag](#creating-a-custom-tag)
+		- [Wait! I am confused 😕](#wait-i-am-confused-)
+	- [A closer look 🤓](#a-closer-look-)
+		- [Available modules](#available-modules)
+			- [base](#base)
+			- [create_boot_disk](#create_boot_disk)
+			- [macosupdate](#macosupdate)
+			- [brew](#brew)
+			- [app_store](#app_store)
+			- [casks](#casks)
+			- [formulae](#formulae)
+			- [preferences](#preferences)
+			- [go](#go)
+			- [java](#java)
+			- [php](#php)
+			- [python](#python)
+			- [ruby](#ruby)
+			- [rust](#rust)
+			- [web](#web)
+		- [Other components](#other-components)
+			- [The smu script](#the-smu-script)
+		- [How does it work?](#how-does-it-work)
+		- [Local Settings](#local-settings)
+			- [`~/.bash.local`](#bashlocal)
+			- [`~/.fish.local`](#fishlocal)
+	- [Credits](#credits)
+	- [Liability](#liability)
+	- [Contributions](#contributions)
+	- [License](#license)
 
 ## Usage
 
@@ -63,13 +82,13 @@ You can change the `smu` home directory by setting an environment variable calle
 
 [![xkcd: Automation](http://imgs.xkcd.com/comics/automation.png)](http://xkcd.com/1319/)
 
-1.  Use the `smu` script (which you will find inside the `smu` home directory) to run the base module. Check out the [base module documentation](#base) for more insights.
+1. Use the `smu` script (which you will find inside the `smu` home directory) to run the base module. Check out the [base module documentation](#base) for more insights.
 
         smu -p -m base
 
     ⚠️ Please note that after running the base module, moving the source folder is not recommended due to the usage of symlinks.
 
-2.  Afterwards, provision your machine with [further modules](#available-modules) via the `smu` script. Repeat the `-m` switch to specify more then one module.
+2. Afterwards, provision your machine with [further modules](#available-modules) via the `smu` script. Repeat the `-m` switch to specify more then one module.
 
         smu -p -m app_store -m casks -m php --no-base
 
@@ -105,8 +124,8 @@ Additionally, you can use `smu --rcdn` command to remove files listed within [`.
 
 ##### Creating a custom tag
 
-1.  Create a new `rcm` tag, by creating a new folder prefixed `tag-` inside the [`.dotfiles`](.dotfiles) directory: `.dotfiles/tag-my`
-2.  Add your tag to the [`.rcrc`](.dotfiles/rcrc) configuration file in front of the currently defined tags. Resulting in `TAGS="my smu"`
+1. Create a new `rcm` tag, by creating a new folder prefixed `tag-` inside the [`.dotfiles`](.dotfiles) directory: `.dotfiles/tag-my`
+2. Add your tag to the [`.rcrc`](.dotfiles/rcrc) configuration file in front of the currently defined tags. Resulting in `TAGS="my smu"`
 
 ### Wait! I am confused 😕
 
@@ -136,16 +155,7 @@ This module also configures an upgraded version of `bash`, version 5.
 
 Configures `fish` with sane `fish` options and provides you with a list of useful plugins managed via [Fisherman](https://fisherman.github.io) and [Oh-My-Fish](https://github.com/oh-my-fish/oh-my-fish).
 
-Some of the installed plugins are:
-
-- fzf
-- fnm
-- z
-- fzy
-- bass
-- ... and more.
-
-**⚠️ Note**: _Take a look at the [fishfile](.dotfiles/tag-smu/config/fish/fishfile) for a full overview._
+**⚠️ Note**: _Take a look at the [config.fish](.dotfiles/tag-smu/config/fish/config.fish) for a full overview._
 
 For more on what the base module does, please consult [`base.sh`](.dotfiles/base/base.sh).
 
