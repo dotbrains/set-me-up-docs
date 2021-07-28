@@ -44,15 +44,6 @@ main() {
     ./system/ui_and_ux.sh
 	./system/launchpad.sh
 
-	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	# Restore Mac OS Preferences via `mackup`
-	# see: https://github.com/lra/mackup
-
-	command -v "mackup" &> /dev/null && [[ -d "$HOME/Dropbox/Mackup" ]] && {
-		mackup restore
-	}
-
 }
 
 main

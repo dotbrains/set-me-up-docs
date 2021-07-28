@@ -5,12 +5,8 @@ if brew info alfred &>/dev/null; then
 	npx_install "awm"
 
 	[[ -f "$(locate_alfred_preferences)" ]] && {
-		npx_install "alfred-emoj"
+		npx_install "alfred-fkill"
+		npx_install "@bchatard/alfred-jetbrains"
 		npx_install "alfred-npms"
-		npx_install "alfred-dark-mode"
-		npx_install "alfred-cdnjs"
-		npx_install "alfred-packagist"
-		npx_install "alfred-mdi"
-		npx_install "alfred-awe"
 	}
 fi

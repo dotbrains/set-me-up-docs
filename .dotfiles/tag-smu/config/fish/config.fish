@@ -21,18 +21,6 @@ if type -q thefuck
     thefuck --alias | source
 end
 
-# load 'Tacklebox' configuration
-# see: https://github.com/justinmayer/tacklebox
-if test -e $HOME/.tacklebox/tacklebox.fish
-    source $HOME/.tacklebox/tacklebox.fish
-end
-
-# load 'autojump' configurations
-# see: https://github.com/wting/autojump
-if test -e "/usr/local/share/autojump/autojump.fish"
-    source "/usr/local/share/autojump/autojump.fish"
-end
-
 # load 'z.lua' configs.
 # see: https://github.com/skywind3000/z.lua#install
 if test -e "$HOME"/.z.lua

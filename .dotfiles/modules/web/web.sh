@@ -169,97 +169,6 @@ install_latest_stable_node_with_nvm() {
 
 }
 
-install_npm_packages() {
-
-    # working with npm
-    npx_install "npm-check"
-    npx_install "yarn-check"
-    npx_install "np"
-    npx_install "npm-name-cli"
-
-    # package managers
-    npx_install "yarn"
-    npx_install "bower"
-    npx_install "pnpm"
-    npx_install "parcel-bundler"
-
-    # useful binaries
-    npx_install "md-to-pdf"
-    npx_install "favicon-emoji"
-    npx_install "tldr"
-    npx_install "emma-cli"
-    npx_install "@rafaelrinaldi/whereami"
-    npx_install "create-dmg"
-    npx_install "castnow"
-    npx_install "gitmoji-cli"
-    npx_install "fx"
-    npx_install "screenshoteer"
-    npx_install "how-2"
-    npx_install "undollar"
-
-    # process management
-    npx_install "fkill-cli"
-    npx_install "gtop"
-    npx_install "vtop"
-
-    # fonts
-    npx_install "google-font-installer"
-
-    # directory management
-    npx_install "empty-trash-cli"
-    npx_install "spot"
-
-    # version control
-    npx_install "ghub"
-    npx_install "ghwd"
-    npx_install "github-is-starred-cli"
-
-    # wallpaper management
-    npx_install "wallpaper-cli"
-    npx_install "splash-cli"
-
-    # linters
-    npx_install "eslint"
-    npx_install "eslint-config-standard"
-
-    # deployment
-    npx_install "netlify-cli"
-    npx_install "surge"
-    npx_install "now"
-
-    # task runneries
-    npx_install "gulp-cli"
-
-    # networking
-    npx_install "wt-cli"
-    npx_install "speed-test"
-    npx_install "is-up-cli"
-    npx_install "localtunnel"
-    npx_install "spoof"
-    npx_install "http-server"
-
-    # javascript packages
-    npx_install "next"
-    npx_install "nodemon"
-
-    # vue packages
-    npx_install "@vue/cli"
-
-    # react packages
-    npx_install "create-react-app"
-    npx_install "create-react-library"
-    npx_install "react-native-cli"
-
-    # database packages
-    npx_install "prisma"
-    npx_install "graphql-cli"
-    npx_install "firebase-tools"
-
-    # continuous integration (CI) bots
-    npx_install "snyk"
-
-}
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
@@ -283,8 +192,6 @@ main() {
     install_latest_stable_node_with_n
 
 	# install_latest_stable_node_with_nvm
-
-	# install_npm_packages
 
 }
 

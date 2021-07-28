@@ -30,10 +30,6 @@ command -v "exa" &> /dev/null && {
     alias l="exa -l"
 }
 
-command -v "colorls" &> /dev/null && {
-	alias lc="colorls --dark -lA --sd"
-}
-
 # List only directories
 alias lsd="ls -lF --color | grep --color=never '^d'"
 # List only hidden files
@@ -59,19 +55,6 @@ command -v "hub" &> /dev/null && {
 
 alias acp="git add -A && git commit -v && git push"
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# `lazygit` aliases
-
-command -v "lazygit" &> /dev/null && {
-    alias lg="lazygit"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# `wttr` alias
-
-alias wttr="curl wttr.in"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -143,40 +126,6 @@ command -v "pip3" &> /dev/null && {
     alias pip3u="sudo pip3 install -U pip \
                     && sudo -H pip3 install -U pip \
                     && sudo pip-review --auto"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Shorter commands for `Composer`
-
-command -v "composer" &> /dev/null && {
-    alias ci='composer install'
-    alias cr='composer remove'
-    alias cls='composer list'
-    alias cs='composer search'
-    alias cu='composer self-update'
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# piknik - Copy/paste anything over the network!
-# see: https://github.com/jedisct1/piknik#suggested-shell-aliases
-
-command -v "piknick" &> /dev/null && {
-    # pkc : read the content to copy to the clipboard from STDIN
-    alias pkc='piknik -copy'
-
-    # pkp : paste the clipboard content
-    alias pkp='piknik -paste'
-
-    # pkm : move the clipboard content
-    alias pkm='piknik -move'
-
-    # pkz : delete the clipboard content
-    alias pkz='piknik -copy < /dev/null'
-
-    # pkpr : extract clipboard content sent using the pkfr command
-    alias pkpr='piknik -paste | tar xzhpvf -'
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

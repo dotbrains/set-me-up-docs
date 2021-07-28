@@ -7,71 +7,44 @@ tap "homebrew/cask-fonts"
 cask "avast-security"
 cask "1password"
 cask "1password-cli"
-cask "adguard"
-cask "nordvpn"
-
-# Window management
-cask "moom"
-cask "witch"
-cask "mission-control-plus"
 
 # Everything VM related
-cask "virtualbox"
-cask "virtualbox-extension-pack"
 cask "docker"
 
 # Web browsers
 cask "google-chrome"
-cask "firefox"
 
 # Core development
 cask "iterm2"
-cask "dash"
-cask "insomnia"
+cask "kaleidoscope"
 
 # IDEs
 cask "webstorm"
-cask "visual-studio-code"
 cask "intellij-idea"
+cask "visual-studio-code"
 
 # File/directory management
 cask "osxfuse"
 brew "ext4fuse"
-cask "filepane"
-cask "default-folder-x"
-
-# VCS related
-cask "sublime-merge"
+cask "transmit4"
 
 # Networking
 cask "ngrok"
 
 # Mac OS management
-cask "setapp"
-cask "latest"
-cask "endurance"
-cask "bettertouchtool"
-cask "haptic-touch-bar"
+cask "setapp" # Install favorite apps installing 'setapp'
+cask "haptic-touch-bar" # if you have touch bar
 cask "switchresx"
 cask "appcleaner"
-cask "bartender"
 cask "muzzle"
-cask "switchresx"
 cask "browserosaurus"
-cask "jettison"
 cask "alfred"
 
 # Media players
-cask "macmediakeyforwarder"
 cask "iina"
 
 # Backups
-cask "backblaze"
 cask "imazing"
-
-# Sync Services
-cask "dropbox"
-cask "google-backup-and-sync"
 
 # Office
 cask "microsoft-office"
@@ -95,5 +68,4 @@ cask "font-hack"
 cask "font-hack-nerd-font-mono"
 
 # Misc.
-cask "cleanshot"
 cask "rocket"

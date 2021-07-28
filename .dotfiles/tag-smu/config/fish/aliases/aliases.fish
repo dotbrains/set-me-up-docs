@@ -69,10 +69,6 @@ if type -q exa
     alias l "exa -l"
 end
 
-if type -q colorls
-	alias lc "colorls --dark -lA --sd"
-end
-
 # List only directories
 alias lsd "ls -lF --color | grep --color=never '^d'"
 # List only hidden files
@@ -102,20 +98,6 @@ if type -q hub
 end
 
 alias acp "git add -A ;and git commit -v ;and git push"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# `lazygit` aliases
-
-if type -q lazygit
-    alias lg "lazygit"
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# `wttr` alias
-
-alias wttr "curl wttr.in"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -184,18 +166,6 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Shorter commands for `Composer`
-
-if type -q composer
-    alias ci "composer install"
-    alias cr "composer remove"
-    alias cls "composer list"
-    alias cs "composer search"
-    alias cu "composer self-update"
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 # Clear DNS cache.
 
 alias clear-dns-cache "sudo dscacheutil -flushcache and sudo killall -HUP mDNSResponder"
@@ -224,26 +194,4 @@ alias xip "curl -s checkip.dyndns.org | grep -Eo "[0-9\.]+""
 
 function o --description "Open from the terminal"
     open $argv
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# piknik - Copy/paste anything over the network!
-# see: https://github.com/jedisct1/piknik#suggested-shell-aliases
-
-if type -q piknik
-    # pkc : read the content to copy to the clipboard from STDIN
-    alias pkc "piknik -copy"
-
-    # pkp : paste the clipboard content
-    alias pkp "piknik -paste"
-
-    # pkm : move the clipboard content
-    alias pkm "piknik -move"
-
-    # pkz : delete the clipboard content
-    alias pkz "piknik -copy < /dev/null"
-
-    # pkpr : extract clipboard content sent using the pkfr command
-    alias pkpr "piknik -paste | tar xzhpvf -"
 end

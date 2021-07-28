@@ -5,11 +5,5 @@ brew "mas"
 mas "Spark", id: 1176895641
 mas "CARROT Weather", id: 993487541
 mas "Fantastical 2", id: 975937182
-mas "Drafts", id: 1435957248
 mas "HyperDock", id: 449830122
-mas "ColorSnapper2", id: 969418666
-mas "Keka", id: 470158793
 mas "Magnet", id: 441258766
-mas "PopClip", id: 445189367
-mas "Yoink", id: 457622435
-mas "kaleidoscope", id: 587512244
