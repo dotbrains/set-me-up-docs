@@ -13,12 +13,14 @@ main() {
 
     ask_for_sudo
 
-    if ! cmd_exists "port"; then
+    if ! is_macports_installed; then
         # Assumes you are running MacOS 11.0 (Big Sur)
         install_pkg_from_URL "https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-11-BigSur.pkg"
     else
-        sudo port selfupdate
+        macports_update
     fi
+
+    install_ports_from_file "portfile"
 
 }
 
