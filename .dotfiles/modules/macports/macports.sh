@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# shellcheck source=/dev/null
+
+declare current_dir && \
+    current_dir="$(dirname "${BASH_SOURCE[0]}")" && \
+    cd "${current_dir}" && \
+    source "$HOME/set-me-up/.dotfiles/utilities/utilities.sh"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+main() {
+
+    ask_for_sudo
+
+    if ! cmd_exists "port"; then
+        # Assumes you are running MacOS 11.0 (Big Sur)
+        install_pkg_from_URL "https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-11-BigSur.pkg"
+    else
+        sudo port selfupdate
+    fi
+
+}
+
+main
