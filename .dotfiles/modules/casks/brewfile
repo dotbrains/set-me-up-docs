@@ -34,7 +34,6 @@ cask "ngrok"
 
 # Mac OS management
 cask "setapp" # Install favorite apps installing 'setapp'
-cask "haptic-touch-bar" # if you have touch bar
 cask "switchresx"
 cask "appcleaner"
 cask "muzzle"
