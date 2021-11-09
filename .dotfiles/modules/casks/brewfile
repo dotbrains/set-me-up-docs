@@ -7,6 +7,7 @@ tap "homebrew/cask-fonts"
 cask "avast-security"
 cask "1password"
 cask "1password-cli"
+cask "nordvpn"
 
 # Everything VM related
 cask "docker"
