@@ -4,8 +4,8 @@ source "$HOME/set-me-up/.dotfiles/utilities/utilities.sh"
 
 if brew info alfred &>/dev/null; then
 	# install alfred packages
-	npx_install "awm"
-	npx_install "alfred-fkill"
-	npx_install "@bchatard/alfred-jetbrains"
-	npx_install "alfred-npms"
+	sudo_npm_install "awm"
+	sudo_npm_install "alfred-fkill"
+	sudo_npm_install "@bchatard/alfred-jetbrains"
+	sudo_npm_install "alfred-npms"
 fi

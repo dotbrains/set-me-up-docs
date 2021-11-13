@@ -60,7 +60,9 @@ main() {
 
     # System preferences
 	./system/screen.sh
-	./system/spotlight.sh
+	# spotlight preferences causes:
+	# 2021-11-13 16:29:36.097 defaults[52324:117295] Could not write domain /.Spotlight-V100/VolumeConfiguration; exiting
+	# ./system/spotlight.sh
     ./system/dashboard.sh
     ./system/dock.sh
     ./system/keyboard.sh

@@ -10,7 +10,9 @@ defaults write com.apple.dock expose-animation-duration -float 0.15
 defaults write com.apple.dock showhidden -bool true
 
 # Enable the 'reduce transparency' option. Save GPU cycles.
-defaults write com.apple.universalaccess reduceTransparency -bool true
+# defaults write com.apple.universalaccess reduceTransparency -bool true
+# The above causes:
+# 2021-11-13 16:29:36.657 defaults[52336:117358] Could not write domain com.apple.universalaccess; exiting
 
 # Hot corners
 # Possible values:
