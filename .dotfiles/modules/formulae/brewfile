@@ -31,7 +31,6 @@ brew "bat"
 # Compression utilities
 brew "p7zip"
 brew "pigz"
-brew "unrar"
 brew "xz"
 
 # Everything VM related

@@ -11,8 +11,7 @@ declare current_dir && \
 
 main() {
 
-	install_dmg "DMG/airbuddy-2.dmg"
-
+	install_dmg_from_URL "https://download.airbuddy.app/WebDownload/ed9e9b7a-103b-4315-a411-ff4ab21f5f8b/AirBuddy2.dmg"
 	install_dmg_from_URL "https://updates.topnotch.app/TopNotch-latest.zip"
 
 }

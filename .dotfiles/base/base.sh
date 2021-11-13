@@ -9,6 +9,11 @@ declare current_dir && \
 
 readonly SMU_PATH="$HOME/set-me-up"
 
+# Get the absolute path of the .dotfiles directory.
+# This is only for aesthetic reasons to have an absolute symlink path instead of a relative one
+# <path-to-smu>/.dotfiles/somedotfile vs <path-to-smu>/.dotfiles/base/../somedotfile
+readonly dotfiles="${SMU_PATH}/.dotfiles"
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 create_bash_local() {
@@ -110,22 +115,21 @@ install_fisher() {
 
 install_fisher_packages() {
 
-	cat < "$HOME/.config/fish/fish_plugins" | while read -r PACKAGE; do
-		fisher_install "$PACKAGE"
-	done
+	if [ -f "$HOME/.config/fish/fish_plugins" ]; then
+		cat < "$HOME/.config/fish/fish_plugins" | while read -r PACKAGE; do
+			fisher_install "$PACKAGE"
+		done
+	else
+		cat < "$dotfiles/tag-smu/config/fish/fish_plugins" | while read -r PACKAGE; do
+			fisher_install "$PACKAGE"
+		done
+	fi
 
     fisher_update
 
 }
 
 symlink() {
-
-	# Get the absolute path of the .dotfiles directory.
-	# This is only for aesthetic reasons to have an absolute symlink path instead of a relative one
-	# <path-to-smu>/.dotfiles/somedotfile vs <path-to-smu>/.dotfiles/base/../somedotfile
-	readonly dotfiles="${SMU_PATH}/.dotfiles"
-
-	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	# Update and/or install dotfiles. These dotfiles are stored in the .dotfiles directory.
 	# rcup is used to install files from the tag-specific dotfiles directory.
@@ -188,7 +192,9 @@ main() {
 
 	install_fisher_packages
 
-	install_space_vim
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	# install_space_vim
 
 }
 
