@@ -74,7 +74,7 @@ remove_symlinks() {
 }
 
 create_boot_disk() {
-	# Creates a MacOS Catalina boot disk.
+	# Creates a MacOS boot disk.
 	"${module_path}"/create_boot_disk/create_boot_disk.sh
 }
 

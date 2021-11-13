@@ -8,42 +8,25 @@ if brew info wallpaper &>/dev/null; then
 	wallpaper set "$DESKTOP_WALLPAPER_PATH"
 fi
 
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true && \
-		defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+# Disable smart quotes as they’re annoying when typing code
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 
-sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
+# Disable smart dashes as they’re annoying when typing code
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
-defaults write com.apple.CrashReporter UseUNC 1
+# Expand save panel by default
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 
-defaults write com.apple.LaunchServices LSQuarantine -bool false
+# Expand print panel by default
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 
-defaults write com.apple.print.PrintingPrefs 'Quit When Finished' -bool true
+# Save to disk (not to iCloud) by default
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
-defaults write com.apple.screencapture disable-shadow -bool true
+# Automatically quit printer app once the print jobs complete
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-defaults write com.apple.screencapture location -string "$HOME/Desktop"
-
-defaults write com.apple.screencapture type -string 'png'
-
-defaults write com.apple.screensaver askForPassword -int 1 && \
-		defaults write com.apple.screensaver askForPasswordDelay -int 0
-
-defaults write -g AppleFontSmoothing -int 2
-
-defaults write -g AppleShowScrollBars -string 'Always'
-
-defaults write -g NSDisableAutomaticTermination -bool true
-
-defaults write -g NSNavPanelExpandedStateForSaveMode -bool true
-
-defaults write -g NSTableViewDefaultSizeMode -int 2
-
-defaults write -g NSUseAnimatedFocusRing -bool false
-
-defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
-
-defaults write -g PMPrintingExpandedStateForPrint -bool true
-
+# Change the Mac's host name
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string 'macOS' && \
 		sudo scutil --set ComputerName 'macOS' && \
 		sudo scutil --set HostName 'macOS' && \
