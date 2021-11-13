@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$HOME/set-me-up/.dotfiles/utilities/utilities.sh"
+
 ask_for_sudo
 
 # Disable Spotlight indexing for any volume that gets mounted and has not yet
