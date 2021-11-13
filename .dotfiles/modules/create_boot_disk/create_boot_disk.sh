@@ -7,15 +7,15 @@ declare current_dir && \
     cd "${current_dir}" && \
     source "$HOME/set-me-up/.dotfiles/utilities/utilities.sh"
 
-readonly INSTALL_APP_PATH="/Applications/Install macOS Catalina.app"
-readonly MAC_APP_STORE_ID="id1466841314"
+readonly INSTALL_APP_PATH="/Applications/Install macOS Monterey.app"
+readonly MAC_APP_STORE_ID="id1576738294"
 readonly DISK_IMAGE_SIZE="10G"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
 
-	print_in_purple "  Configure a MacOS Catalina bootable disk\n\n"
+	print_in_purple "  Configure a MacOS Monterey bootable disk\n\n"
 
 	ask "Enter the '/Volumes' path to where we should makes a bootable disk: "
 	readonly VOLUME_PATH=$(get_answer)
@@ -39,7 +39,7 @@ main() {
 			--downloadassets \
 			--noninteractive
 	else
-		# Open Mac App Store to download the macOS Catalina installer app.
+		# Open Mac App Store to download the macOS Monterey installer app.
 		/usr/bin/open "macappstores://itunes.apple.com/app/$MAC_APP_STORE_ID"
 
 		print_warning "Click Get on Mac App Store to download installer app, then run this script again to create an install disk image."

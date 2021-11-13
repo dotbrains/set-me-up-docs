@@ -12,8 +12,8 @@ declare current_dir && \
 main() {
 
 	install_dmg "DMG/airbuddy-2.dmg"
-	install_dmg "DMG/WindowSwitcher.dmg"
 
+	install_dmg_from_URL "https://updates.topnotch.app/TopNotch-latest.zip"
 }
 
 main
