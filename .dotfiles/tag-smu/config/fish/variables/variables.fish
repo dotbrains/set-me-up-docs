@@ -30,6 +30,10 @@ if test -d ~/.iterm2
     set -gx PATH $PATH ~/.iterm2
 end
 
+# sekey configuration
+# see: https://github.com/sekey/sekey#install
+set SSH_AUTH_SOCK $HOME/.sekey/ssh-agent.ssh
+
 # Dotfiles directory
 set DOTFILES $HOME/"set-me-up"
 

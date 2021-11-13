@@ -8,6 +8,7 @@ cask "avast-security"
 cask "1password"
 cask "1password-cli"
 cask "nordvpn"
+cask "sekey"
 
 # Everything VM related
 cask "docker"
