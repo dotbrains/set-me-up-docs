@@ -27,8 +27,8 @@ cask "intellij-idea"
 cask "visual-studio-code"
 
 # File/directory management
-cask "osxfuse"
-brew "ext4fuse"
+# cask "osxfuse" # not compatible with Mac OS Monterey
+# brew "ext4fuse"
 cask "transmit4"
 
 # Networking
@@ -67,7 +67,6 @@ cask "qlvideo"
 # Fonts
 cask "font-fira-code"
 cask "font-hack"
-cask "font-hack-nerd-font-mono"
 
 # Misc.
 cask "rocket"

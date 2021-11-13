@@ -33,9 +33,6 @@ brew "p7zip"
 brew "pigz"
 brew "xz"
 
-# Everything VM related
-brew "docker"
-
 # Terminal multiplexing
 brew "tmux"
 brew "reattach-to-user-namespace"

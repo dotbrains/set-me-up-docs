@@ -2,3 +2,5 @@ Host *
   AddKeysToAgent yes
   ForwardAgent yes
   UseKeychain yes
+
+IdentityAgent ~/.sekey/ssh-agent.ssh

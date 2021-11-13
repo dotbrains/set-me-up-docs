@@ -64,10 +64,9 @@ main() {
     ./system/dashboard.sh
     ./system/dock.sh
     ./system/keyboard.sh
-	./system.trackpad.sh
+	./system/trackpad.sh
     ./system/language_and_region.sh
     ./system/ui_and_ux.sh
-	./system/launchpad.sh
 
 }
 

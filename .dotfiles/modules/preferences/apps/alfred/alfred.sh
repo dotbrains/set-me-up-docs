@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$HOME/set-me-up/.dotfiles/utilities/utilities.sh"
+
 if brew info alfred &>/dev/null; then
 	# install alfred packages
 	npx_install "awm"
