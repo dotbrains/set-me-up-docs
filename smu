@@ -261,6 +261,7 @@ main() {
 	if [[ ${_arg_selfupdate} == "on" ]]; then
 		if [[ -e "${module_path}"/install.sh ]]; then
 			"${module_path}"/install.sh
+			git -C "$HOME"/set-me-up submodule foreach git pull origin master
 		else
 			warn "${bold}${module_path}/install.sh${normal} does not seem to exist.\nPlease run the '${bold}base${normal}' module prior to executing a '${bold}selfupdate${normal}'."
 		fi
