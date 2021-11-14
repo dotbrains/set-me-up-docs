@@ -21,6 +21,8 @@ brew "hub"
 brew "gitsh"
 brew "tig"
 brew "github/gh/gh"
+brew "jesseduffield/lazygit/lazygit"
+brew "lazygit"
 
 # File/directory management
 brew "fzf"

@@ -156,7 +156,6 @@ install_latest_stable_go() {
 
 install_go_packages() {
 
-	go_install "github.com/jesseduffield/lazygit"
     go_install "go.coder.com/sshcode"
 
 }
