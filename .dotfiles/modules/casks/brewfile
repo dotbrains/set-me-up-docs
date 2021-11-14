@@ -29,7 +29,6 @@ cask "visual-studio-code"
 # File/directory management
 # cask "osxfuse" # not compatible with Mac OS Monterey
 # brew "ext4fuse"
-cask "transmit4"
 
 # Networking
 cask "ngrok"
