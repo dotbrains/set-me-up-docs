@@ -168,9 +168,7 @@ install_go_packages() {
 
 main() {
 
-    gofish_install_from_file "fishfood"
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    gofish_install "go"
 
     install_go_packages
 
