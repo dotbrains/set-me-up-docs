@@ -156,7 +156,11 @@ install_latest_stable_go() {
 
 install_go_packages() {
 
-    go_install "go.coder.com/sshcode"
+	# This project has been deprecated in favour of the code-server install script
+    # See the discussion in https://github.com/cdr/sshcode/issues/185
+	# go_install "go.coder.com/sshcode"
+
+	return 0
 
 }
 
