@@ -11,7 +11,7 @@ declare current_dir && \
 
 install_gofish() {
 
-	brew_install "gofish" && {
+	brew install gofish && {
 		gofish init
 	}
 
@@ -29,10 +29,12 @@ upgrade_gofish() {
 
 main() {
 
-	if ! is_gofish_installed; then
+	if ! cmd_exists "gofish"; then
         install_gofish
     else
 		upgrade_gofish
 	fi
 
 }
+
+main
