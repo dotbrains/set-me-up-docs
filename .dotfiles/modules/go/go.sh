@@ -154,6 +154,28 @@ install_latest_stable_go() {
 
 }
 
+install_gofish() {
+
+	curl -fsSL https://raw.githubusercontent.com/fishworks/gofish/main/scripts/install.sh | bash
+
+	gofish init
+
+}
+
+upgrade_gofish() {
+
+	gofish upgrade
+
+	gofish cleanup
+
+}
+
+gofish_install_go() {
+
+	gofish install go
+
+}
+
 install_go_packages() {
 
 	go_install "github.com/jesseduffield/lazygit"
@@ -171,13 +193,22 @@ main() {
 
     ask_for_sudo
 
-    if [[ ! -d "$GOENV_DIRECTORY" ]]; then
-        install_goenv
-    else
-        update_goenv
-    fi
+    # if [[ ! -d "$GOENV_DIRECTORY" ]]; then
+    #     install_goenv
+    # else
+    #     update_goenv
+    # fi
 
-    install_latest_stable_go
+	if ! cmd_exists "gofish"; then
+        install_gofish
+    else
+		upgrade_gofish
+	fi
+
+
+	gofish_install_go
+
+    # install_latest_stable_go
 
     install_go_packages
 
