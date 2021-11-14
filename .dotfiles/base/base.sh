@@ -173,6 +173,10 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+	bash "${SMU_PATH}"/.dotfiles/modules/gofish/gofish.sh
+
+	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     change_default_bash_version
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -194,7 +198,7 @@ main() {
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	# install_space_vim
+	install_space_vim
 
 }
 
