@@ -17,15 +17,6 @@ install_gofish() {
 
 }
 
-upgrade_gofish() {
-
-	gofish_update
-
-	gofish_upgrade
-
-	gofish_cleanup
-
-}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -34,7 +25,11 @@ main() {
 	if ! cmd_exists "gofish"; then
         install_gofish
     else
-		upgrade_gofish
+		gofish_update
+
+		gofish_upgrade
+
+		gofish_cleanup
 	fi
 
 }
