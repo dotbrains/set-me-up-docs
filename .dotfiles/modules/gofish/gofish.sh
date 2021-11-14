@@ -19,6 +19,8 @@ install_gofish() {
 
 upgrade_gofish() {
 
+	gofish_update
+
 	gofish_upgrade
 
 	gofish_cleanup
