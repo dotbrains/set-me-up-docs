@@ -24,13 +24,13 @@ main() {
 
 	if ! cmd_exists "gofish"; then
         install_gofish
-    else
-		gofish_update
+    fi
 
-		gofish_upgrade
+	gofish_update
 
-		gofish_cleanup
-	fi
+	gofish_upgrade
+
+	gofish_cleanup
 
 }
 
