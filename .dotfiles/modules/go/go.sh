@@ -172,8 +172,6 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	gofish_install "go"
-
     install_go_packages
 
 }
