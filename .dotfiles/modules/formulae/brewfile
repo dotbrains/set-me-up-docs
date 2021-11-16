@@ -42,3 +42,6 @@ brew "reattach-to-user-namespace"
 # Install other useful binaries.
 brew "thefuck"
 brew "starship"
+
+# Misc.
+brew "shellcheck"
