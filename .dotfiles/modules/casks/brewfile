@@ -4,7 +4,6 @@ tap "buo/cask-upgrade"
 tap "homebrew/cask-fonts"
 
 # Security
-cask "avast-security"
 cask "1password"
 cask "1password-cli"
 cask "nordvpn"
@@ -66,6 +65,9 @@ cask "qlvideo"
 # Fonts
 cask "font-fira-code"
 cask "font-hack"
+cask "font-jetbrains-mono"
+cask "font-jetbrains-mono-nerd-font"
 
 # Misc.
 cask "rocket"
+cask "contexts"

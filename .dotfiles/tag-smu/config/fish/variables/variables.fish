@@ -13,6 +13,7 @@ set tacklebox_path ~/.tackle ~/.tacklebox
 # Make all homebrew casks and fonts be installed to a
 # specific directory
 set -gx HOMEBREW_CASK_OPTS "--appdir=/Applications --fontdir=/Library/Fonts"
+set -gx PATH $PATH /opt/homebrew/bin
 
 # Ruby configurations
 # Adds "GEMS_PATH" to "$PATH"
