@@ -73,7 +73,7 @@ Either use your blueprint or the default installer to obtain `set-me-up` . This 
 understand [what it does](.dotfiles/modules/install.sh). Seriously, **DON'T**!)
 
 ```bash
-zsh <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/set-me-up/master/.dotfiles/modules/install.sh)
+bash <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/set-me-up/master/.dotfiles/modules/install.sh)
 ```
 
 You can change the `smu` home directory by setting an environment variable called `SMU_HOME_DIR`. Please keep the variable declared or else the `smu` scripts are unable to pickup the sources.
