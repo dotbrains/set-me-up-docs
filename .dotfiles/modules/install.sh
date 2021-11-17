@@ -165,7 +165,7 @@ function install_rosetta() {
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	# Wait until the `Rosetta` are installed.
+	# Wait until the `Rosetta` is installed.
 
     until is_rosetta_installed; do
         sleep 5;

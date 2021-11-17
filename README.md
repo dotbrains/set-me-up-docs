@@ -69,6 +69,14 @@ You might wonder why not work directly with this repo? Having a remote and exter
 
 Either use your blueprint or the default installer to obtain `set-me-up` . This will put all files into `~/set-me-up` , the default `smu` home directory. In case you decided against using your own blueprint, you can run the following command in your console.
 
+However, your default shell must be set to `bash` prior to executing the `install` snippet for the first time. This is because on newer versions of Mac OS, the default shell is `zsh` instead of `bash`. To change your default shell, run the following command in your console.
+
+```bash
+sudo chsh -s $(which bash) $(whoami)
+```
+
+Once the default shell is `bash`, close the opened terminal window and open a new terminal window.
+
 (⚠️ **DO NOT** run the `install` snippet if you don't fully
 understand [what it does](.dotfiles/modules/install.sh). Seriously, **DON'T**!)
 

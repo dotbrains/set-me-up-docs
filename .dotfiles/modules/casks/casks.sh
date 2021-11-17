@@ -80,17 +80,17 @@ main() {
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    configure_visual_studio_code
+    # configure_visual_studio_code
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	create_vimrc_local
+	# create_vimrc_local
 
-	if [[ ! -d "$VUNDLE_DIR" ]]; then
-        install_plugins
-    else
-        update_plugins
-    fi
+	# if [[ ! -d "$VUNDLE_DIR" ]]; then
+    #     install_plugins
+    # else
+    #     update_plugins
+    # fi
 
 }
 
