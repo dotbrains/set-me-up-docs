@@ -177,7 +177,7 @@ main() {
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	# No longer needed because zshell is now the default shell.
+	# No longer needed because zsh is now the default shell.
     # change_default_bash_version
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
