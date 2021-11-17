@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Show the main window when launching Activity Monitor
 defaults write com.apple.ActivityMonitor OpenMainWindow -bool true

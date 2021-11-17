@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
 

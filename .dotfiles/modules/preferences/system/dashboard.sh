@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 defaults write com.apple.dashboard mcx-disabled -bool true
 

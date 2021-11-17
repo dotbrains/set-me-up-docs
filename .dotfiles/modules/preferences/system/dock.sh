@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Set the icon size of Dock items
 defaults write com.apple.dock tilesize -int 30

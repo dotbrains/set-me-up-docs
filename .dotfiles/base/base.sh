@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # shellcheck source=/dev/null
 
@@ -16,14 +16,14 @@ readonly dotfiles="${SMU_PATH}/.dotfiles"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-create_bash_local() {
+create_zsh_local() {
 
-    declare -r FILE_PATH="$HOME/.bash.local"
+    declare -r FILE_PATH="$HOME/.zsh.local"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if [[ ! -e "$FILE_PATH" ]] || [[ -z "$FILE_PATH" ]]; then
-        printf "%s\n" "#!/bin/bash" >> "$FILE_PATH"
+        printf "%s\n" "#!/bin/zsh" >> "$FILE_PATH"
 	fi
 
 }
@@ -151,43 +151,9 @@ install_space_vim() {
 
 main() {
 
-	# Installing Rosetta 2 on Apple Silicon Macs
-	# See https://derflounder.wordpress.com/2020/11/17/installing-rosetta-2-on-apple-silicon-macs/
-
-	# Determine OS version
-	# Save current IFS state
-	OLDIFS=$IFS
-
-	IFS='.' read osvers_major osvers_minor osvers_dot_version <<< "$(/usr/bin/sw_vers -productVersion)"
-
-	# restore IFS to previous state
-	IFS=$OLDIFS
-
-	# Check to see if the Mac is reporting itself as running macOS 11
-	if [[ ${osvers_major} -ge 11 ]]; then
-
-		# Check to see if the Mac needs Rosetta installed by testing the processor
-		processor=$(/usr/sbin/sysctl -n machdep.cpu.brand_string | grep -o "Apple")
-
-		if [[ -n $processor ]]; then
-
-			# Check for Rosetta "oahd" process. If not found,
-			# perform a non-interactive install of Rosetta.
-			if ! /usr/bin/pgrep oahd >/dev/null 2>&1; then
-
-				/usr/sbin/softwareupdate --install-rosetta --agree-to-license
-
-			fi
-
-		fi
-
-	fi
-
-	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	# We must first create the $HOME/.bash.local configuration file
+	# We must first create the $HOME/.zsh.local configuration file
 	# in order for the brew module to properly install Homebrew.
-	create_bash_local
+	create_zsh_local
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -211,7 +177,8 @@ main() {
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    change_default_bash_version
+	# No longer needed because zshell is now the default shell.
+    # change_default_bash_version
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

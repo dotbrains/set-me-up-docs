@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 declare -r DESKTOP_WALLPAPER_PATH="${PWD}/system/wallpapers/nord.jpeg"
 

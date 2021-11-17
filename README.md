@@ -41,7 +41,7 @@ Instead of enforcing a certain setup it tries to act as a solid template that is
 			- [The smu script](#the-smu-script)
 		- [How does it work?](#how-does-it-work)
 		- [Local Settings](#local-settings)
-			- [`~/.bash.local`](#bashlocal)
+			- [`~/.zsh.local`](#zshlocal)
 			- [`~/.fish.local`](#fishlocal)
 	- [Credits](#credits)
 	- [Liability](#liability)
@@ -73,7 +73,7 @@ Either use your blueprint or the default installer to obtain `set-me-up` . This 
 understand [what it does](.dotfiles/modules/install.sh). Seriously, **DON'T**!)
 
 ```bash
-bash <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/set-me-up/master/.dotfiles/modules/install.sh)
+zsh <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/set-me-up/master/.dotfiles/modules/install.sh)
 ```
 
 You can change the `smu` home directory by setting an environment variable called `SMU_HOME_DIR`. Please keep the variable declared or else the `smu` scripts are unable to pickup the sources.
@@ -143,15 +143,13 @@ The base module is the only module that is required to run at least once on your
 
 It will install `brew` and `rcm`. Afterwords `rcup` will be executed to `symlink` the dotfiles from the `.dotfiles/tag-smu` folder into your home directory.
 
-It will also create the [local settings](#local-settings) files such as `~/.bash.local` or `~/.fish.local` if they haven't already been created. These files are used vastly throughout the `smu` provisioning process in order to install and configure other tools, such as [basher](#basher) or [pyenv](#python) for python version management.
+It will also create the [local settings](#local-settings) files such as `~/.zsh.local` or `~/.fish.local` if they haven't already been created. These files are used vastly throughout the `smu` provisioning process in order to install and configure other tools, such as [basher](#basher) or [pyenv](#python) for python version management.
 
 This is the only module that is not over-writable via `rcm` tag management because it is always sourced from the `smu` installation directory.
 
 You can use `smu --lsrc` command to show which files will be symlink'ed to your home directory.
 
 The last task that the base module executes is upgrading the outdated `bash` version using `brew`.
-
-This module also configures an upgraded version of `bash`, version 5.
 
 Configures `fish` with sane `fish` options and provides you with a list of useful plugins managed via [Fisherman](https://fisherman.github.io) and [Oh-My-Fish](https://github.com/oh-my-fish/oh-my-fish).
 
@@ -161,7 +159,7 @@ For more on what the base module does, please consult [`base.sh`](.dotfiles/base
 
 #### [create_boot_disk](.dotfiles/modules/create_boot_disk)
 
-This module will allow you to create a MacOS Catalina boot disk for installing MacOS Catalina.
+This module will allow you to create a MacOS Monterey boot disk for installing MacOS Monetrey.
 
 For more on what the create_boot_disk module does, please consult [`create_boot_disk.sh`](.dotfiles/modules/create_boot_disk/create_boot_disk.sh).
 
@@ -267,14 +265,14 @@ Nothing describes the actual functionality better than the code. It is recommend
 The `dotfiles` can be easily extended to suit additional local
 requirements by using the following files:
 
-#### `~/.bash.local`
+#### `~/.zsh.local`
 
-The `~/.bash.local` file it will be automatically sourced after
-all the other [`bash` related files](.dotfiles/tag-smu), thus, allowing
+The `~/.zsh.local` file it will be automatically sourced after
+all the other [`zsh` related files](.dotfiles/tag-smu), thus, allowing
 its content to add to or overwrite the existing aliases, settings,
 PATH, etc.
 
-Here is a very simple example of a `~/.bash.local` file:
+Here is a very simple example of a `~/.zsh.local` file:
 
 ```bash
 # Set local aliases.

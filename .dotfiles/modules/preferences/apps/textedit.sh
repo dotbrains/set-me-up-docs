@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 defaults write com.apple.TextEdit PlainTextEncoding -int 4 && \
 		defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 source "$HOME/set-me-up/.dotfiles/utilities/utilities.sh"
 

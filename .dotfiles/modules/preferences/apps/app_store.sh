@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 defaults write com.apple.appstore ShowDebugMenu -bool true
 

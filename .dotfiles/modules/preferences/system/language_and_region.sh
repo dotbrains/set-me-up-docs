@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 defaults write -g AppleLanguages -array 'en_US'
 
