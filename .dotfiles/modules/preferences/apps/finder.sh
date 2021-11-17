@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Set Desktop as the default location for new Finder windows
 # For other paths, use `PfLo` and `file:///full/path/here/`

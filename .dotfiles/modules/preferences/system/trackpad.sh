@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Trackpad: Haptic feedback (light, silent clicking)
 defaults write com.apple.AppleMultitouchTrackpad FirstClickThreshold -int 0

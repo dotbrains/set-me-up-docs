@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 defaults write com.apple.Safari UniversalSearchEnabled -bool false \
     && defaults write com.apple.Safari SuppressSearchSuggestions -bool true

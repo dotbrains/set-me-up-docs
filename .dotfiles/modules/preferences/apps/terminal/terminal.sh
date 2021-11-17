@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 declare current_dir && \
     current_dir="$(dirname "${BASH_SOURCE[0]}")" && \

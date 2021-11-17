@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 defaults write com.apple.Maps LastClosedWindowViewOptions '{
             localizeLabels = 1;   // show labels in English

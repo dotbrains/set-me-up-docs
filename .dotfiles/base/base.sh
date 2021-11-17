@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # shellcheck source=/dev/null
 
@@ -18,12 +18,12 @@ readonly dotfiles="${SMU_PATH}/.dotfiles"
 
 create_zsh_local() {
 
-    declare -r FILE_PATH="$HOME/.zsh.local"
+    declare -r FILE_PATH="$HOME/.bash.local"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if [[ ! -e "$FILE_PATH" ]] || [[ -z "$FILE_PATH" ]]; then
-        printf "%s\n" "#!/bin/zsh" >> "$FILE_PATH"
+        printf "%s\n" "#!/bin/bash" >> "$FILE_PATH"
 	fi
 
 }
@@ -151,9 +151,9 @@ install_space_vim() {
 
 main() {
 
-	# We must first create the $HOME/.zsh.local configuration file
+	# We must first create the $HOME/.bash.local configuration file
 	# in order for the brew module to properly install Homebrew.
-	create_zsh_local
+	create_bash_local
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

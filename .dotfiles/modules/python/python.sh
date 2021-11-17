@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # shellcheck source=/dev/null
 

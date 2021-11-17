@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool true
 
