@@ -75,7 +75,7 @@ However, your default shell must be set to `bash` prior to executing the `instal
 sudo chsh -s $(which bash) $(whoami)
 ```
 
-Once the default shell is `bash`, close the opened terminal window and open a new terminal window.
+Once the default shell is `bash`, close and reopen the terminal window.
 
 (⚠️ **DO NOT** run the `install` snippet if you don't fully
 understand [what it does](.dotfiles/modules/install.sh). Seriously, **DON'T**!)
