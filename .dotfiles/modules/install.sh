@@ -374,13 +374,13 @@ function main() {
 
 	# Installing Rosetta 2 on Apple Silicon Macs
 	# See https://derflounder.wordpress.com/2020/11/17/installing-rosetta-2-on-apple-silicon-macs/
-	can_install_rosetta && {
+	if can_install_rosetta; then
 		if ! is_rosetta_installed; then
 			install_rosetta
 		else
 			success "'${bold}Rosetta${normal}' is already installed\n"
 		fi
-	}
+	fi
 
 	setup
 }
