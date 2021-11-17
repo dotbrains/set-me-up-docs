@@ -16,7 +16,7 @@ readonly dotfiles="${SMU_PATH}/.dotfiles"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-create_zsh_local() {
+create_bash_local() {
 
     declare -r FILE_PATH="$HOME/.bash.local"
 
