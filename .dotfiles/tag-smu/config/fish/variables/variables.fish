@@ -14,7 +14,7 @@ set tacklebox_path ~/.tackle ~/.tacklebox
 # specific directory
 set -gx HOMEBREW_CASK_OPTS "--appdir=/Applications --fontdir=/Library/Fonts"
 
-if /usr/sbin/sysctl -n machdep.cpu.brand_string | grep -o "Apple" > /dev/null; then
+if /usr/sbin/sysctl -n machdep.cpu.brand_string | grep -o "Apple" > /dev/null
 	set -gx PATH $PATH /opt/homebrew/bin
 end
 
