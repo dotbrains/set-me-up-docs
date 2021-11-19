@@ -29,6 +29,9 @@ cask "visual-studio-code"
 # cask "osxfuse" # not compatible with Mac OS Monterey
 # brew "ext4fuse"
 
+# Google
+cask "google-drive"
+
 # Networking
 cask "ngrok"
 
