@@ -7,7 +7,6 @@ tap "homebrew/cask-fonts"
 cask "1password"
 cask "1password-cli"
 cask "nordvpn"
-cask "sekey"
 
 # Everything VM related
 cask "docker"
@@ -18,6 +17,7 @@ cask "google-chrome"
 
 # Core development
 cask "iterm2"
+cask "warp"
 cask "kaleidoscope"
 
 # IDEs
@@ -41,7 +41,7 @@ cask "switchresx"
 cask "appcleaner"
 cask "muzzle"
 cask "browserosaurus"
-cask "alfred"
+cask "raycast"
 
 # Media players
 cask "iina"

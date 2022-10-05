@@ -199,7 +199,7 @@ main() {
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	install_space_vim
+	# install_space_vim
 
 }
 
