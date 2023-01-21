@@ -80,6 +80,8 @@
 	imp = "!f() { git cap \"👌 IMPROVE: $@\"; }; f"
 	# FIX.
 	fix = "!f() { git cap \"🐛 FIX: $@\"; }; f"
+	# UPDATE..
+	up = "!f() { git cap \"🔼 UPDATED: $@\"; }; f"
 	# RELEASE.
 	rlz = "!f() { git cap \"🚀 RELEASE: $@\"; }; f"
 	# DOC.
