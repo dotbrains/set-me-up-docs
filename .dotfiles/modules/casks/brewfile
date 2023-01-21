@@ -21,6 +21,7 @@ cask "warp"
 cask "kaleidoscope"
 cask "ksdiff"
 cask "fig"
+cask "insomnia"
 
 # IDEs
 
