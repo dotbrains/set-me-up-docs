@@ -26,4 +26,10 @@ brew "wget"
 brew "bash"
 brew "bash-completion2"
 
+# Install git
+brew "git"
+
+# Install ksdiff for git diff
+cask "ksdiff"
+
 brew "fish"

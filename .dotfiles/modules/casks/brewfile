@@ -19,29 +19,38 @@ cask "google-chrome"
 cask "iterm2"
 cask "warp"
 cask "kaleidoscope"
+cask "ksdiff"
+cask "fig"
 
 # IDEs
+
+# Jetbrains
 cask "webstorm"
 cask "intellij-idea"
+cask "jetbrains-toolbox"
+
 cask "visual-studio-code"
 
 # File/directory management
 # cask "osxfuse" # not compatible with Mac OS Monterey
 # brew "ext4fuse"
 
-# Google
-cask "google-drive"
+# Cloud Drive
+cask "insync"
 
 # Networking
 cask "ngrok"
 
 # Mac OS management
 cask "setapp" # Install favorite apps installing 'setapp'
-cask "switchresx"
+cask "latest"
 cask "appcleaner"
 cask "muzzle"
 cask "browserosaurus"
 cask "raycast"
+cask "betterdisplay"
+cask "monitorcontrol"
+cask "contexts"
 
 # Media players
 cask "iina"
@@ -49,9 +58,13 @@ cask "iina"
 # Backups
 cask "imazing"
 
+# Design
+cask "figma"
+
 # Office
 cask "microsoft-office"
 cask "pdf-expert"
+cask "grammarly"
 
 # Install developer friendly quick look plugins
 # see https://github.com/sindresorhus/quick-look-plugins
@@ -74,4 +87,3 @@ cask "font-jetbrains-mono-nerd-font"
 
 # Misc.
 cask "rocket"
-cask "contexts"
