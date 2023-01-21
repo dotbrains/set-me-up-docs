@@ -53,6 +53,9 @@ cask "monitorcontrol"
 cask "contexts"
 cask "topnotch"
 
+# Virtualization
+cask "parallels"
+
 # Media players
 cask "iina"
 
