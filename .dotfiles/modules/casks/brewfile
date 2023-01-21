@@ -51,6 +51,7 @@ cask "raycast"
 cask "betterdisplay"
 cask "monitorcontrol"
 cask "contexts"
+cask "topnotch"
 
 # Media players
 cask "iina"
