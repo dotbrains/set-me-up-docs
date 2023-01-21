@@ -171,5 +171,7 @@
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	# Start web-based visualizer using instaweb
+	# Only works before you've pushed to a remote,
+	# but have made a commit.
 	# see: https://git-scm.com/docs/git-instaweb
 	w = instaweb --local -d webrick
