@@ -57,6 +57,7 @@ cask "iina"
 
 # Backups
 cask "imazing"
+cask "acronis-true-image"
 
 # Design
 cask "figma"
