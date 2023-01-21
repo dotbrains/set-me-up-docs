@@ -53,6 +53,7 @@ cask "betterdisplay"
 cask "monitorcontrol"
 cask "contexts"
 cask "topnotch"
+cask "hyperdock"
 
 # Media players
 cask "iina"
