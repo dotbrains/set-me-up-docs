@@ -57,6 +57,7 @@ install_latest_stable_ruby() {
 
 install_ruby_gems() {
 
+	gem_install "webrick"
     gem_install "bundler"
     gem_install "tmuxinator"
 	gem_install "colorls"
