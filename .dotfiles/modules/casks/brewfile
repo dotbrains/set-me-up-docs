@@ -60,6 +60,7 @@ cask "imazing"
 
 # Design
 cask "figma"
+cask "colorsnapper"
 
 # Office
 cask "microsoft-office"
