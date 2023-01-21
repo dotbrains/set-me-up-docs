@@ -62,6 +62,8 @@ cask "acronis-true-image"
 # Design
 cask "figma"
 cask "colorsnapper"
+cask "drawio"
+cask "obsidian"
 
 # Office
 cask "microsoft-office"
