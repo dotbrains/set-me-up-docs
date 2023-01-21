@@ -50,15 +50,22 @@
 	# Push
 	p = push
 
+	# Force push
+	# see: https://stackoverflow.com/a/52823955
+	fp = push --force-with-lease
+
 	# Checkout
 	co = checkout
 
 	# Cherry-pick
 	cp  = cherry-pick
 
+	# Ammend last commit
+	amend = commit --amend
+
 	# Make a file executable.
 	# see: https://stackoverflow.com/a/38285435/5290011
-	gamod = update-index --add --chmod=+x
+	gamod = add --chmod=+x $1
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
