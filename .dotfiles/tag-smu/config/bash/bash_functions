@@ -16,10 +16,10 @@ t2s() {
 
   if [[ "$1" ]]; then
     local temp_file=$(mktemp -t tabs_to_spaces) || { printf "\n%s\n" "ERROR: Unable to create temporary file."; return; }
-    expand -t $number_of_spaces "$1" > $temp_file
-    cat $temp_file > "$1"
+    expand -t "$number_of_spaces" "$1" > "$temp_file"
+    cat "$temp_file" > "$1"
     printf "%s\n" "Converted: $1."
-    rm -f $temp_file;
+    rm -f "$temp_file";
   else
     printf "%s\n" "ERROR: File must be supplied."
     return 1
@@ -123,7 +123,7 @@ kilp() {
   local query="$1"
   local signal=${2:-15}
 
-  pkill -$signal -l -f "$query"
+  pkill -"$signal" -l -f "$query"
 }
 
 # Bash: Kill Vim when “Vim: Warning: Output not to a terminal”
@@ -538,9 +538,9 @@ EOF
 curli() {
   if [[ "$1" ]]; then
     local file=$(mktemp -t suspicious_curl_file) || { printf "%s\n" "ERROR: Unable to create temporary file."; return; }
-    curl --location --fail --silent --show-error "$1" > $file || { printf "%s\n" "Failed to curl file."; return; }
-    $EDITOR --wait $file || { printf "Unable to open temporary curl file.\n"; return; }
-    rm -f $file;
+    curl --location --fail --silent --show-error "$1" > "$file" || { printf "%s\n" "Failed to curl file."; return; }
+    $EDITOR --wait "$file" || { printf "Unable to open temporary curl file.\n"; return; }
+    rm -f "$file";
   else
     printf "%s\n" "ERROR: URL must be supplied."
     return 1
@@ -578,7 +578,7 @@ curld() {
 # Parameters: $1 (required) - The port number.
 port() {
   if [[ "$1" ]]; then
-    sudo lsof -i :$1
+    sudo lsof -i :"$1"
   else
     printf "%s\n" "ERROR: Port number must be supplied."
   fi
@@ -593,7 +593,7 @@ port() {
 gia() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
       if [[ -d ".git" ]]; then
         printf "\033[36m${project}\033[m: " # Print project (cyan) and message (white).
         git init
@@ -615,7 +615,7 @@ gafe() {
 # Label: Git Root
 # Description: Change to repository root directory regardless of current depth.
 groot() {
-  cd "$(git rev-parse --show-toplevel)"
+  cd "$(git rev-parse --show-toplevel)" || exit
 }
 
 # Label: Git Info
@@ -674,7 +674,7 @@ gstats() {
 gstatsa() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
       printf "\033[36m${project}\033[m:\n" # Print project (cyan) and message (white).
       gstats
     )
@@ -713,12 +713,12 @@ gli() {
   fi
 
   local selected_commit=${commits[$((response - 1))]}
-  printf "%s\n" "$(_git_show_details $selected_commit)"
+  printf "%s\n" "$(_git_show_details "$selected_commit")"
 
   printf "\n"
   read -p "View diff (y = yes, n = no)? " response
   if [[ "$response" == 'y' ]]; then
-    gdt $selected_commit^!
+    gdt "$selected_commit"^!
   fi
 }
 
@@ -732,7 +732,7 @@ gld() {
       _git_show_details "${commits[0]}"
     elif [[ ${#commits[@]} > 1 ]]; then
       range="${commits[-1]}^..${commits[0]}"
-      git log --stat --pretty=format:"$(_git_log_details_format)" $range
+      git log --stat --pretty=format:"$(_git_log_details_format)" "$range"
     fi
   fi
 }
@@ -775,7 +775,7 @@ gile() {
   git show --stat --pretty=format:"$(_git_log_details_format)" "$commit" -- "$file"
 
   if [[ -n "$diff" ]]; then
-    gdt $commit^! -- "$file"
+    gdt "$commit"^! -- "$file"
   fi
 }
 
@@ -815,7 +815,7 @@ glameh() {
 guthorsa() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         # Print project (cyan) and message (white).
@@ -865,7 +865,7 @@ guthorc() {
 gsta() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         # Capture current project status info as an array.
@@ -921,14 +921,14 @@ gup() {
     printf "[$counter/${#commits[@]}] "
     counter=$((counter + 1))
 
-    _git_show_details $commit
+    _git_show_details "$commit"
 
     printf "\n"
     read -p "View Diff (y = yes, n = no, q = quit)? " response
 
     case $response in
       'y')
-        git difftool $commit^!;;
+        git difftool "$commit"^!;;
       'n');;
       'q');;
       *)
@@ -965,7 +965,7 @@ gseta() {
   if [[ "$1" && "$2" ]]; then
     while read -r project; do
       (
-        cd "$project"
+        cd "$project" || exit
 
         if [[ -d ".git" ]]; then
           # Set key value for current project.
@@ -989,7 +989,7 @@ ggeta() {
   if [[ "$1" ]]; then
     while read -r project; do
       (
-        cd "$project"
+        cd "$project" || exit
 
         if [[ -d ".git" ]]; then
           # Get Git config value for given key.
@@ -1020,7 +1020,7 @@ gunseta() {
   if [[ "$1" ]]; then
     while read -r project; do
       (
-        cd "$project"
+        cd "$project" || exit
 
         if [[ -d ".git" ]]; then
           # Unset key for current project with error output suppressed.
@@ -1065,7 +1065,7 @@ gince() {
   if [[ "$1" ]]; then
     while read -r project; do
       (
-        cd "$project"
+        cd "$project" || exit
 
         if [[ -d ".git" ]]; then
           # Capture git log activity.
@@ -1128,7 +1128,7 @@ gtaila() {
   # Iterate through root project directories.
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         local info=$(_git_commit_count_since_last_tag "$project")
@@ -1196,7 +1196,7 @@ gashd() {
 gasha() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         local count=$(_git_stash_count)
@@ -1214,7 +1214,7 @@ gasha() {
 gucca() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         # Capture upstream project commit count.
@@ -1235,7 +1235,7 @@ gucca() {
 gpua() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         # Capture current project status.
@@ -1259,7 +1259,7 @@ gpua() {
 galla() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         # Apply all changes to Git.
@@ -1304,7 +1304,7 @@ gcfi() {
 # Parameters: $1 (required) - The file to create fixup commit for.
 gcff() {
   local file_path="$1"
-  local file_sha="$(git log --grep 'fixup!' --invert-grep --pretty=format:%h -1 $file_path)"
+  local file_sha="$(git log --grep 'fixup!' --invert-grep --pretty=format:%h -1 "$file_path")"
 
   if [[ "($(_git_branch_shas))" == *"$file_sha"* ]]; then
     git add "$file_path" && git commit --fixup "$file_sha"
@@ -1342,48 +1342,48 @@ gcfp() {
 # Description: Commit changes (unstaged and staged) for projects in current directory.
 gcaa() {
   local temp_file=$(mktemp -t git-commit)
-  cp $HOME/.config/git/commit_message.txt $temp_file
-  $EDITOR --wait $temp_file
+  cp "$HOME"/.config/git/commit_message.txt "$temp_file"
+  $EDITOR --wait "$temp_file"
 
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         # Only process projects that have changes.
         if [[ "$(git status --short)" ]]; then
           printf "\033[36m${project}\033[m:\n" # Outputs in cyan color.
-          git commit --all --cleanup strip --file $temp_file
+          git commit --all --cleanup strip --file "$temp_file"
         fi
       fi
     )
   done < <(ls -A1)
 
-  rm -f $temp_file
+  rm -f "$temp_file"
 }
 
 # Label: Git Commit and Push (all)
 # Description: Commit and push changes for projects in current directory.
 gcap() {
   local temp_file=$(mktemp -t git-commit)
-  cp $HOME/.config/git/commit_message.txt $temp_file
-  $EDITOR --wait $temp_file
+  cp "$HOME"/.config/git/commit_message.txt "$temp_file"
+  $EDITOR --wait "$temp_file"
 
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         # Only process projects that have changes.
         if [[ "$(git status --short)" ]]; then
           printf "\033[36m${project}\033[m:\n" # Outputs in cyan color.
-          git commit --all --cleanup strip --file $temp_file && git push
+          git commit --all --cleanup strip --file "$temp_file" && git push
         fi
       fi
     )
   done < <(ls -A1)
 
-  rm -f $temp_file
+  rm -f "$temp_file"
 }
 
 # Label: Git Push Origin Branch
@@ -1397,7 +1397,7 @@ gpob() {
 gpa() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         # Only process projects that have changes.
@@ -1458,7 +1458,7 @@ gblo() {
 gbla() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         local branch="$(_git_branch_name)"
@@ -1514,7 +1514,7 @@ gbca() {
   if [[ -n "$branch" ]]; then
     while read -r project; do
       (
-        cd "$project"
+        cd "$project" || exit
 
         if [[ -d ".git" ]]; then
           if [[ "$(_git_branch_name)" != "$branch" ]]; then
@@ -1576,7 +1576,7 @@ gbsa() {
   if [[ -n "$branch" ]]; then
     while read -r project; do
       (
-        cd "$project"
+        cd "$project" || exit
 
         if [[ -d ".git" ]]; then
           local current_branch="$(_git_branch_name)"
@@ -1598,7 +1598,7 @@ gbsa() {
 gbna() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         local current_branch="$(_git_branch_name)"
@@ -1658,7 +1658,7 @@ gbd() {
 gbdl() {
   local branch="$1"
 
-  if [[ -n "$(git branch --list $branch)" ]]; then
+  if [[ -n "$(git branch --list "$branch")" ]]; then
     printf "\033[31m" # Red.
     read -p "Delete \"$branch\" local branch (y/n)?: " response
     printf "\033[m" # White.
@@ -1679,7 +1679,7 @@ gbdl() {
 gbdr() {
   local branch="$1"
 
-  if [[ -n "$(git branch --remotes --list origin/$branch)" ]]; then
+  if [[ -n "$(git branch --remotes --list origin/"$branch")" ]]; then
     printf "\033[31m" # Red.
     read -p "Delete \"$branch\" remote branch (y/n)?: " response
     printf "\033[m" # White.
@@ -1722,7 +1722,7 @@ gbr() {
 
   git branch --move "$new_branch"
 
-  if [[ -n "$(git branch --remotes --list origin/$old_branch)" ]]; then
+  if [[ -n "$(git branch --remotes --list origin/"$old_branch")" ]]; then
     printf "\033[31m" # Red.
     read -p "Delete \"$old_branch\" remote branch (y/n)?: " response
     printf "\033[m" # White.
@@ -1757,14 +1757,14 @@ gtagd() {
 
   if [[ "$response" == 'y' ]]; then
     printf "%s " "Local:"
-    if [[ -n "$(git tag --list $1)" ]]; then
+    if [[ -n "$(git tag --list "$1")" ]]; then
       git tag --delete "$1"
     else
       printf "%s\n" "No tag found."
     fi
 
     printf "%s " "Remote:"
-    if [[ $(git config remote.origin.url) && -n "$(git ls-remote --tags origin | ag $1)" ]]; then
+    if [[ $(git config remote.origin.url) && -n "$(git ls-remote --tags origin | ag "$1")" ]]; then
       git push --delete origin "$1"
     else
       printf "%s\n" "No tag found."
@@ -1807,7 +1807,7 @@ gwa() {
 
   printf "%s\n" "Syncing project files..."
   git ls-files --others | rsync --compress --links --files-from - "$(pwd)/" "$worktree_path/"
-  cd "$worktree_path"
+  cd "$worktree_path" || exit
 }
 
 # Label: Git Worktree Delete
@@ -1821,11 +1821,11 @@ gwd() {
     printf "%s\n" "ERROR: Git worktree has uncommitted changes."
     return 1
   else
-    cd ../$project_name
+    cd ../"$project_name" || exit
     read -p "Git worktree: $worktree_dir. Delete (y/n)?: " response
 
     if [[ "$response" == 'y' ]]; then
-      rm -rf $worktree_dir
+      rm -rf "$worktree_dir"
       git worktree prune
       gbdl "$branch"
       git branch --delete --force "$branch"
@@ -1890,7 +1890,7 @@ gesh() {
 gesha() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         printf "\n\033[36m${project}\033[m:\n" # Outputs in cyan color.
@@ -1927,7 +1927,7 @@ guke() {
 gleana() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         # Only process projects that have untracked changes.
@@ -1997,7 +1997,7 @@ gvac() {
 gvaca() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         printf "\n\033[36m${project}\033[m:\n" # Outputs in cyan color.
@@ -2099,12 +2099,12 @@ _git_file_commits() {
 
   printf "\n"
   local selected_commit=${commits[$((response - 1))]}
-  _git_show_details $selected_commit
+  _git_show_details "$selected_commit"
 
   printf "\n"
   read -p "View diff (y = yes, n = no)? " response
   if [[ "$response" == 'y' ]]; then
-    gdt $selected_commit^! -- "$file"
+    gdt "$selected_commit"^! -- "$file"
   fi
 }
 
@@ -2127,7 +2127,7 @@ _git_commit_options() {
 
   for commit in ${commits[@]}; do
     local option="$(printf "%${option_padding}s" $counter)"
-    printf "%s\n" "$option: $(git log --color --pretty=format:"$(_git_log_line_format)" -n1 $commit)"
+    printf "%s\n" "$option: $(git log --color --pretty=format:"$(_git_log_line_format)" -n1 "$commit")"
     counter=$((counter + 1))
   done
 
@@ -2182,7 +2182,7 @@ _git_branch_sha() {
   local shas=($(_git_branch_shas))
 
   if [[ ${#shas[@]} != 0 ]]; then
-    printf "%s" ${shas[-1]}
+    printf "%s" "${shas[-1]}"
   fi
 }
 
@@ -2292,7 +2292,7 @@ gh() {
         printf "%s\n\n" "  q: Quit/Exit."
         read -p "Enter selection: " response
         printf "\n"
-        _process_gh_option $response "$2"
+        _process_gh_option "$response" "$2"
       else
         _process_gh_option "$1" "$2" "$3"
       fi
@@ -2309,7 +2309,7 @@ gh() {
 ghpra() {
   while read -r project; do
     (
-      cd "$project"
+      cd "$project" || exit
 
       if [[ -d ".git" ]]; then
         if [[ "$(_git_branch_name)" != "master" ]]; then
@@ -2486,7 +2486,7 @@ cinr() {
 # Parameters: $1 (optional) - Port. Default: 2990.
 oms() {
   local port=${2:-2990}
-  overmind start --port $port --port-step 10
+  overmind start --port "$port" --port-step 10
 }
 
 # Label: Overmind Connect
@@ -2511,15 +2511,20 @@ omr() {
 
 brew_update() {
     if command -v "mas" &>/dev/null; then
-	mas upgrade
+			mas upgrade
     fi
 
     if command -v "brew" &>/dev/null; then
-	brew update
-	brew upgrade
-	brew tap buo/cask-upgrade
-	brew cu --all --yes --cleanup --quiet
-	brew cleanup
+			brew update
+			brew upgrade
+			brew tap buo/cask-upgrade
+			brew cu --all --yes --cleanup --quiet
+			brew cleanup
     fi
 }
 
+#---------------------------------------------------------------#
+# Section: [emoji-log](https://github.com/ahmadawais/Emoji-Log) #
+#---------------------------------------------------------------#
+
+. "$HOME"/.config/bash/emoji-log
