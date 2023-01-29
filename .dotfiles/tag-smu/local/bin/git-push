@@ -3,7 +3,7 @@
 # Small utility to push the current branch to the remote repository.
 # If the branch is not in the remote, it will push it and set the upstream.
 
-# Created mainly because I am always creating new branchees, but I have to first
+# Created mainly because I am always creating new branches, but I have to first
 # push them to upstream, and then push them to the remote repository.
 # This utility will do both in one command.
 # Workflow:
