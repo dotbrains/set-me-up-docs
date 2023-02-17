@@ -116,10 +116,7 @@ def unicodify(s, encoding='utf-8'):
     if isinstance(s, unicode):
         return s
 
-    if isinstance(s, str):
-        return s.decode(encoding, 'replace')
-
-    return unicode(s)
+    return s.decode(encoding, 'replace') if isinstance(s, str) else unicode(s)
 
 
 def asciify(s):
@@ -154,7 +151,7 @@ def cache_key(site_id, query, tags):
     key = asciify(key)
     key = key.lower()
     key = re.sub(r'[^a-z0-9-_;\.]', '-', key) + '-' + h
-    key = 'search/' + site_id + '/' + re.sub(r'-+', '-', key)
+    key = f'search/{site_id}/' + re.sub(r'-+', '-', key)
     dirpath = os.path.dirname(wf.cachefile(key))
     if not os.path.exists(dirpath):
         os.makedirs(dirpath)
@@ -170,7 +167,7 @@ def get_url(url, **params):
         **params: Query-string parameters.
     """
     # Application ID. Allows up to 10K API hits/day per IP.
-    params.update({'key': 'FgLEU6zgwYULvStDmrgqxg((', 'client_id': '16105'})
+    params |= {'key': 'FgLEU6zgwYULvStDmrgqxg((', 'client_id': '16105'}
     headers = {
         'User-Agent': USER_AGENT.format(version=wf.version, url=wf.help_url)
     }
@@ -263,7 +260,7 @@ def icon_path(site_id, answered=False):
         str: Path to icon.
     """
     suffix = '-answered' if answered else ''
-    return wf.cachefile('icons/%s%s.png' % (site_id, suffix))
+    return wf.cachefile(f'icons/{site_id}{suffix}.png')
 
 
 def site_icon(site_id, answered=False, default=None):
@@ -278,10 +275,7 @@ def site_icon(site_id, answered=False, default=None):
         str: Path to icon file.
     """
     p = icon_path(site_id, answered)
-    if os.path.exists(p):
-        return p
-
-    return default
+    return p if os.path.exists(p) else default
 
 
 def do_cache_sites(args):
@@ -289,8 +283,7 @@ def do_cache_sites(args):
     sites = get_sites()
     log.debug(u'[sites] retrieved %d StackExchange sites', len(sites))
     wf.cache_data(SITES_KEY, sites)
-    icons = [s for s in sites if site_icon(s) is None]
-    if icons:
+    if icons := [s for s in sites if site_icon(s) is None]:
         from icons import overlay
         dirpath = wf.cachefile('icons')
         if not os.path.exists(dirpath):
@@ -358,8 +351,7 @@ def do_sites(args):
     if IGNORE_META:
         sites = [s for s in sites if not s.is_meta]
 
-    query = args['<query>'].strip()
-    if query:
+    if query := args['<query>'].strip():
         sites = wf.filter(query, sites, key=lambda s: s.name)
 
     for s in sites:
