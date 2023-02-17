@@ -183,7 +183,7 @@ def unwrap(text):
             # Next line is not paragraph break, add space
             result += ' '
     # Handle last line
-    result += lines[-1] if lines[-1] else '\n'
+    result += lines[-1] or '\n'
     return result
 
 
@@ -375,8 +375,8 @@ class GoogleUrl(object):
         str
 
         """
-        url = (self.scheme + ':') if self.scheme else ''
-        url += '//' + self.netloc + self.relative()
+        url = f'{self.scheme}:' if self.scheme else ''
+        url += f'//{self.netloc}{self.relative()}'
         return url
 
     def relative(self):
@@ -394,11 +394,11 @@ class GoogleUrl(object):
         """
         rel = self.path
         if self.params:
-            rel += ';' + self.params
+            rel += f';{self.params}'
         if self.query:
-            rel += '?' + self.query
+            rel += f'?{self.query}'
         if self.fragment:
-            rel += '#' + self.fragment
+            rel += f'#{self.fragment}'
         return rel
 
     def update(self, opts=None, **kwargs):
@@ -439,7 +439,7 @@ class GoogleUrl(object):
 
         qd = self._query_dict
         if 'duration' in opts and opts['duration']:
-            qd['tbs'] = 'qdr:%s' % opts['duration']
+            qd['tbs'] = f"qdr:{opts['duration']}"
         if 'exact' in opts:
             if opts['exact']:
                 qd['nfpr'] = 1
@@ -605,7 +605,7 @@ class GoogleUrl(object):
     def netloc(self):
         """The hostname."""
         try:
-            return 'www.' + self.TLD_TO_DOMAIN_MAP[self._tld]
+            return f'www.{self.TLD_TO_DOMAIN_MAP[self._tld]}'
         except KeyError:
             return 'www.google.com'
 
@@ -613,7 +613,7 @@ class GoogleUrl(object):
     def query(self):
         """The query string."""
         qd = {}
-        qd.update(self._query_dict)
+        qd |= self._query_dict
         if self._num != 10:  # Skip sending the default
             qd['num'] = self._num
         if self._start:  # Skip sending the default
@@ -621,18 +621,17 @@ class GoogleUrl(object):
 
         # Construct the q query
         q = ''
-        keywords = self._keywords
         sites = self._sites
-        if keywords:
+        if keywords := self._keywords:
             if isinstance(keywords, list):
                 q += '+'.join(urllib.parse.quote_plus(kw) for kw in keywords)
             else:
                 q += urllib.parse.quote_plus(keywords)
         if sites:
-            q += '+OR'.join('+site:' + urllib.parse.quote_plus(site) for site in sites)
+            q += '+OR'.join(f'+site:{urllib.parse.quote_plus(site)}' for site in sites)
         qd['q'] = q
 
-        return '&'.join('%s=%s' % (k, qd[k]) for k in sorted(qd.keys()))
+        return '&'.join(f'{k}={qd[k]}' for k in sorted(qd.keys()))
 
 
 class GoogleConnectionError(Exception):
@@ -705,26 +704,24 @@ class GoogleConnection(object):
         self._port = port
         host_display = host + (':%d' % port if port else '')
 
-        proxy = self._proxy
-
-        if proxy:
+        if proxy := self._proxy:
             proxy_user_passwd, proxy_host_port = parse_proxy_spec(proxy)
 
             logger.debug('Connecting to proxy server %s', proxy_host_port)
             self._conn = TLS1_2Connection(proxy_host_port, timeout=timeout)
 
-            logger.debug('Tunnelling to host %s' % host_display)
+            logger.debug(f'Tunnelling to host {host_display}')
             connect_headers = {}
             if proxy_user_passwd:
-                connect_headers['Proxy-Authorization'] = 'Basic %s' % base64.b64encode(
-                    proxy_user_passwd.encode('utf-8')
-                ).decode('utf-8')
+                connect_headers[
+                    'Proxy-Authorization'
+                ] = f"Basic {base64.b64encode(proxy_user_passwd.encode('utf-8')).decode('utf-8')}"
             self._conn.set_tunnel(host, port=port, headers=connect_headers)
 
             try:
                 self._conn.connect(self._notweak)
             except Exception as e:
-                msg = 'Failed to connect to proxy server %s: %s.' % (proxy, e)
+                msg = f'Failed to connect to proxy server {proxy}: {e}.'
                 raise GoogleConnectionError(msg)
         else:
             logger.debug('Connecting to new host %s', host_display)
@@ -732,7 +729,7 @@ class GoogleConnection(object):
             try:
                 self._conn.connect(self._notweak)
             except Exception as e:
-                msg = 'Failed to connect to %s: %s.' % (host_display, e)
+                msg = f'Failed to connect to {host_display}: {e}.'
                 raise GoogleConnectionError(msg)
 
     def renew_connection(self, timeout=45):
@@ -777,21 +774,21 @@ class GoogleConnection(object):
                 self._raw_get(url)
             except http.client.HTTPException as e:
                 logger.debug('Got exception: %s.', e)
-                raise GoogleConnectionError("Failed to get '%s'." % url)
+                raise GoogleConnectionError(f"Failed to get '{url}'.")
 
         resp = self._resp
         redirect_counter = 0
-        while resp.status != 200 and redirect_counter < 3:
-            if resp.status in {301, 302, 303, 307, 308}:
-                redirection_url = resp.getheader('location', '')
-                if 'sorry/IndexRedirect?' in redirection_url or 'sorry/index?' in redirection_url:
-                    raise GoogleConnectionError('Connection blocked due to unusual activity.')
-                self._redirect(redirection_url)
-                resp = self._resp
-                redirect_counter += 1
-            else:
-                break
-
+        while (
+            resp.status != 200
+            and redirect_counter < 3
+            and resp.status in {301, 302, 303, 307, 308}
+        ):
+            redirection_url = resp.getheader('location', '')
+            if 'sorry/IndexRedirect?' in redirection_url or 'sorry/index?' in redirection_url:
+                raise GoogleConnectionError('Connection blocked due to unusual activity.')
+            self._redirect(redirection_url)
+            resp = self._resp
+            redirect_counter += 1
         if resp.status != 200:
             raise GoogleConnectionError('Got HTTP %d: %s' % (resp.status, resp.reason))
 
@@ -831,7 +828,7 @@ class GoogleConnection(object):
             self._raw_get(relurl)
         except http.client.HTTPException as e:
             logger.debug('Got exception: %s.', e)
-            raise GoogleConnectionError("Failed to get '%s'." % url)
+            raise GoogleConnectionError(f"Failed to get '{url}'.")
 
     def _raw_get(self, url):
         """Make a raw HTTP GET request.
@@ -863,7 +860,7 @@ class GoogleConnection(object):
             # Cookie won't be available is already blocked
             if complete_cookie is not None:
                 self.cookie = complete_cookie[:complete_cookie.find(';')]
-                logger.debug('Cookie: %s' % self.cookie)
+                logger.debug(f'Cookie: {self.cookie}')
 
     def close(self):
         """Close the connection (if one is active)."""
@@ -913,7 +910,7 @@ def annotate_tag(annotated_starttag_handler):
 
         # If tag matches ignore list, annotate and hand over to ignore_*
         if ignored:
-            self.insert_annotation(tag, context + '_ignored')
+            self.insert_annotation(tag, f'{context}_ignored')
             self.set_handlers_to('ignore')
             return
 
@@ -1302,14 +1299,17 @@ class GoogleParser(html.parser.HTMLParser):
             return 'abstract'
 
         if not ua and not self.abstract_registered \
-                and tag == 'span' and 'st' in self.classes(attrs):
-            self.start_populating_textbuf(lambda text: text + ' ')
+                    and tag == 'span' and 'st' in self.classes(attrs):
+            self.start_populating_textbuf(lambda text: f'{text} ')
             return 'abstract_gservices'
 
-        if not self.sitelinks and tag == 'table':
-            if ua or (not self.news and 'ts' not in self.classes(attrs)):
-                self.set_handlers_to('sitelink_table')
-                return 'sitelink_table'
+        if (
+            not self.sitelinks
+            and tag == 'table'
+            and (ua or (not self.news and 'ts' not in self.classes(attrs)))
+        ):
+            self.set_handlers_to('sitelink_table')
+            return 'sitelink_table'
 
         if self.news:
             if not self.metadata_registered and tag == 'div' and 'slp' in self.classes(attrs):
@@ -1330,9 +1330,14 @@ class GoogleParser(html.parser.HTMLParser):
         if annotation == 'result':
             if self.url:
                 self.index += 1
-                result = Result(self.index, self.title, self.url, self.abstract,
-                                metadata=self.metadata if self.metadata else None,
-                                sitelinks=self.sitelinks)
+                result = Result(
+                    self.index,
+                    self.title,
+                    self.url,
+                    self.abstract,
+                    metadata=self.metadata or None,
+                    sitelinks=self.sitelinks,
+                )
                 self.results.append(result)
             self.set_handlers_to('root')
         elif annotation == 'news_metadata':
@@ -1352,7 +1357,7 @@ class GoogleParser(html.parser.HTMLParser):
     def title_start(self, tag, attrs):
         if ua and tag == 'span':
             # Print a space after the filetype indicator
-            self.start_populating_textbuf(lambda text: text + ' ')
+            self.start_populating_textbuf(lambda text: f'{text} ')
             return 'title_filetype'
         if tag == 'a' and 'href' in attrs:
             # Skip 'News for', 'Images for' search links
@@ -1464,8 +1469,8 @@ class GoogleParser(html.parser.HTMLParser):
 
     # Set handle_starttag to SCOPE_start, and handle_endtag to SCOPE_end.
     def set_handlers_to(self, scope):
-        self.handle_starttag = getattr(self, scope + '_start')
-        self.handle_endtag = getattr(self, scope + '_end')
+        self.handle_starttag = getattr(self, f'{scope}_start')
+        self.handle_endtag = getattr(self, f'{scope}_end')
 
     def insert_annotation(self, tag, annotation):
         if tag not in self.tag_annotations:
@@ -1526,13 +1531,10 @@ class GoogleParser(html.parser.HTMLParser):
             #
             # where &p is interpreted by HTMLParser as an entity (this
             # behaviour seems to be specific to Python 2.7).
-            self.textbuf += '&' + ref
+            self.textbuf += f'&{ref}'
 
     def record_charref(self, ref):
-        if ref.startswith('x'):
-            char = chr(int(ref[1:], 16))
-        else:
-            char = chr(int(ref))
+        char = chr(int(ref[1:], 16)) if ref.startswith('x') else chr(int(ref))
         self.textbuf += char
 
     @staticmethod
@@ -1617,7 +1619,7 @@ class Result(object):
 
         if not self.urlexpand:
             segments = urllib.parse.urlparse(url)
-            url = '  [' + segments.netloc + ']'
+            url = f'  [{segments.netloc}]'
 
         # Pad index and url with `indent` number of spaces
         index = ' ' * indent + str(index)
@@ -1625,15 +1627,14 @@ class Result(object):
         if colors:
             print(colors.index + index + colors.reset, end='')
             if self.urlexpand:
-                print(' ' + colors.title + title + colors.reset)
+                print(f' {colors.title}{title}{colors.reset}')
                 print(colors.url + url + colors.reset)
             else:
-                print(' ' + colors.title + title + colors.reset + colors.url + url + colors.reset)
+                print(f' {colors.title}{title}{colors.reset}{colors.url}{url}{colors.reset}')
+        elif self.urlexpand:
+            print(' %s %s\n%s' % (index, title, url))
         else:
-            if self.urlexpand:
-                print(' %s %s\n%s' % (index, title, url))
-            else:
-                print(' %s %s%s' % (index, title, url))
+            print(f' {index} {title}{url}')
 
     def _print_metadata_and_abstract(self, abstract, metadata=None, indent=0):
         colors = self.colors
@@ -1654,7 +1655,7 @@ class Result(object):
             # Try to fill to columns
             fillwidth = columns - indent - 1
             for line in textwrap.wrap(abstract.replace('\n', ''), width=fillwidth):
-                print('%s%s' % (' ' * indent, line))
+                print(f"{' ' * indent}{line}")
             print('')
         else:
             print('%s\n' % abstract.replace('\n', ' '))
@@ -1782,7 +1783,7 @@ class GooglerCmd(object):
         self._results_filtered = False
         self._urltable = {}
 
-        self.promptcolor = True if os.getenv('DISABLE_PROMPT_COLOR') is None else False
+        self.promptcolor = os.getenv('DISABLE_PROMPT_COLOR') is None
 
     @property
     def options(self):
@@ -1829,7 +1830,7 @@ class GooglerCmd(object):
         self._results_filtered = parser.filtered
         self._urltable = {}
         for r in self.results:
-            self._urltable.update(r.urltable())
+            self._urltable |= r.urltable()
 
     @require_keywords
     def display_results(self, prelude='\n', json_output=False):
@@ -1845,14 +1846,13 @@ class GooglerCmd(object):
             import json
             results_object = [r.jsonizable_object() for r in self.results]
             print(json.dumps(results_object, indent=2, sort_keys=True, ensure_ascii=False))
+        elif self.results:
+            sys.stderr.write(prelude)
+            for r in self.results:
+                r.print()
+
         else:
-            # Regular output
-            if not self.results:
-                print('No results.', file=sys.stderr)
-            else:
-                sys.stderr.write(prelude)
-                for r in self.results:
-                    r.print()
+            print('No results.', file=sys.stderr)
 
     @require_keywords
     def fetch_and_display(self, prelude='\n', json_output=False, interactive=True):
@@ -1889,20 +1889,19 @@ class GooglerCmd(object):
                 autocorrected_to = '\x1b[4m' + self._autocorrected_to + '\x1b[24m'
             else:
                 autocorrected_to = self._autocorrected_to
-            autocorrect_info = ('Showing results for %s; enter "x" for an exact search.' %
-                                autocorrected_to)
+            autocorrect_info = f'Showing results for {autocorrected_to}; enter "x" for an exact search.'
             printerr('')
             if colors:
                 printerr(colors.prompt + autocorrect_info + colors.reset)
             else:
-                printerr('** ' + autocorrect_info)
+                printerr(f'** {autocorrect_info}')
         self.display_results(prelude=prelude, json_output=json_output)
         if self._results_filtered:
             unfilter_info = 'Enter "unfilter" to show similar results Google omitted.'
             if colors:
                 printerr(colors.prompt + unfilter_info + colors.reset)
             else:
-                printerr('** ' + unfilter_info)
+                printerr(f'** {unfilter_info}')
             printerr('')
 
     def read_next_command(self):
@@ -1919,7 +1918,11 @@ class GooglerCmd(object):
         """
         colors = self.colors
         message = 'googler (? for help)'
-        prompt = (colors.prompt + message + colors.reset + ' ') if (colors and self.promptcolor) else (message + ': ')
+        prompt = (
+            colors.prompt + message + colors.reset + ' '
+            if (colors and self.promptcolor)
+            else f'{message}: '
+        )
         enter_count = 0
         while True:
             try:
@@ -1935,8 +1938,7 @@ class GooglerCmd(object):
             else:
                 enter_count = 0
 
-            cmd = ' '.join(cmd.split())
-            if cmd:
+            if cmd := ' '.join(cmd.split()):
                 self.cmd = cmd
                 break
 
@@ -1989,7 +1991,7 @@ class GooglerCmd(object):
                 try:
                     vals = [int(x) for x in nav.split('-')]
                     if (len(vals) != 2):
-                        printerr('Invalid range %s.' % nav)
+                        printerr(f'Invalid range {nav}.')
                         continue
 
                     if vals[0] > vals[1]:
@@ -1999,11 +2001,11 @@ class GooglerCmd(object):
                         if str(_id) in self._urltable:
                             open_url(self._urltable[str(_id)])
                         else:
-                            printerr('Invalid index %s.' % _id)
+                            printerr(f'Invalid index {_id}.')
                 except ValueError:
-                    printerr('Invalid range %s.' % nav)
+                    printerr(f'Invalid range {nav}.')
             else:
-                printerr('Invalid index %s.' % nav)
+                printerr(f'Invalid index {nav}.')
 
     @require_keywords
     @no_argument
@@ -2167,7 +2169,7 @@ class GooglerArgumentParser(argparse.ArgumentParser):
             assert n > 0
             return n
         except (ValueError, AssertionError):
-            raise argparse.ArgumentTypeError('%s is not a positive integer' % arg)
+            raise argparse.ArgumentTypeError(f'{arg} is not a positive integer')
 
     @staticmethod
     def nonnegative_int(arg):
@@ -2177,7 +2179,7 @@ class GooglerArgumentParser(argparse.ArgumentParser):
             assert n >= 0
             return n
         except (ValueError, AssertionError):
-            raise argparse.ArgumentTypeError('%s is not a non-negative integer' % arg)
+            raise argparse.ArgumentTypeError(f'{arg} is not a non-negative integer')
 
     @staticmethod
     def is_duration(arg):
@@ -2191,7 +2193,7 @@ class GooglerArgumentParser(argparse.ArgumentParser):
             if arg[0] not in ('h', 'd', 'w', 'm', 'y') or int(arg[1:]) < 0:
                 raise ValueError
         except (TypeError, IndexError, ValueError):
-            raise argparse.ArgumentTypeError('%s is not a valid duration' % arg)
+            raise argparse.ArgumentTypeError(f'{arg} is not a valid duration')
         return arg
 
     @staticmethod
@@ -2202,7 +2204,7 @@ class GooglerArgumentParser(argparse.ArgumentParser):
             for c in arg:
                 assert c in COLORMAP
         except AssertionError:
-            raise argparse.ArgumentTypeError('%s is not a valid color string' % arg)
+            raise argparse.ArgumentTypeError(f'{arg} is not a valid color string')
         return arg
 
 
@@ -2237,16 +2239,20 @@ def download_latest_googler(include_git=False):
 
     if include_git:
         # Get SHA of latest commit on master
-        request = urllib.request.Request('%s/commits/master' % API_REPO_BASE,
-                                         headers={'Accept': 'application/vnd.github.v3.sha'})
+        request = urllib.request.Request(
+            f'{API_REPO_BASE}/commits/master',
+            headers={'Accept': 'application/vnd.github.v3.sha'},
+        )
         response = urllib.request.urlopen(request)
         if response.status != 200:
             raise http.client.HTTPException(response.reason)
         git_ref = response.read().decode('utf-8')
     else:
         # Get name of latest tag
-        request = urllib.request.Request('%s/releases?per_page=1' % API_REPO_BASE,
-                                         headers={'Accept': 'application/vnd.github.v3+json'})
+        request = urllib.request.Request(
+            f'{API_REPO_BASE}/releases?per_page=1',
+            headers={'Accept': 'application/vnd.github.v3+json'},
+        )
         response = urllib.request.urlopen(request)
         if response.status != 200:
             raise http.client.HTTPException(response.reason)
@@ -2254,8 +2260,8 @@ def download_latest_googler(include_git=False):
         git_ref = json.loads(response.read().decode('utf-8'))[0]['tag_name']
 
     # Download googler to a tempfile
-    googler_download_url = '%s/%s/googler' % (RAW_DOWNLOAD_REPO_BASE, git_ref)
-    printerr('Downloading %s' % googler_download_url)
+    googler_download_url = f'{RAW_DOWNLOAD_REPO_BASE}/{git_ref}/googler'
+    printerr(f'Downloading {googler_download_url}')
     request = urllib.request.Request(googler_download_url,
                                      headers={'Accept-Encoding': 'gzip'})
     import tempfile
@@ -2328,7 +2334,7 @@ def self_upgrade(include_git=False):
     """
     git_ref, path = download_latest_googler(include_git=include_git)
     if self_replace(path):
-        printerr('Upgraded to %s.' % git_ref)
+        printerr(f'Upgraded to {git_ref}.')
     else:
         printerr('Already up to date.')
 
@@ -2354,7 +2360,7 @@ def parse_proxy_spec(proxyspec):
             # In particular, we don't support HTTPS proxies since we
             # only speak plain HTTP to the proxy server, so don't give
             # users a false sense of security.
-            raise NotImplementedError('Unsupported proxy scheme %s.' % scheme)
+            raise NotImplementedError(f'Unsupported proxy scheme {scheme}.')
 
     if '@' in proxyspec:
         pos = proxyspec.find('@')
@@ -2409,8 +2415,7 @@ def completer_fetch_completions(prefix):
 
 def completer_run(prefix):
     if prefix:
-        completions = completer_fetch_completions(prefix)
-        if completions:
+        if completions := completer_fetch_completions(prefix):
             print('\n'.join(completions))
     sys.exit(0)
 
@@ -2450,9 +2455,14 @@ def parse_args(args=None, namespace=None):
            help='disable automatic spelling correction')
     addarg('-C', '--nocolor', dest='colorize', action='store_false',
            help='disable color output')
-    addarg('--colors', dest='colorstr', type=argparser.is_colorstr,
-           default=colorstr_env if colorstr_env else 'GKlgxy', metavar='COLORS',
-           help='set output colors (see man page for details)')
+    addarg(
+        '--colors',
+        dest='colorstr',
+        type=argparser.is_colorstr,
+        default=colorstr_env or 'GKlgxy',
+        metavar='COLORS',
+        help='set output colors (see man page for details)',
+    )
     addarg('-j', '--first', '--lucky', dest='lucky', action='store_true',
            help='open the first result in web browser and exit')
     addarg('-t', '--time', dest='duration', type=argparser.is_duration,
@@ -2524,7 +2534,7 @@ def main():
         else:
             colors = None
         Result.colors = colors
-        Result.urlexpand = True if os.getenv('DISABLE_URL_EXPANSION') is None else False
+        Result.urlexpand = os.getenv('DISABLE_URL_EXPANSION') is None
         GooglerCmd.colors = colors
 
         if opts.url_handler is not None:
@@ -2534,11 +2544,10 @@ def main():
             open_url.override_text_browser = False
 
             # Handle browser output suppression
-            if opts.show_browser_logs or (os.getenv('BROWSER') in text_browsers):
-                open_url.suppress_browser_output = False
-            else:
-                open_url.suppress_browser_output = True
-
+            open_url.suppress_browser_output = (
+                not opts.show_browser_logs
+                and os.getenv('BROWSER') not in text_browsers
+            )
         if opts.noua:
             logger.debug('User Agent is disabled')
             ua = False
@@ -2560,13 +2569,10 @@ def main():
             # Interactive mode
             repl.cmdloop()
     except Exception as e:
-        # With debugging on, let the exception through for a traceback;
-        # otherwise, only print the exception error message.
         if logger.isEnabledFor(logging.DEBUG):
             raise
-        else:
-            logger.error(e)
-            sys.exit(1)
+        logger.error(e)
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
