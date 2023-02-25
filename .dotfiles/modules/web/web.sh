@@ -172,7 +172,8 @@ install_latest_stable_node_with_nvm() {
 install_global_packages() {
 
 	npm install --global \
-		@antfu/ni # https://github.com/antfu/ni
+		@antfu/ni # https://github.com/antfu/ni \
+		aicommits # https://github.com/Nutlope/aicommits
 
 }
 
