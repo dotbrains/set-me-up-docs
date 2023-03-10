@@ -173,7 +173,7 @@ install_global_packages() {
 
 	npm install --global \
 		@antfu/ni # https://github.com/antfu/ni \
-		aicommits # https://github.com/Nutlope/aicommits
+		opencommit # https://github.com/di-sukharev/opencommit
 
 }
 
