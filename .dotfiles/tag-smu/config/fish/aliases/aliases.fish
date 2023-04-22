@@ -195,3 +195,11 @@ alias xip "curl -s checkip.dyndns.org | grep -Eo "[0-9\.]+""
 function o --description "Open from the terminal"
     open $argv
 end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Podman aliases
+
+if type -q podman
+	alias docker "podman"
+end

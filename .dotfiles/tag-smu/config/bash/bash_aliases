@@ -151,3 +151,11 @@ command -v "fzy" &> /dev/null && {
 command -v "fish" &> /dev/null && [ -f "$HOME/.config/fish/functions/update.fish" ] && {
 	alias update="fish -c \"update\""
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Podman aliases
+
+command -v "podman" &> /dev/null && {
+	alias docker="podman"
+}
