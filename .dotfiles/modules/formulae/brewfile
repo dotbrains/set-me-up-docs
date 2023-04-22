@@ -44,5 +44,11 @@ brew "reattach-to-user-namespace"
 brew "thefuck"
 brew "starship"
 
+# podman
+brew "podman"
+brew "podman-desktop"
+brew "podman-compose"
+brew "kind"
+
 # Misc.
 brew "shellcheck"
