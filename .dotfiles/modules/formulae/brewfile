@@ -50,5 +50,8 @@ brew "podman-desktop"
 brew "podman-compose"
 brew "kind"
 
+# docker
+brew "docker"
+
 # Misc.
 brew "shellcheck"
