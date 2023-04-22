@@ -52,6 +52,7 @@ brew "kind"
 
 # docker
 brew "docker"
+brew "docker-slim"
 
 # Misc.
 brew "shellcheck"
