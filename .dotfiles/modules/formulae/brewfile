@@ -1,5 +1,6 @@
 tap "bramstein/webfonttools"
 tap "github/gh"
+tap "jkfran/killport"
 
 # Mac OS management
 brew "m-cli"
@@ -56,3 +57,4 @@ brew "docker-slim"
 
 # Misc.
 brew "shellcheck"
+brew "killport"
