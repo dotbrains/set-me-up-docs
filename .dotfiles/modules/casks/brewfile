@@ -26,8 +26,6 @@ cask "insomnia"
 # IDEs
 
 # Jetbrains
-cask "webstorm"
-cask "intellij-idea"
 cask "jetbrains-toolbox"
 
 cask "visual-studio-code"
@@ -44,13 +42,11 @@ cask "ngrok"
 
 # Mac OS management
 cask "setapp" # Install favorite apps installing 'setapp'
-cask "latest"
 cask "appcleaner"
 cask "muzzle"
 cask "browserosaurus"
 cask "raycast"
 cask "betterdisplay"
-cask "monitorcontrol"
 cask "contexts"
 cask "topnotch"
 cask "hyperdock"
