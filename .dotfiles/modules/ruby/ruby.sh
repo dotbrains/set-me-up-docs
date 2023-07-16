@@ -68,7 +68,7 @@ install_ruby_gems() {
 
 main() {
 
-    brew_bundle_install "brewfile"
+    brew_bundle_install -f "brewfile"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

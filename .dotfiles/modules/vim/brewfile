@@ -1,0 +1,2 @@
+# Install a more recent version of 'vim', overwriting the built-in `vi`.
+brew "vim"

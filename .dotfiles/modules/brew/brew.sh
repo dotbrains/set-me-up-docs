@@ -11,7 +11,9 @@ declare current_dir && \
 
 install_homebrew() {
 
-  printf "\n" | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+	printf "\n" | \
+		/bin/bash -c \
+			"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 }
 

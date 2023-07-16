@@ -141,12 +141,6 @@ symlink() {
 
 }
 
-install_space_vim() {
-
-	curl -sLf https://spacevim.org/install.sh | bash
-
-}
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
@@ -169,7 +163,7 @@ main() {
 		fi
 	fi
 
-    brew_bundle_install "brewfile"
+    brew_bundle_install -f "brewfile"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -196,10 +190,6 @@ main() {
 	install_fisher
 
 	install_fisher_packages
-
-	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	# install_space_vim
 
 }
 

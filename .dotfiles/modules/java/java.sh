@@ -80,7 +80,7 @@ update_jenv() {
 
 main() {
 
-    brew_bundle_install "brewfile"
+    brew_bundle_install -f "brewfile"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

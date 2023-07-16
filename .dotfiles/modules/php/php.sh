@@ -35,7 +35,7 @@ update_composer() {
 
 main() {
 
-    brew_bundle_install "brewfile"
+    brew_bundle_install -f "brewfile"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

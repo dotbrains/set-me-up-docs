@@ -195,7 +195,7 @@ main() {
     #     update_nvm
     # fi
 
-    brew_bundle_install "brewfile"
+    brew_bundle_install -f "brewfile"
 
     install_latest_stable_node_with_n
 

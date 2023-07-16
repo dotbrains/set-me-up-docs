@@ -157,7 +157,7 @@ install_pip3_packages() {
 
 main() {
 
-    brew_bundle_install "brewfile"
+    brew_bundle_install -f "brewfile"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

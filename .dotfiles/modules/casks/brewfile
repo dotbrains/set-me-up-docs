@@ -62,7 +62,6 @@ cask "acronis-true-image"
 cask "figma"
 cask "colorsnapper"
 cask "drawio"
-cask "obsidian"
 
 # Office
 cask "microsoft-office"
@@ -72,15 +71,17 @@ cask "grammarly"
 
 # Install developer friendly quick look plugins
 # see https://github.com/sindresorhus/quick-look-plugins
-cask "qlcolorcode"
-cask "qlstephen"
-cask "qlmarkdown"
-cask "quicklook-json"
-cask "qlimagesize"
-cask "webpquicklook"
-cask "suspicious-package"
-cask "quicklookase"
-cask "qlvideo"
+# Temporarily disabled due to incompatibility with Mac OS Monterey and up
+# cask "qlcolorcode"
+# cask "qlstephen"
+# cask "qlmarkdown"
+# cask "quicklook-json"
+# cask "qlimagesize"
+# cask "webpquicklook"
+# cask "suspicious-package"
+# cask "quicklookase"
+# cask "qlvideo"
+cask "syntax-highlight" [--no-quarantine]
 
 # Fonts
 cask "font-fira-code"
