@@ -2,7 +2,6 @@
 # Example:
 # mas "The Unarchiver", id: 425424353
 brew "mas"
-mas "Spark", id: 1176895641
 mas "CARROT Weather", id: 993487541
 mas "Fantastical 2", id: 975937182
 mas "HyperDock", id: 449830122

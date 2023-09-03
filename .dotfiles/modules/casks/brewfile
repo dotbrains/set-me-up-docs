@@ -18,7 +18,7 @@ cask "google-chrome"
 # Core development
 cask "iterm2"
 cask "warp"
-cask "kaleidoscope"
+# cask "kaleidoscope" # removed due to requiring a subscription
 cask "ksdiff"
 cask "fig"
 cask "insomnia"
@@ -92,3 +92,4 @@ cask "font-jetbrains-mono-nerd-font"
 
 # Misc.
 cask "rocket"
+cask "multipass"

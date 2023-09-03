@@ -54,7 +54,9 @@ brew "kind"
 # docker
 brew "docker"
 brew "docker-slim"
+brew "lazydocker"
 
 # Misc.
 brew "shellcheck"
 brew "killport"
+brew "multipass"
