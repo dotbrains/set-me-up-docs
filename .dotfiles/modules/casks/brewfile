@@ -16,6 +16,9 @@ cask "parallels"
 cask "google-chrome"
 cask "firefox"
 
+# Music
+cask "spotify"
+
 # Core development
 cask "iterm2"
 cask "warp"
