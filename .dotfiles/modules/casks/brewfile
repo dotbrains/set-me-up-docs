@@ -35,7 +35,7 @@ cask "jetbrains-toolbox"
 cask "visual-studio-code"
 
 # File/directory management
-# cask "osxfuse" # not compatible with Mac OS Monterey
+# cask "osxfuse" # not compatible with Mac OS Monterey and up
 # brew "ext4fuse"
 
 # Cloud Drive
