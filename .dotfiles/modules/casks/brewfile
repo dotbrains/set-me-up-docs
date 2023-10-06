@@ -9,7 +9,7 @@ cask "1password-cli"
 cask "nordvpn"
 
 # Everything VM related
-cask "docker"
+cask "rancher"
 cask "parallels"
 
 # Web browsers
