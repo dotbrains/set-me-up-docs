@@ -33,3 +33,4 @@ brew "git"
 cask "ksdiff"
 
 brew "fish"
+brew "starship"
