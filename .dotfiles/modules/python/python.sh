@@ -125,24 +125,6 @@ install_latest_stable_python() {
 
 }
 
-install_pip() {
-
-	if ! cmd_exists "pip"; then
-        sudo easy_install pip
-    fi
-
-}
-
-install_pip_packages() {
-
-    pip_install "pip-review"
-    pip_install "howdoi"
-    pip_install "glances"
-    pip_install "pockyt"
-    pip_install "percol"
-
-}
-
 install_pip3_packages() {
 
     pip3_install "pip-review"
@@ -150,6 +132,10 @@ install_pip3_packages() {
     pip3_install "git-up"
 	pip3_install "sourcery"
 	pip3_install "shell-gpt"
+	pip3_install "howdoi"
+    pip3_install "glances"
+    pip3_install "pockyt"
+    pip3_install "percol"
 
 }
 
@@ -172,10 +158,6 @@ main() {
     install_pyenv_plugin
 
     install_latest_stable_python
-
-    install_pip
-
-    install_pip_packages
 
     install_pip3_packages
 
