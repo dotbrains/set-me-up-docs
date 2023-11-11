@@ -85,7 +85,7 @@ cask "grammarly"
 # cask "suspicious-package"
 # cask "quicklookase"
 # cask "qlvideo"
-cask "syntax-highlight" [--no-quarantine]
+cask "syntax-highlight"
 
 # Fonts
 cask "font-fira-code"
@@ -93,6 +93,7 @@ cask "font-hack"
 cask "font-hack-nerd-font"
 cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
+cask "font-monaspace"
 
 # Misc.
 cask "rocket"

@@ -22,8 +22,7 @@ brew "ksdiff"
 brew "hub"
 brew "gitsh"
 brew "tig"
-brew "github/gh/gh"
-brew "jesseduffield/lazygit/lazygit"
+brew "gh"
 brew "lazygit"
 
 # File/directory management
@@ -44,12 +43,6 @@ brew "reattach-to-user-namespace"
 # Install other useful binaries.
 brew "thefuck"
 brew "starship"
-
-# podman
-brew "podman"
-brew "podman-desktop"
-brew "podman-compose"
-brew "kind"
 
 # docker
 brew "docker"
