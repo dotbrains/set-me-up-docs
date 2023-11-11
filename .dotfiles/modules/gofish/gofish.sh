@@ -10,10 +10,12 @@ declare current_dir && \
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 install_gofish() {
+    if ! brew install gofish; then
+        echo "Installation of gofish failed."
+        return 1
+    fi
 
-	brew install gofish && {
-		gofish init
-	}
+    gofish init
 
 }
 
@@ -23,7 +25,9 @@ install_gofish() {
 main() {
 
 	if ! cmd_exists "gofish"; then
-        install_gofish
+        if ! install_gofish; then
+            return 1
+        fi
     fi
 
 	gofish_update

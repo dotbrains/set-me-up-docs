@@ -167,7 +167,9 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	bash "${SMU_PATH}"/.dotfiles/modules/gofish/gofish.sh
+	# gofish has been archived and is no longer maintained.
+	# see: https://github.com/fishworks/gofish#this-project-is-being-archived
+	# bash "${SMU_PATH}"/.dotfiles/modules/gofish/gofish.sh
 
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
