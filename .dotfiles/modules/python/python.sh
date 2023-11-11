@@ -104,8 +104,7 @@ install_latest_stable_python() {
     latest_version="$(
         . "$LOCAL_BASH_CONFIG_FILE" \
         && pyenv install --list | \
-        grep -v - | \
-        grep -v b | \
+        grep -v -E '(anaconda|activepython|miniconda|miniforge|micropython|graal|ironpython|jython|nogil|pypy|stackless|pyston)-[0-9]' | grep -v -E '([a-zA-Z])' | \
         tail -1 | \
         tr -d '[:space:]'
     )"
@@ -156,7 +155,7 @@ main() {
 
     install_pyenv_plugin
 
-    install_latest_stable_python
+    # install_latest_stable_python
 
     install_pip3_packages
 
