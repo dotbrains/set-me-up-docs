@@ -117,10 +117,9 @@ install_latest_stable_python() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if [[ ! -d "$PYENV_DIRECTORY/versions/$latest_version" ]] && [[ "$current_version" != "$latest_version" ]]; then
-        sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target / \
-                && . "$LOCAL_BASH_CONFIG_FILE" \
-                && pyenv install "$latest_version" \
-                && pyenv global "$latest_version"
+        . "$LOCAL_BASH_CONFIG_FILE" \
+			&& pyenv install "$latest_version" \
+			&& pyenv global "$latest_version"
     fi
 
 }
