@@ -11,9 +11,17 @@ alias e "vim --"
 alias whois "whois -h whois-servers.net"
 alias m "man"
 alias map "xargs -n1"
+
 alias q "exit"
-alias rm "trash"
-# alias rm "rm -i -rf --"
+
+function rm
+    if type -q trash
+        trash $argv
+    else
+        command rm -i $argv
+    end
+end
+
 alias fs "stat -f \"%z bytes\""
 alias +x "chmod +x"
 

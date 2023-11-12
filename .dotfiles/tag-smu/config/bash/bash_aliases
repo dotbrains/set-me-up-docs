@@ -14,8 +14,13 @@ alias e="vim --"
 alias m="man"
 alias path='printf "%b\n" "${PATH//:/\\n}"'
 alias q="exit"
-alias rm="trash"
-# alias rm="rm -i -rf --"
+
+if command -v trash &> /dev/null; then
+    alias rm="trash"
+else
+    alias rm="rm -i -rf --"
+fi
+
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias +x="chmod +x"
