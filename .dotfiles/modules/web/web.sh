@@ -174,6 +174,7 @@ install_global_packages() {
 	npm install --global \
 		@antfu/ni # https://github.com/antfu/ni \
 		opencommit # https://github.com/di-sukharev/opencommit
+		trash-cli # https://github.com/sindresorhus/trash-cli
 
 }
 
