@@ -1,7 +1,6 @@
 cask_args appdir: "/Applications"
 
 tap "buo/cask-upgrade"
-tap "homebrew/cask-fonts"
 
 # Security
 cask "1password"
@@ -21,7 +20,7 @@ cask "spotify"
 
 # Core development
 cask "iterm2"
-cask "warp"
+# cask "warp"
 # cask "kaleidoscope" # removed due to requiring a subscription
 cask "ksdiff"
 cask "fig"
@@ -60,7 +59,6 @@ cask "iina"
 
 # Backups
 cask "imazing"
-cask "acronis-true-image"
 
 # Design
 cask "figma"
@@ -70,31 +68,10 @@ cask "drawio"
 # Office
 cask "microsoft-office"
 cask "tempbox"
-cask "pdf-expert"
 cask "grammarly"
 
 # Install developer friendly quick look plugins
-# see https://github.com/sindresorhus/quick-look-plugins
-# Temporarily disabled due to incompatibility with Mac OS Monterey and up
-# cask "qlcolorcode"
-# cask "qlstephen"
-# cask "qlmarkdown"
-# cask "quicklook-json"
-# cask "qlimagesize"
-# cask "webpquicklook"
-# cask "suspicious-package"
-# cask "quicklookase"
-# cask "qlvideo"
 cask "syntax-highlight"
-
-# Fonts
-cask "font-fira-code"
-cask "font-hack"
-cask "font-hack-nerd-font"
-cask "font-jetbrains-mono"
-cask "font-jetbrains-mono-nerd-font"
-cask "font-monaspace"
 
 # Misc.
 cask "rocket"
-cask "multipass"

@@ -165,12 +165,6 @@ main() {
 
     brew_bundle_install -f "brewfile"
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	# gofish has been archived and is no longer maintained.
-	# see: https://github.com/fishworks/gofish#this-project-is-being-archived
-	# bash "${SMU_PATH}"/.dotfiles/modules/gofish/gofish.sh
-
 	# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	# No longer needed because zsh is now the default shell.
@@ -192,6 +186,19 @@ main() {
 	install_fisher
 
 	install_fisher_packages
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Configure Nord Theme
+    # see: https://www.nordtheme.com/
+
+    bash "${SMU_PATH}"/.dotfiles/modules/nord/nord.sh
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Install nvChad for NeoVIM
+
+    bash "${SMU_PATH}"/.dotfiles/modules/neovim/nvchad.sh
 
 }
 

@@ -4,19 +4,35 @@
 set -gx PATH
 
 # Sets necessary PATH defaults
-set -gx PATH $PATH /usr/local/bin /usr/bin /bin /sbin /usr/sbin /usr/local/sbin /sbin $HOME/.local/bin /opt/local/bin $HOME/Library/Python/3.9/bin $HOME/"set-me-up"
+set -gx PATH $PATH /usr/local/bin /usr/bin /bin /sbin /usr/sbin /usr/local/sbin /sbin $HOME/.local/bin /home/linuxbrew/.linuxbrew/bin /snap/bin $HOME/"set-me-up"
 
-# Paths to your tackle
-set tacklebox_path ~/.tackle ~/.tacklebox
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Homebrew configurations
-# Make all homebrew casks and fonts be installed to a
-# specific directory
-set -gx HOMEBREW_CASK_OPTS "--appdir=/Applications --fontdir=/Library/Fonts"
+# Catppuccin for fzf (Macchiato)
+# see: https://github.com/catppuccin/fzf
+# set -Ux FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS "\
+# 	--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+# 	--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+# 	--color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
 
-if /usr/sbin/sysctl -n machdep.cpu.brand_string | grep -o "Apple" > /dev/null
-	set -gx PATH $PATH /opt/homebrew/bin
-end
+# Catppuccin for Bat (Macchiato)
+# see: https://github.com/catppuccin/bat
+# set BAT_THEME "Catppuccin-macchiato"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Nord for fzf
+# see: https://github.com/ianchesal/nord-fzf
+set -Ux FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS '
+    --color=fg:#e5e9f0,bg:#3b4252,hl:#81a1c1
+    --color=fg+:#e5e9f0,bg+:#3b4252,hl+:#81a1c1
+    --color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac
+    --color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b'
+
+# Nord for Bat
+set BAT_THEME "Nord"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Ruby configurations
 # Adds "GEMS_PATH" to "$PATH"
@@ -27,16 +43,6 @@ if type -q gem
 		set -gx PATH $PATH (gem environment gemdir)/bin
 	end
 end
-
-# iTerm2 integration
-# Adds ~/.iterm2 to "$PATH"
-if test -d ~/.iterm2
-    set -gx PATH $PATH ~/.iterm2
-end
-
-# sekey configuration
-# see: https://github.com/sekey/sekey#install
-set SSH_AUTH_SOCK $HOME/.sekey/ssh-agent.ssh
 
 # Dotfiles directory
 set DOTFILES $HOME/"set-me-up"

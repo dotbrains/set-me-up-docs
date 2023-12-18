@@ -1,4 +1,7 @@
 tap "thoughtbot/formulae"
+tap "bramstein/webfonttools"
+tap "github/gh"
+tap "jkfran/killport"
 
 brew "rcm"
 
@@ -13,6 +16,9 @@ brew "gnu-sed"
 # Install a more recent version of 'vim', overwriting the built-in `vi`.
 brew "vim"
 
+# Install neovim, a modern version of vim.
+brew "neovim"
+
 # Install some other useful utilities like `sponge`.
 brew "moreutils"
 
@@ -26,11 +32,91 @@ brew "wget"
 brew "bash"
 brew "bash-completion2"
 
-# Install git
-brew "git"
+# Mac OS management
+brew "m-cli"
+brew "dark-mode"
+brew "wallpaper"
 
-# Install ksdiff for git diff
+# Image processing
+brew "webkit2png"
+brew "zopfli"
+brew "pngcrush"
+brew "imagemagick"
+
+# VCS related
+brew "git"
+brew "git-lfs"
+brew "git-flow"
+brew "git-extras"
+brew "ksdiff"
+brew "hub"
+brew "gitsh"
+brew "tig"
+brew "gh"
+brew "lazygit"
 cask "ksdiff"
 
-brew "fish"
+# File/directory management
+brew "fzf"
+brew "fzy"
+brew "z"
+brew "exa"
+brew "zoxide"
+brew "exa"
+brew "bat"
+brew "goto"
+brew "jump"
+brew "ranger"
+brew "tree"
+brew "rename"
+brew "piknik"
+brew "rm-improved"
+
+# Compression utilities
+brew "p7zip"
+brew "pigz"
+brew "xz"
+
+# Networking
+brew "speedtest_cli"
+brew "httpie"
+brew "ssh-copy-id"
+brew "pv"
+
+# Terminal multiplexing
+brew "tmux"
+brew "reattach-to-user-namespace"
+
+# Install other useful binaries.
+brew "thefuck"
 brew "starship"
+
+# docker
+brew "rancher"
+brew "lazydocker"
+
+# Security
+brew "maliceio/tap/malice"
+
+# Misc.
+brew "shellcheck"
+brew "killport"
+brew "percol"
+brew "peco"
+brew "micro"
+brew "hstr"
+brew "ccat"
+brew "thefuck"
+brew "the_silver_searcher"
+brew "asciinema"
+brew "sebglazebrook/aliases/aliases"
+brew "screen"
+brew "ack"
+brew "shellcheck"
+brew "micro"
+brew "pandoc"
+brew "googler"
+brew "hh"
+brew "entr"
+brew "starship"
+brew "asitop"

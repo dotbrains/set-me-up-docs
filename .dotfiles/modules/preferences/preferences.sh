@@ -42,21 +42,26 @@ main() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # App preferences
+
+    # Apple Apps
     ./apps/terminal/terminal.sh
-	./apps/iTerm2/iterm2.sh
     ./apps/app_store.sh
     ./apps/finder.sh
 	./apps/activity_monitor.sh
 	./apps/messages.sh
 	./apps/mail.sh
-    ./apps/chrome.sh
     ./apps/safari.sh
     ./apps/maps.sh
     ./apps/photos.sh
-    ./apps/transmission.sh
     ./apps/textedit.sh
+
+    # Third-party Apps
+    ./apps/iTerm2/iterm2.sh
+    # I no longer use Alfred
+    # ./apps/alfred/alfred.sh
+    # ./apps/transmission.sh
+    ./apps/chrome.sh
     ./apps/firefox.sh
-    ./apps/alfred/alfred.sh
 
     # System preferences
 	./system/screen.sh

@@ -4,6 +4,9 @@ source "$HOME/.config/fish/aliases/aliases.fish"
 # load fish variables
 source "$HOME/.config/fish/variables/variables.fish"
 
+# load key bindings
+source "$HOME/.config/fish/keybindings/keybindings.fish"
+
 # load local fish configurations
 source "$HOME/.fish.local"
 
@@ -21,24 +24,16 @@ if type -q thefuck
     thefuck --alias | source
 end
 
-# load 'z.lua' configs.
-# see: https://github.com/skywind3000/z.lua#install
-if test -e "$HOME"/.z.lua
-	if type -q lua
-    	source (lua "$HOME"/.z.lua/z.lua --init fish | psub)
-	end
-end
+# load 'zoxide' configurations
+# see: https://github.com/ajeetdsouza/zoxide
+# if type -q zoxide
+#     zoxide init fish | source
+# end
 
 # load starship prompt
 # see: https://starship.rs
 if type -q starship
 	starship init fish | source
-end
-
-# load nord theme
-# see: https://github.com/lemnos/theme.sh
-if type -q theme
-	theme nord
 end
 
 # Clear system messages (system copyright notice, the date
@@ -52,3 +47,4 @@ clear
 # and not set -q TMUX
 #    exec tmux
 # end
+

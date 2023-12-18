@@ -7,23 +7,14 @@ alias cd.. "cd .."
 
 alias :q "exit"
 alias c "clear"
-alias e "vim --"
+alias e "nvim --"
 alias whois "whois -h whois-servers.net"
 alias m "man"
 alias map "xargs -n1"
-
 alias q "exit"
-
-function rm
-    if type -q trash
-        trash $argv
-    else
-        command rm -i $argv
-    end
-end
-
 alias fs "stat -f \"%z bytes\""
 alias +x "chmod +x"
+alias z "zoxide"
 
 function du --description "Updates the dotfiles directory"
     if test -d $DOTFILES
@@ -69,6 +60,24 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# Better `rm`
+
+# Option 1: `rip` - a safer and more user-friendly alternative to 'rm'
+# see: https://github.com/nivekuil/rip
+
+if type -q rip
+    alias rm "rip"
+end
+
+# Option 2: `trash` - safer alternative to 'rm'
+# see: https://github.com/andreafrancia/trash-cli
+
+if type -q trash
+    alias rm "trash"
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 # 'ls' aliases
 
 if type -q exa
@@ -96,7 +105,16 @@ end
 
 # Lock screen.
 
-alias afk "/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+if [ "$(uname)" = "Darwin" ]; then
+    alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+elif [ "$(uname)" = "Linux" ]; then
+    # Check if gnome-screensaver-command is available
+    if command -v gnome-screensaver-command &> /dev/null; then
+        alias afk="gnome-screensaver-command -l"
+    elif command -v dm-tool &> /dev/null; then
+        alias afk="dm-tool lock"
+    end
+end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -107,6 +125,20 @@ if type -q hub
 end
 
 alias acp "git add -A ;and git commit -v ;and git push"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# `lazygit` aliases
+
+if type -q lazygit
+    alias lg "lazygit"
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# `wttr` alias
+
+alias wttr "curl wttr.in"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -121,7 +153,15 @@ if type -q brew
     function brewu --description "updates and upgrades brew"
         brew upgrade
         brew cleanup
-        brew cask cleanup
+        
+        if [ "$(uname)" = "Darwin" ]; then
+            brew cask upgrade
+
+            if type -q mas
+                # Update Mac App Store apps
+                mas upgrade
+            end
+        end
     end
 end
 
@@ -175,17 +215,56 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Clear DNS cache.
+# Shorter commands for `Composer`
 
-alias clear-dns-cache "sudo dscacheutil -flushcache and sudo killall -HUP mDNSResponder"
+if type -q composer
+    alias ci "composer install"
+    alias cr "composer remove"
+    alias cls "composer list"
+    alias cs "composer search"
+    alias cu "composer self-update"
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Clear DNS cache
+
+if [ "$(uname)" = "Darwin" ]; then
+    alias clear-dns-cache="sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder"
+elif [ "$(uname)" = "Linux" ]; then
+    # Check for systemd-resolved
+    if systemctl is-active --quiet systemd-resolved; then
+        alias clear-dns-cache="sudo systemd-resolve --flush-caches"
+    # Check for nscd
+    elif command -v nscd &> /dev/null; then
+        alias clear-dns-cache="sudo nscd -i hosts"
+    # Check for dnsmasq
+    elif command -v dnsmasq &> /dev/null; then
+        alias clear-dns-cache="sudo /etc/init.d/dnsmasq restart"
+    end
+end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Hide/Show desktop icons.
 
-alias hide-desktop-icons "defaults write com.apple.finder CreateDesktop -bool false; killall Finder"
+# Hide desktop icons
 
-alias show-desktop-icons "defaults write com.apple.finder CreateDesktop -bool true; killall Finder"
+if [ "$(uname)" = "Darwin" ]; then
+    alias hide-desktop-icons="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+elif [ "$(uname)" = "Linux" ]; then
+    # For GNOME
+    alias hide-desktop-icons="gsettings set org.gnome.desktop.background show-desktop-icons false"
+end
+
+# Show desktop icons
+
+if [ "$(uname)" = "Darwin" ]; then
+    alias show-desktop-icons="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+elif [ "$(uname)" = "Linux" ]; then
+    # For GNOME
+    alias show-desktop-icons="gsettings set org.gnome.desktop.background show-desktop-icons true"
+end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -207,8 +286,22 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Podman aliases
+# piknik - Copy/paste anything over the network!
+# see: https://github.com/jedisct1/piknik#suggested-shell-aliases
 
-if type -q podman
-	alias docker "podman"
+if type -q piknik
+    # pkc : read the content to copy to the clipboard from STDIN
+    alias pkc "piknik -copy"
+
+    # pkp : paste the clipboard content
+    alias pkp "piknik -paste"
+
+    # pkm : move the clipboard content
+    alias pkm "piknik -move"
+
+    # pkz : delete the clipboard content
+    alias pkz "piknik -copy < /dev/null"
+
+    # pkpr : extract clipboard content sent using the pkfr command
+    alias pkpr "piknik -paste | tar xzhpvf -"
 end

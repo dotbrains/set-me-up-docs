@@ -39,19 +39,18 @@ cype() {
 
 # Label: Environment Update
 # Description: Update environment with latest software.
-# Updates MacOS apps, brew, npm, fish, fisher, omf, pip, pip3 and their installed packages.
+# Updates Linux apps, brew, npm, fish, fisher, omf, pip, pip3 and their installed packages.
 function u() {
-    sudo softwareupdate --install --all
-
-    if command -v "mas" &> /dev/null; then
-        mas upgrade
-    fi
+   sudo apt update
+   sudo apt upgrade -y
+   sudo apt dist-upgrade -y
+   sudo apt full-upgrade -y
+   sudo apt autoremove -y
+   sudo apt clean
 
     if command -v "brew" &> /dev/null; then
         brew update
         brew upgrade
-				brew tap buo/cask-upgrade
-        brew cu --all --yes --cleanup --quiet
     fi
 
     if command -v "basher" &> /dev/null; then
@@ -90,7 +89,7 @@ function u() {
     	fi
     fi
 
-    if [ -d "$HOME/.vim/plugins/Vundle.vim" ]; then
+    if [[ -d "$HOME/.vim/plugins/Vundle.vim" ]]; then
         vim +PluginUpdate +qall
     fi
 }
@@ -1821,7 +1820,7 @@ gwd() {
     printf "%s\n" "ERROR: Git worktree has uncommitted changes."
     return 1
   else
-    cd ../"$project_name" || exit
+    cd ../$project_name || exit
     read -p "Git worktree: $worktree_dir. Delete (y/n)?: " response
 
     if [[ "$response" == 'y' ]]; then
@@ -2503,24 +2502,6 @@ omc() {
 omr() {
   local process="${1:-web}"
   overmind restart "$process"
-}
-
-#-----------------------------------------------------------#
-# Section: [brew](https://brew.sh/) #
-#-----------------------------------------------------------#
-
-brew_update() {
-    if command -v "mas" &>/dev/null; then
-			mas upgrade
-    fi
-
-    if command -v "brew" &>/dev/null; then
-			brew update
-			brew upgrade
-			brew tap buo/cask-upgrade
-			brew cu --all --yes --cleanup --quiet
-			brew cleanup
-    fi
 }
 
 #---------------------------------------------------------------#
