@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Disables the Dashboard feature in macOS.  
 defaults write com.apple.dashboard mcx-disabled -bool true
 
 # `killall Dashboard` doesn't actually do anything. To apply the
