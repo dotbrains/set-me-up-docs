@@ -7,6 +7,3 @@
 [submodule ".dotfiles/utilities"]
 	path = .dotfiles/utilities
 	url = https://github.com/nicholasadamou/utilities
-[submodule ".dotfiles/tag-smu/z.lua"]
-	path = .dotfiles/tag-smu/z.lua
-	url = https://github.com/skywind3000/z.lua
