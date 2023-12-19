@@ -32,8 +32,8 @@ main() {
 
     git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 
-    # set colorsheme to Nord
-    sed -i "s/M.ui = { theme = '.*' }/M.ui = { theme = 'nord' }/" ~/.config/nvim/lua/custom/chadrc.lua
+    # Remove the .git folder, so it doesn't interfere with the dotfiles git repo
+    rm -rf ~/.config/nvim/.git
 }
 
 main

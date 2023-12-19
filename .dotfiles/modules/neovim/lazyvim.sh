@@ -41,28 +41,6 @@ main() {
     # Remove the .git folder, so it doesn't interfere with the dotfiles git repo
     rm -rf ~/.config/nvim/.git
 
-    # Create colorscheme.lua if it doesn't exist
-    # Set colorscheme to nord
-
-    local colorscheme_file="$HOME/.config/nvim/lua/plugins/colorscheme.lua"
-    
-    if [ ! -f "$colorscheme_file" ]; then
-        mkdir -nvimp "$HOME/.config/nvim/lua/plugins"
-        touch "$colorscheme_file"
-    fi
-
-    # Append lines to colorscheme.lua
-    echo 'return {
-    { "shaunsingh/nord.nvim" },
-
-    {
-        "LazyVim/LazyVim",
-        opts = {
-            colorscheme = "nord",
-        },
-    },
-}' >> "$colorscheme_file"
-
 }
 
 main
