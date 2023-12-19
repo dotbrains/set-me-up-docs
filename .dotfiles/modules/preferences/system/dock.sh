@@ -1,13 +1,25 @@
 #!/bin/bash
 
-# Set the icon size of Dock items
+# Customize Dock Appearance and Behavior in macOS:
+
+# Set the Icon Size of Dock Items
 defaults write com.apple.dock tilesize -int 30
+# This command sets the size of the icons in the Dock.
+# `com.apple.dock` is the domain associated with the macOS Dock.
+# `tilesize` is the key for the size of the Dock icons.
+# `-int 30` sets the icon size to 30 pixels, which adjusts how large or small the icons will appear in the Dock.
 
-# Speed up Mission Control animations
+# Speed Up Mission Control Animations
 defaults write com.apple.dock expose-animation-duration -float 0.15
+# This command adjusts the speed of the Mission Control animations.
+# `expose-animation-duration` is the key that controls the animation duration for Mission Control.
+# `-float 0.15` sets the animation duration to 0.15 seconds, speeding up the transition effect when entering and exiting Mission Control.
 
-# Make Dock icons of hidden applications translucent
+# Make Dock Icons of Hidden Applications Translucent
 defaults write com.apple.dock showhidden -bool true
+# This command changes the appearance of icons in the Dock for hidden applications.
+# `showhidden` is the key that controls the visibility of hidden application icons.
+# `-bool true` makes the icons of applications that are hidden (minimized or not in the current workspace) translucent. This provides a visual cue to distinguish between active and hidden applications.
 
 # Enable the 'reduce transparency' option. Save GPU cycles.
 # defaults write com.apple.universalaccess reduceTransparency -bool true
