@@ -1,11 +1,12 @@
 -- Used to override neovim options and commands
+vim.g.dap_virtual_text = true
+vim.opt.colorcolumn = "80"
 
-local plugins = {
-    {
-        -- Nord theme
-        -- see: https://github.com/shaunsingh/nord.nvim
-        "shaunsingh/nord.nvim",
-    }
-}
+-- Disable persistent undo for files in /private directory
+vim.api.nvim_create_autocmd("BufReadPre", {
+    pattern = "/private/*",
+    command = "set noundofile"
+})
 
-return plugins
+-- Enable persistent undo for other files
+vim.opt.undofile = true
