@@ -57,7 +57,7 @@ main() {
 
     # Third-party Apps
     ./apps/iTerm2/iterm2.sh
-    # I no longer use Alfred
+    # I no longer use Alfred or Transmission
     # ./apps/alfred/alfred.sh
     # ./apps/transmission.sh
     ./apps/chrome.sh
