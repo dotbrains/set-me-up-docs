@@ -11,6 +11,8 @@ declare current_dir && \
 
 main() {
 
+	ask_for_sudo
+
     sudo python3 ./create_boot_disk.py
 
 }
