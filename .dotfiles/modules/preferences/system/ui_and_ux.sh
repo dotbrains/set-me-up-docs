@@ -35,8 +35,7 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 # Configures the printing preferences to automatically close the printer application once printing is complete.
 
 # Change the Mac's Host Name
-# Get Mac model information
-model=$(system_profiler SPHardwareDataType | grep "Model Name" | awk -F": " '{print $2}')
+model=$(system_profiler SPHardwareDataType | grep "Model Name" | awk -F": " '{print $2}') # Get Mac model information
 HOST_NAME="Nicholas's $model" # E.g., 'Nicholas's MacBook Pro' or 'Nicholas's iMac'
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string `${HOST_NAME}` && \
 		sudo scutil --set ComputerName ${HOST_NAME} && \
