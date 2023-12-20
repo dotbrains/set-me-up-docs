@@ -219,30 +219,37 @@ export _arg_provision
 export -f provision_enabled
 
 provision_module() {
-    # source base from installation directory.
-    # this enables smu to work on first time installations.
-    if [[ "${module}" == "base" ]]; then
-        local -r path="${SMU_HOME_DIR}/.dotfiles/base"
+    local module_name="${1}"
+    local script_path
+
+    # Check if the module name contains a subdirectory
+    if [[ "${module_name}" == */* ]]; then
+        # If it does, separate the directory and script name
+        local dir_name="${module_name%/*}"
+        local script_name="${module_name##*/}"
+        script_path="${module_path}/${dir_name}/${script_name}/${script_name}.sh"
     else
-        local -r path="${module_path}/${1}"
+        # Handle the 'base' module separately
+        if [[ "${module_name}" == "base" ]]; then
+            script_path="${SMU_HOME_DIR}/.dotfiles/base/${module_name}.sh"
+        else
+            script_path="${module_path}/${module_name}.sh"
+        fi
     fi
 
-    local -r script="${1}.sh"
-
-    if [[ ! -e "${path}/${script}" ]]; then
-        warn "${path}/${script} does not seem to exist, skipping."
-        false
+    # Check if the script exists
+    if [[ ! -e "${script_path}" ]]; then
+        warn "${script_path} does not seem to exist, skipping."
         return
     fi
 
-    action "Running ${path}/${script} module"
-
-	printf "\n"
+    action "Running ${script_path} module"
+    printf "\n"
 
     (
-        cd "${path}/" &&
+        cd "$(dirname "${script_path}")" &&
         [[ -s ./before.sh ]] && source ./before.sh
-        source "./${script}" &&
+        source "${script_path}" &&
         [[ -s ./after.sh ]] && source ./after.sh
     )
 }
