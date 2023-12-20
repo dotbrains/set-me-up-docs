@@ -293,17 +293,6 @@ main() {
 
 	header
 
-	warn "${bold}set-me-up${normal} may overwrite existing files in your home directory."
-
-	printf "\n"
-
-	read -r -p "Are you sure you want to continue? (y/n) " -n 1;
-	echo "";
-
-	[[ ! $REPLY =~ ^[Yy]$ ]] && exit 0
-
-	printf "\n"
-
 	modules=("${_arg_modules[@]}")
 
 	# by default, run the base module as early as possible.
@@ -315,6 +304,25 @@ main() {
 	if [[ " ${modules[@]} " =~ " macosupdate " ]]; then
 		modules=("macosupdate" "${modules[@]}")
 	fi
+
+	warn "This script will execute the following modules:"
+	printf "\n"
+	for module in "${modules[@]}"
+	do
+		echo " - '${bold}${module}${normal}'"
+		printf "\n"
+	done
+
+	warn "${bold}set-me-up${normal} may overwrite existing files in your home directory."
+
+	printf "\n"
+
+	read -r -p "Are you sure you want to continue? (y/n) " -n 1;
+	echo "";
+
+	[[ ! $REPLY =~ ^[Yy]$ ]] && exit 0
+
+	printf "\n"
 
 	# list of executed modules, so we only run them once.
 	done=()
