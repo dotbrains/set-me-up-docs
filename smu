@@ -243,14 +243,44 @@ provision_module() {
         return
     fi
 
+	# Check that bash is installed
+	if ! command -v bash >/dev/null 2>&1; then
+		warn "bash is not installed, skipping."
+		return
+	fi
+
+    local prefix=""
+    # Check if current shell is not bash
+    if [[ "${SHELL}" != *"bash"* ]]; then
+        prefix="bash -c"
+    fi
+
     action "Running ${script_path} module"
     printf "\n"
 
     (
-        cd "$(dirname "${script_path}")" &&
-        [[ -s ./before.sh ]] && source ./before.sh
-        source "${script_path}" &&
-        [[ -s ./after.sh ]] && source ./after.sh
+        cd "$(dirname "${script_path}")"
+        if [[ -s ./before.sh ]]; then
+            if [[ -n "$prefix" ]]; then
+                $prefix "source ./before.sh"
+            else
+                source ./before.sh
+            fi
+        fi
+
+        if [[ -n "$prefix" ]]; then
+            $prefix "source '${script_path}'"
+        else
+            source "${script_path}"
+        fi
+
+        if [[ -s ./after.sh ]]; then
+            if [[ -n "$prefix" ]]; then
+                $prefix "source ./after.sh"
+            else
+                source ./after.sh
+            fi
+        fi
     )
 }
 
