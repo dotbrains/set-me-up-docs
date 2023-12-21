@@ -10,3 +10,6 @@
 [submodule ".dotfiles/tag-smu/config/nvim"]
 	path = .dotfiles/tag-smu/config/nvim
 	url = https://github.com/nicholasadamou/nvim
+[submodule ".dotfiles/tag-smu/tmux"]
+	path = .dotfiles/tag-smu/tmux
+	url = https://github.com/nicholasadamou/tmux
