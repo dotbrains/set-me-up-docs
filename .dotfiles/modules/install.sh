@@ -95,14 +95,8 @@ function install_submodules() {
             URL_KEY="$(echo "${KEY}" | sed 's/\.path$/.url/')"
             URL="$(git -C "${SMU_HOME_DIR}" config -f .gitmodules --get "${URL_KEY}")"
 
-            # Attempt to get the branch from .gitmodules
-            BRANCH_KEY="$(echo "${KEY}" | sed 's/\.path$/.branch/')"
-            BRANCH="$(git -C "${SMU_HOME_DIR}" config -f .gitmodules --get "${BRANCH_KEY}" || true)"
-
-            # If branch is not set, query the remote repo for its default branch
-            if [[ -z "$BRANCH" ]]; then
-                BRANCH=$(git ls-remote --symref "${URL}" HEAD | awk '/^ref:/ {sub(/refs\/heads\//, "", $2); print $2}')
-            fi
+            # Attempt to get the branch from the submodule URL
+            BRANCH=$(git ls-remote --symref "${URL}" HEAD | awk '/^ref:/ {sub(/refs\/heads\//, "", $2); print $2}')
 
             git -C "${SMU_HOME_DIR}" submodule add --force -b "${BRANCH}" --name "${NAME}" "${URL}" "${MODULE_PATH}" || continue
         fi
