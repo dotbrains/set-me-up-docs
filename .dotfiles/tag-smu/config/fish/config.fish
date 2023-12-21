@@ -11,7 +11,20 @@ source "$HOME/.config/fish/keybindings/keybindings.fish"
 source "$HOME/.fish.local"
 
 # load 'brew' configurations
-eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# see: https://docs.brew.sh/Installation
+if test (uname) = "Darwin" # Check if OS is macOS
+    if test -d /opt/homebrew
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    end
+end
+
+# see: https://docs.brew.sh/Homebrew-on-Linux
+if test (uname) = "Linux" # Check if OS is Linux
+    if test -d /home/linuxbrew/.linuxbrew
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    end
+end
 
 # bootstrap installation of fisher
 # see: https://github.com/jorgebucaran/fisher#bootstrap-installation
