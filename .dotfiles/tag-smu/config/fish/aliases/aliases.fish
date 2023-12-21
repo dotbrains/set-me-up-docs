@@ -234,20 +234,25 @@ end
 
 # Clear DNS cache
 
-if [ "$(uname)" = "Darwin" ]; then
-    alias clear-dns-cache="sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder"
-elif [ "$(uname)" = "Linux" ]; then
+switch (uname)
+case Darwin
+    alias clear-dns-cache='sudo dscacheutil -flushcache; and sudo killall -HUP mDNSResponder'
+
+case Linux
     # Check for systemd-resolved
-    if systemctl is-active --quiet systemd-resolved; then
-        alias clear-dns-cache="sudo systemd-resolve --flush-caches"
+    if systemctl is-active --quiet systemd-resolved
+        alias clear-dns-cache='sudo systemd-resolve --flush-caches'
+    
     # Check for nscd
-    elif command -v nscd &> /dev/null; then
-        alias clear-dns-cache="sudo nscd -i hosts"
+    else if type -q nscd
+        alias clear-dns-cache='sudo nscd -i hosts'
+
     # Check for dnsmasq
-    elif command -v dnsmasq &> /dev/null; then
-        alias clear-dns-cache="sudo /etc/init.d/dnsmasq restart"
+    else if type -q dnsmasq
+        alias clear-dns-cache='sudo /etc/init.d/dnsmasq restart'
     end
 end
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
