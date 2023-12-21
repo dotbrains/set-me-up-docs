@@ -187,13 +187,6 @@ main() {
 
 	install_fisher_packages
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # Configure Nord Theme
-    # see: https://www.nordtheme.com/
-
-    bash "${SMU_PATH}"/.dotfiles/modules/nord/nord.sh
-
 }
 
 main
