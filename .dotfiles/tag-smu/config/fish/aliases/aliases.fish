@@ -105,14 +105,19 @@ end
 
 # Lock screen.
 
-if [ "$(uname)" = "Darwin" ]; then
-    alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-elif [ "$(uname)" = "Linux" ]; then
-    # Check if gnome-screensaver-command is available
-    if command -v gnome-screensaver-command &> /dev/null; then
-        alias afk="gnome-screensaver-command -l"
-    elif command -v dm-tool &> /dev/null; then
-        alias afk="dm-tool lock"
+# Check operating system type
+switch (uname)
+case Darwin
+    # MacOS alias
+    alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+
+case Linux
+    # Check for gnome-screensaver-command
+    if type -q gnome-screensaver-command
+        alias afk='gnome-screensaver-command -l'
+    # Check for dm-tool
+    else if type -q dm-tool
+        alias afk='dm-tool lock'
     end
 end
 
@@ -249,22 +254,25 @@ end
 # Hide/Show desktop icons.
 
 # Hide desktop icons
+switch (uname)
+case Darwin
+    alias hide-desktop-icons='defaults write com.apple.finder CreateDesktop -bool false; and killall Finder'
 
-if [ "$(uname)" = "Darwin" ]; then
-    alias hide-desktop-icons="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-elif [ "$(uname)" = "Linux" ]; then
+case Linux
     # For GNOME
-    alias hide-desktop-icons="gsettings set org.gnome.desktop.background show-desktop-icons false"
+    alias hide-desktop-icons='gsettings set org.gnome.desktop.background show-desktop-icons false'
 end
 
 # Show desktop icons
+switch (uname)
+case Darwin
+    alias show-desktop-icons='defaults write com.apple.finder CreateDesktop -bool true; and killall Finder'
 
-if [ "$(uname)" = "Darwin" ]; then
-    alias show-desktop-icons="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-elif [ "$(uname)" = "Linux" ]; then
+case Linux
     # For GNOME
-    alias show-desktop-icons="gsettings set org.gnome.desktop.background show-desktop-icons true"
+    alias show-desktop-icons='gsettings set org.gnome.desktop.background show-desktop-icons true'
 end
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
