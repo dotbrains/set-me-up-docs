@@ -362,13 +362,11 @@
 		</dict>
 	</dict>
 	<key>Default Bookmark Guid</key>
-	<string>B79B7F9E-1C7E-4D70-BE1D-4F9015374242</string>
+	<string>35CAA96F-9AF0-45FC-AAD2-1C95CA4CC68C</string>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
-	<key>IRMemory</key>
-	<integer>4</integer>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -638,7 +636,7 @@
 			<key>Close Sessions On End</key>
 			<true/>
 			<key>Columns</key>
-			<integer>120</integer>
+			<integer>140</integer>
 			<key>Command</key>
 			<string></string>
 			<key>Cursor Color</key>
@@ -706,7 +704,7 @@
 				<real>0.81214725971221924</real>
 			</dict>
 			<key>Guid</key>
-			<string>B79B7F9E-1C7E-4D70-BE1D-4F9015374242</string>
+			<string>35CAA96F-9AF0-45FC-AAD2-1C95CA4CC68C</string>
 			<key>Horizontal Spacing</key>
 			<real>1</real>
 			<key>Idle Code</key>
@@ -1023,7 +1021,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>FiraCode-Retina 16</string>
+			<string>JetBrainsMonoNFM-Regular 14</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -1142,8 +1140,6 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
-	<key>PromptOnQuit</key>
-	<false/>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>VisualIndicatorForEsc</key>
