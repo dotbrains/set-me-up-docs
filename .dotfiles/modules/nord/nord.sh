@@ -15,7 +15,7 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    fish -c "fish_config theme save \"Nord\""
+    fish -c "printf \"y\n\" | fish_config theme save \"Nord\""
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
