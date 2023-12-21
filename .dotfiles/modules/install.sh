@@ -81,28 +81,34 @@ function is_dir_empty() {
 
 function install_submodules() {
     git -C "${SMU_HOME_DIR}" config -f .gitmodules --get-regexp '^submodule\..*\.path$' |
-        while read -r KEY MODULE_PATH
-        do
-			if [[ -d "${SMU_HOME_DIR:?}/${MODULE_PATH}" ]] && ! is_dir_empty "${MODULE_PATH}" && does_repo_contain "${MODULE_PATH}"; then
-				continue
-			else
-				[[ -d "${SMU_HOME_DIR:?}/${MODULE_PATH}" ]] && is_dir_empty "${MODULE_PATH}" && {
-					rm -rf "${SMU_HOME_DIR:?}/${MODULE_PATH}"
-				}
+    while read -r KEY MODULE_PATH
+    do
+        if [[ -d "${SMU_HOME_DIR:?}/${MODULE_PATH}" ]] && ! is_dir_empty "${MODULE_PATH}" && does_repo_contain "${MODULE_PATH}"; then
+            continue
+        else
+            [[ -d "${SMU_HOME_DIR:?}/${MODULE_PATH}" ]] && is_dir_empty "${MODULE_PATH}" && {
+                rm -rf "${SMU_HOME_DIR:?}/${MODULE_PATH}"
+            }
 
-				NAME="$(echo "$KEY" | sed -e 's/submodule.//g' | sed -e 's/.path//g')"
+            NAME="$(echo "$KEY" | sed -e 's/submodule.//g' | sed -e 's/.path//g')"
 
-				URL_KEY="$(echo "${KEY}" | sed 's/\.path$/.url/')"
-				BRANCH_KEY="$(echo "${KEY}" | sed 's/\.path$/.branch/')"
+            URL_KEY="$(echo "${KEY}" | sed 's/\.path$/.url/')"
+            URL="$(git -C "${SMU_HOME_DIR}" config -f .gitmodules --get "${URL_KEY}")"
 
-				URL="$(git -C "${SMU_HOME_DIR}" config -f .gitmodules --get "${URL_KEY}")"
-				BRANCH="$(git -C "${SMU_HOME_DIR}" config -f .gitmodules --get "${BRANCH_KEY}" || echo "master")"
+            # Attempt to get the branch from .gitmodules
+            BRANCH_KEY="$(echo "${KEY}" | sed 's/\.path$/.branch/')"
+            BRANCH="$(git -C "${SMU_HOME_DIR}" config -f .gitmodules --get "${BRANCH_KEY}" || true)"
 
-				git -C "${SMU_HOME_DIR}" submodule add --force -b "${BRANCH}" --name "${NAME}" "${URL}" "${MODULE_PATH}" || continue
-			fi
-		done
+            # If branch is not set, query the remote repo for its default branch
+            if [[ -z "$BRANCH" ]]; then
+                BRANCH=$(git ls-remote --symref "${URL}" HEAD | awk '/^ref:/ {sub(/refs\/heads\//, "", $2); print $2}')
+            fi
 
-	git -C "${SMU_HOME_DIR}" submodule update --init --recursive
+            git -C "${SMU_HOME_DIR}" submodule add --force -b "${BRANCH}" --name "${NAME}" "${URL}" "${MODULE_PATH}" || continue
+        fi
+    done
+
+    git -C "${SMU_HOME_DIR}" submodule update --init --recursive
 }
 
 function are_xcode_command_line_tools_installed() {
