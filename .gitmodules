@@ -10,3 +10,6 @@
 [submodule ".dotfiles/tag-smu/config/ranger/plugins/zoxide"]
 	path = .dotfiles/tag-smu/config/ranger/plugins/zoxide
 	url = https://github.com/jchook/ranger-zoxide.git
+[submodule ".dotfiles/tag-smu/config/nvim"]
+	path = .dotfiles/tag-smu/config/nvim
+	url = https://github.com/nicholasadamou/nvim
