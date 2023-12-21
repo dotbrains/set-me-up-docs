@@ -194,12 +194,6 @@ main() {
 
     bash "${SMU_PATH}"/.dotfiles/modules/nord/nord.sh
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # Install nvChad for NeoVIM
-
-    bash "${SMU_PATH}"/.dotfiles/modules/neovim/nvchad.sh
-
 }
 
 main
