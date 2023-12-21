@@ -39,7 +39,7 @@ main() {
 
     # Check if the `wallpaper` command exists
     if cmd_exists "wallpaper"; then
-        wallpaper set "${PWD}/wallpapers/magma.jpg"
+        wallpaper set "${current_dir}/wallpapers/magma.jpg"
     fi
 
 }
