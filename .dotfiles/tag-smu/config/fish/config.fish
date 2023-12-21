@@ -10,7 +10,7 @@ source "$HOME/.config/fish/keybindings/keybindings.fish"
 # load local fish configurations
 source "$HOME/.fish.local"
 
-# load 'brew ' configurations
+# load 'brew' configurations
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # bootstrap installation of fisher

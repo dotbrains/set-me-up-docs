@@ -28,10 +28,10 @@ main() {
     # Nord for iTerm2
 
     # install nord iterm2 color preset
-    open "${PWD}/iterm2/nord.itermcolors"
+    # open "${PWD}/iterm2/nord.itermcolors"
 
     # set nord color preset
-    defaults write com.googlecode.iterm2 "Custom Color Presets" -dict-add "Nord" "$(cat "${PWD}/iterm2/nord.itermcolors")"
+    # defaults write com.googlecode.iterm2 "Custom Color Presets" -dict-add "Nord" "$(cat "${PWD}/iterm2/nord.itermcolors")"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -39,7 +39,7 @@ main() {
 
     # Check if the `wallpaper` command exists
     if cmd_exists "wallpaper"; then
-        wallpaper set "${PWD}/wallpapers/nord.jpg"
+        wallpaper set "${PWD}/wallpapers/magma.jpg"
     fi
 
 }
