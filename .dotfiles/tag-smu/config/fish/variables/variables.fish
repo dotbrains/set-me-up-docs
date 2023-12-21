@@ -4,7 +4,7 @@
 set -gx PATH
 
 # Sets necessary PATH defaults
-set -gx PATH $PATH /usr/local/bin /usr/bin /bin /sbin /usr/sbin /usr/local/sbin /sbin $HOME/.local/bin /home/linuxbrew/.linuxbrew/bin /snap/bin $HOME/"set-me-up"
+set -gx PATH $PATH /usr/local/bin /usr/bin /bin /sbin /usr/sbin /usr/local/sbin /sbin $HOME/.fig/bin $HOME/.local/bin /home/linuxbrew/.linuxbrew/bin /snap/bin $HOME/"set-me-up"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
