@@ -25,13 +25,9 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # Nord for iTerm2
+    # Nord for iTerm2 on MacOS
 
-    # install nord iterm2 color preset
-    # open "${PWD}/iterm2/nord.itermcolors"
-
-    # set nord color preset
-    # defaults write com.googlecode.iterm2 "Custom Color Presets" -dict-add "Nord" "$(cat "${PWD}/iterm2/nord.itermcolors")"
+    ./apps/iterm2/set_iterm2_theme.applescript
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
