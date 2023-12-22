@@ -7,7 +7,7 @@ function brew-update --description "Updates brew casks, formulae, and mas apps."
         brew update
         brew upgrade
         
-        if uname == "Darwin"
+        if test (uname -s) = "Darwin"
             brew tap buo/cask-upgrade
             brew cu --all --yes --cleanup --quiet
         end
