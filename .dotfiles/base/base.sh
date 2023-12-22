@@ -187,6 +187,8 @@ main() {
 
 	install_fisher_packages
 
+    fish -c "printf \"y\n\" | fish_config theme save \"Nord\""
+
 }
 
 main

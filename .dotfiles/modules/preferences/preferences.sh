@@ -63,7 +63,10 @@ main() {
     ./apps/chrome.sh
     ./apps/firefox.sh
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     # System preferences
+
 	./system/screen.sh
 	# spotlight preferences causes:
 	# 2021-11-13 16:29:36.097 defaults[52324:117295] Could not write domain /.Spotlight-V100/VolumeConfiguration; exiting
@@ -74,6 +77,16 @@ main() {
 	./system/trackpad.sh
     ./system/language_and_region.sh
     ./system/ui_and_ux.sh
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Colorschems
+
+    # Nord
+    ./colorschemes/nord.sh
+
+    # Catppuccin
+    # ./colorschemes/catppuccino.sh
 
 }
 

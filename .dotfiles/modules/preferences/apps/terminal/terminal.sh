@@ -30,7 +30,3 @@ defaults write com.apple.terminal StringEncodings -array 4
 # This command configures the Terminal application to use UTF-8 encoding for displaying and interpreting text.
 # `StringEncodings` is the key that specifies the list of encodings used by Terminal.
 # `-array 4` sets the encoding to UTF-8, as 4 is the numerical representation of UTF-8 encoding in macOS.
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-./set_terminal_theme.applescript
