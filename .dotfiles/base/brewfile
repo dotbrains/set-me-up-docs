@@ -1,9 +1,6 @@
-tap "thoughtbot/formulae"
 tap "bramstein/webfonttools"
 tap "github/gh"
 tap "jkfran/killport"
-
-brew "rcm"
 
 # Install GNU-related tools
 brew "coreutils"

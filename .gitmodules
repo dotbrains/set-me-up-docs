@@ -13,3 +13,6 @@
 [submodule ".dotfiles/tag-smu/tmux"]
 	path = .dotfiles/tag-smu/tmux
 	url = https://github.com/nicholasadamou/tmux
+[submodule "set-me-up-installer"]
+	path = set-me-up-installer
+	url = https://github.com/nicholasadamou/set-me-up-installer

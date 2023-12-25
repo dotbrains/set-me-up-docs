@@ -21,24 +21,7 @@ Instead of enforcing a certain setup it tries to act as a solid template that is
 				- [Creating a custom tag](#creating-a-custom-tag)
 		- [Wait! I am confused 😕](#wait-i-am-confused-)
 	- [A closer look 🤓](#a-closer-look-)
-		- [Available modules](#available-modules)
-			- [base](#base)
-			- [create_boot_disk](#create_boot_disk)
-			- [macosupdate](#macosupdate)
-			- [brew](#brew)
-			- [app_store](#app_store)
-			- [casks](#casks)
-			- [formulae](#formulae)
-			- [preferences](#preferences)
-			- [go](#go)
-			- [java](#java)
-			- [php](#php)
-			- [python](#python)
-			- [ruby](#ruby)
-			- [rust](#rust)
-			- [web](#web)
-		- [Other components](#other-components)
-			- [The smu script](#the-smu-script)
+		- [The smu script](#the-smu-script)
 		- [How does it work?](#how-does-it-work)
 		- [Local Settings](#local-settings)
 			- [`~/.bash.local`](#bashlocal)
@@ -65,11 +48,9 @@ You might wonder why not work directly with this repo? Having a remote and exter
 - The referenced `set-me-up` version is fixated in the installer, ensuring that your setup will work even when the master advances. Advancing to the next version is easy by bumping the version in the installer.
 - Its fancy, at least I think so 😉.
 
-### Obtaining `set-me-up`
+### Obtaining `set-me-up` via [`set-me-up` installer](https://github.com/nicholasadamou/set-me-up-installer)
 
-Either use your blueprint or the default installer to obtain `set-me-up` . This will put all files into `~/set-me-up` , the default `smu` home directory. In case you decided against using your own blueprint, you can run the following command in your console.
-
-However, your default shell must be set to `bash` prior to executing the `install` snippet for the first time. This is because on newer versions of Mac OS, the default shell is `zsh` instead of `bash`. To change your default shell, run the following command in your console.
+To start, your default shell must be set to `bash` prior to executing the `install` snippet for the first time. This is because on newer versions of Mac OS, the default shell is `zsh` instead of `bash`. To change your default shell, run the following command in your console.
 
 ```bash
 sudo chsh -s $(which bash) $(whoami)
@@ -78,13 +59,18 @@ sudo chsh -s $(which bash) $(whoami)
 Once the default shell is `bash`, close and reopen the terminal window. Then, run the following command in your console.
 
 (⚠️ **DO NOT** run the `install` snippet if you don't fully
-understand [what it does](.dotfiles/modules/install.sh). Seriously, **DON'T**!)
+understand [what it does](https://raw.githubusercontent.com/nicholasadamou/set-me-up-installer/main/install.sh). Seriously, **DON'T**!)
 
 ```bash
-bash <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/set-me-up/master/.dotfiles/modules/install.sh)
+bash <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/set-me-up-installer/main/install.sh)
 ```
 
 You can change the `smu` home directory by setting an environment variable called `SMU_HOME_DIR`. Please keep the variable declared or else the `smu` scripts are unable to pickup the sources.
+
+```bash
+export SMU_HOME_DIR="some-path" \
+    bash <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/set-me-up-installer/main/install.sh)
+```
 
 ### Running `set-me-up`
 
@@ -92,13 +78,18 @@ You can change the `smu` home directory by setting an environment variable calle
 
 1. Use the `smu` script (which you will find inside the `smu` home directory) to run the base module. Check out the [base module documentation](#base) for more insights.
 
-        smu -p -m base
+        smu --provision \
+			--module base
 
     ⚠️ Please note that after running the base module, moving the source folder is not recommended due to the usage of symlinks.
 
 2. Afterwards, provision your machine with [further modules](#available-modules) via the `smu` script. Repeat the `-m` switch to specify more then one module.
 
-        smu -p -m app_store -m casks -m php --no-base
+        smu --provision \
+			--module app_store \
+			--module casks \
+			--module php \
+			--no-base
 
     As a general rule of thumb, only pick the modules you need, running all modules can take quite some time.
     Fear not, all modules can be installed when you need it.
@@ -143,111 +134,12 @@ For more on using the `smu` script, simply run `smu --help`.
 
 ## A closer look 🤓
 
-### Available modules
-
-#### [base](.dotfiles/base)
-
-The base module is the only module that is required to run at least once on your system to ensure the minimum required constraints for `set-me-up` to work.
-
-It will install `brew` and `rcm`. Afterwords `rcup` will be executed to `symlink` the dotfiles from the `.dotfiles/tag-smu` folder into your home directory.
-
-It will also create the [local settings](#local-settings) files such as `~/.bash.local` or `~/.fish.local` if they haven't already been created. These files are used vastly throughout the `smu` provisioning process in order to install and configure other tools, such as [basher](#basher) or [pyenv](#python) for python version management.
-
-This is the only module that is not over-writable via `rcm` tag management because it is always sourced from the `smu` installation directory.
-
-You can use `smu --lsrc` command to show which files will be symlink'ed to your home directory.
-
-The last task that the base module executes is upgrading the outdated `bash` version using `brew`.
-
-Configures `fish` with sane `fish` options and provides you with a list of useful plugins managed via [Fisherman](https://fisherman.github.io).
-
-**⚠️ Note**: _Take a look at the [config.fish](.dotfiles/tag-smu/config/fish/config.fish) for a full overview._
-
-For more on what the base module does, please consult [`base.sh`](.dotfiles/base/base.sh).
-
-#### [create_boot_disk](.dotfiles/modules/create_boot_disk)
-
-This module will allow you to create a MacOS Monterey boot disk for installing MacOS Monetrey.
-
-For more on what the create_boot_disk module does, please consult [`create_boot_disk.sh`](.dotfiles/modules/create_boot_disk/create_boot_disk.sh).
-
-#### [macosupdate](.dotfiles/modules/macosupdate)
-
-Runs the Mac OS updater via the command-line.
-
-Should your system require a system restart due to an `macosupdate` caused update, re-run the `smu` script after rebooting. The update module should be satisfied by the previous run and result in no action.
-
-#### [brew](.dotfiles/modules/brew)
-
-This module will install 'brew', the package manager for Mac OS.
-
-For more on what the brew module does, please consult [`brew.sh`](.dotfiles/modules/brew/brew.sh).
-
-#### [app_store](.dotfiles/modules/app_store)
-
-The app store module installs all Mac OS App Store applications via `mas`.
-
-For more on what the app store module does, please consult the [brewfile](.dotfiles/modules/app_store/brewfile) to get an overview.
-
-#### [casks](.dotfiles/modules/casks)
-
-Installs a multitude of `brew` casks. Check the [brewfile](.dotfiles/modules/casks/brewfile) to get an overview.
-
-#### [formulae](.dotfiles/modules/formulae)
-
-Installs a multitude of `brew` formulae. Check the [brewfile](.dotfiles/modules/formulae/brewfile) to get an overview.
-
-#### [preferences](.dotfiles/modules/preferences)
-
-Sets a bunch of Mac OS settings. The file is based on [`.macos`](https://github.com/mathiasbynens/dotfiles/blob/master/.macos).
-
-⚠️ **Note**: _The `.macos` script **has** been heavily modified from the version provided by [Mathias Bynens](https://github.com/mathiasbynens)._
-**It is highly recommended to work with a copy that is adapted to your needs!**
-
-#### [go](.dotfiles/modules/go)
-
-Installs [goenv](https://github.com/syndbg/goenv) for version management and [dep](https://github.com/golang/dep) for package management. `go` is installed and defined as the global version via `goenv`.
-
-When the terminal module is used, the `go` installation will work-out-of-the-box because the required `goenv` code is already in place.
-
-#### [java](.dotfiles/modules/java)
-
-Installs [sdkman](http://sdkman.io/) to manage all java related packages. `java8`and `java10` are installed via `sdkman`. **java8** will be defined as the global version.
-
-#### [php](.dotfiles/modules/php)
-
-Installs `PHP5`, `PHP7` and [composer](https://getcomposer.org/) for package management via `brew`. `PHP7` will be defined as the global version.
-
-#### [python](.dotfiles/modules/python)
-
-Installs [pyenv](https://github.com/pyenv/pyenv) for version management and [pipenv](https://github.com/pypa/pipenv) for package management. `python2` and `python3` are installed using `pipenv`. `python3` will be defined as the global version.
-
-When the terminal module is used, the `python` installation will work-out-of-the-box because the required `pyenv` code is already in place.
-
-#### [ruby](.dotfiles/modules/ruby)
-
-Installs [rbenv](https://github.com/rbenv/rbenv) for version management and [bundler](http://bundler.io/) for package management. `ruby` is installed and defined as the global version via `rbenv`.
-
-When the terminal module is used, the `ruby` installation will work out-of-the-box because the required `rbenv` code is already in place.
-
-#### [rust](.dotfiles/modules/rust)
-
-I primarily install the Rust toolchain because I like to use the `cargo` package manager. I then can gain access to an easy install of [`topgrade`](https://github.com/r-darwish/topgrade) which simply _upgrades all the things_ on your Linux or Mac OS system.
-
-#### [web](.dotfiles/modules/web)
-
-Installs [n](https://github.com/tj/n) for version management, `npm` comes with node for package management. The latest `node` and `npm` versions are installed using `n`.
-
-It also installs a set of globally installed `npm` packages. For a complete list of packages installed please see [`web.sh`](.dotfiles/modules/web/web.sh#120).
-
-### Other components
-
-#### [The smu script](smu)
+### [The smu script](smu)
 
 The `smu` script is wrapped with auto-generated [argbash.io](https://argbash.io/) code. It aims to make the use of `set-me-up` as pleasant as possible.
 It runs the given modules by sourcing the appropriate scripts and ensuring a few constraints: a) always run the base module and b) prioritize the Mac OS updater script over all other modules.
 
-### How does it work?
+#### How does it work?
 
 > Hamid: What's that?
 
@@ -337,4 +229,4 @@ Yes please! This is a GitHub repo. I encourage anyone to contribute. 😃
 
 ## License
 
-The code is available under the [MIT license](LICENSE.txt).
+The code is available under the [MIT license](LICENSE).
