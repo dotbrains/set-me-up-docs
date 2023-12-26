@@ -57,14 +57,14 @@ alias xip="curl -s checkip.dyndns.org | grep -Eo "\[0-9\.]+""
 # see: https://github.com/nivekuil/rip
 
 if command -v rip &>/dev/null; then
-    alias rm "rip"
+    alias rm="rip"
 fi
 
 # Option 2: `trash` - safer alternative to 'rm'
 # see: https://github.com/andreafrancia/trash-cli
 
 if command -v trash &>/dev/null; then
-    alias rm "trash"
+    alias rm="trash"
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
