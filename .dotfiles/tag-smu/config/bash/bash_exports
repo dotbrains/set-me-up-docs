@@ -46,8 +46,11 @@ export LC_ALL="en_US.UTF-8"
 
 # Use custom `less` colors for `man` pages.
 
-export LESS_TERMCAP_md="$(tput bold 2> /dev/null; tput setaf 2 2> /dev/null)"
-export LESS_TERMCAP_me="$(tput sgr0 2> /dev/null)"
+export LESS_TERMCAP_md="$(
+	tput bold 2>/dev/null
+	tput setaf 2 2>/dev/null
+)"
+export LESS_TERMCAP_me="$(tput sgr0 2>/dev/null)"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -90,7 +93,7 @@ export LS_COLORS='no=00:fi=00:di=01;31:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 # Fixes "I INSTALLED GEMS WITH --user-install AND THEIR COMMANDS ARE NOT AVAILABLE"
 # see: https://guides.rubygems.org/faqs/#user-install
 
-if command -v gem &> /dev/null; then
+if command -v gem &>/dev/null; then
 	if [ -d "$(gem environment gemdir)/bin" ]; then
 		export PATH="$(gem environment gemdir)/bin:$PATH"
 	fi
@@ -144,6 +147,11 @@ export BAT_THEME="Nord"
 
 if [ -d "$HOME/set-me-up" ]; then
 	export PATH="$HOME/set-me-up:$PATH"
+fi
+
+# Add ~/set-me-up/set-me-up-installer to $PATH
+if [ -d "$HOME/set-me-up/set-me-up-installer" ]; then
+	export PATH="$HOME/set-me-up/set-me-up-installer:$PATH"
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
