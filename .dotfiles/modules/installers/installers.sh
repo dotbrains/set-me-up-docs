@@ -11,8 +11,8 @@ declare current_dir &&
 
 main() {
 
-    install_dmg_from_URL "https://updates.topnotch.app/TopNotch-latest.zip"
-    install_app_from_URL "https://www.withmarko.com/s/OneMenu260.zip"
+    install_from_URL "https://updates.topnotch.app/TopNotch-latest.zip"
+    install_from_URL "https://www.withmarko.com/s/OneMenu260.zip"
 
 }
 
