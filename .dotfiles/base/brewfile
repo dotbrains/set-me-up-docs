@@ -92,6 +92,9 @@ brew "lazydocker"
 # Security
 brew "maliceio/tap/malice"
 
+# Music
+brew "spotify-tui"
+
 # Misc.
 brew "shellcheck"
 brew "killport"
