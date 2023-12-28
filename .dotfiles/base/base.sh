@@ -170,6 +170,12 @@ main() {
 
     fish -c "printf \"y\n\" | fish_config theme save \"Nord\""
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Configure tiling window manager (yabai) and hotkey daemon (skhd)
+
+    bash "${SMU_PATH}"/.dotfiles/modules/tiling/tiling.sh
+
 }
 
 main
