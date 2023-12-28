@@ -52,7 +52,6 @@ cask "raycast"
 cask "betterdisplay"
 cask "contexts"
 cask "topnotch"
-cask "hyperdock"
 
 # Media players
 cask "iina"
