@@ -66,6 +66,8 @@ brew "tree"
 brew "rename"
 brew "piknik"
 brew "rm-improved"
+brew "ripgrep"
+brew "fd"
 
 # Compression utilities
 brew "p7zip"
