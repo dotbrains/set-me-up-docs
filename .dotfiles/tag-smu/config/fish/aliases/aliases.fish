@@ -59,12 +59,12 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Better aliases for nvim
+# Better aliases for editing files.
 
-function nvim --description "Open nvim at a specific path or current path"
+function e --description "Open editor at a specific path or current path"
     # Check if path is provided
     if [ -z $argv[1] ]
-        nvim -- # open nvim
+        $EDITOR -- # open editor at current path
         return 0
     end
 
@@ -77,7 +77,7 @@ function nvim --description "Open nvim at a specific path or current path"
     # - - - - - - - - - - - - - - - - - - - - - - - -
 
     cd $argv[1] # cd to the path
-    nvim -- # open nvim
+    $EDITOR -- # open editor at the path
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

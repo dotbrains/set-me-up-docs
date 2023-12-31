@@ -61,3 +61,9 @@ set DOTFILES $HOME/"set-me-up"
 # Change spacefish char
 # see: https://spacefish.matchai.me/docs/Options.html#char
 set SPACEFISH_CHAR_SYMBOL "\$"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Configure Neovim as default editor
+
+set EDITOR "nvim"
