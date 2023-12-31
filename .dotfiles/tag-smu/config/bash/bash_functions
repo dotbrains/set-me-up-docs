@@ -4,6 +4,27 @@
 # Section: General #
 #------------------#
 
+# Label: Editor
+# Description: Open file in default editor.
+# Parameters: $1 (optional) - The file path.
+e() {
+  if [ -z "$1" ]; then
+    $EDITOR -- # Open editor at current path
+    return 0
+  fi
+
+  # Check if the path exists
+  if [ ! -e "$1" ]; then
+    printf "%s\n" "ERROR: File does not exist."
+    return 1
+  fi
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd "$(dirname "$1")" || return 1 # cd to the path
+  $EDITOR --                       # Open editor at the path
+}
+
 # Label: Tab to Space
 # Description: Convert file from tab to space indendation.
 # Parameters: $1 (required) - The file to convert, $2 (optional) - The number of spaces, default: 2.
@@ -15,11 +36,14 @@ t2s() {
   fi
 
   if [[ "$1" ]]; then
-    local temp_file=$(mktemp -t tabs_to_spaces) || { printf "\n%s\n" "ERROR: Unable to create temporary file."; return; }
-    expand -t "$number_of_spaces" "$1" > "$temp_file"
-    cat "$temp_file" > "$1"
+    local temp_file=$(mktemp -t tabs_to_spaces) || {
+      printf "\n%s\n" "ERROR: Unable to create temporary file."
+      return
+    }
+    expand -t "$number_of_spaces" "$1" >"$temp_file"
+    cat "$temp_file" >"$1"
     printf "%s\n" "Converted: $1."
-    rm -f "$temp_file";
+    rm -f "$temp_file"
   else
     printf "%s\n" "ERROR: File must be supplied."
     return 1
@@ -41,57 +65,57 @@ cype() {
 # Description: Update environment with latest software.
 # Updates Linux apps, brew, npm, fish, fisher, omf, pip, pip3 and their installed packages.
 function u() {
-   sudo apt update
-   sudo apt upgrade -y
-   sudo apt dist-upgrade -y
-   sudo apt full-upgrade -y
-   sudo apt autoremove -y
-   sudo apt clean
+  sudo apt update
+  sudo apt upgrade -y
+  sudo apt dist-upgrade -y
+  sudo apt full-upgrade -y
+  sudo apt autoremove -y
+  sudo apt clean
 
-    if command -v "brew" &> /dev/null; then
-        brew update
-        brew upgrade
-    fi
+  if command -v "brew" &>/dev/null; then
+    brew update
+    brew upgrade
+  fi
 
-    if command -v "basher" &> /dev/null; then
-        basher update
-    fi
+  if command -v "basher" &>/dev/null; then
+    basher update
+  fi
 
-	if command -v "fish" &> /dev/null; then
-		fish -c "type -q fisher && \
+  if command -v "fish" &>/dev/null; then
+    fish -c "type -q fisher && \
 			fisher && \
 			fisher self-update"
 
-		fish -c "type -q omf && \
+    fish -c "type -q omf && \
 			omf update"
 
-		fish -c "fish_update_completions"
-	fi
+    fish -c "fish_update_completions"
+  fi
 
-    if command -v "npm" &> /dev/null; then
-        sudo npm i -g npm@latest
+  if command -v "npm" &>/dev/null; then
+    sudo npm i -g npm@latest
 
-        if command -v "npm-check" &> /dev/null; then
-            npm-check --global --update-all
-        fi
+    if command -v "npm-check" &>/dev/null; then
+      npm-check --global --update-all
     fi
+  fi
 
-    if command -v "pip3" &> /dev/null; then
-        pip3 install -U pip
+  if command -v "pip3" &>/dev/null; then
+    pip3 install -U pip
+  fi
+
+  if command -v "pip" &>/dev/null; then
+    pip install --quiet --user --upgrade pip
+    pip install --quiet --user --upgrade setuptools
+
+    if command -v "pip-review" &>/dev/null; then
+      pip-review -a
     fi
+  fi
 
-    if command -v "pip" &> /dev/null; then
-        pip install --quiet --user --upgrade pip
-        pip install --quiet --user --upgrade setuptools
-
-		if command -v "pip-review" &> /dev/null; then
-        	pip-review -a
-    	fi
-    fi
-
-    if [[ -d "$HOME/.vim/plugins/Vundle.vim" ]]; then
-        vim +PluginUpdate +qall
-    fi
+  if [[ -d "$HOME/.vim/plugins/Vundle.vim" ]]; then
+    vim +PluginUpdate +qall
+  fi
 }
 
 # Label: ISO
@@ -128,7 +152,7 @@ kilp() {
 # Bash: Kill Vim when “Vim: Warning: Output not to a terminal”
 # see: https://stackoverflow.com/a/46432233/5290011
 vim() {
-  [ -t 1 ] && \
+  [ -t 1 ] &&
     command vim "$@"
 }
 
@@ -140,44 +164,44 @@ vim() {
 #   ghf {command}
 #  Execute {command-number} after a call to ghf
 #   !! {command-number}
-function latest-history { history | tail -n 50 ; }
-function grepped-history { history | grep "$1" ; }
-function chop-first-column { awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}' ; }
-function add-line-numbers { awk '{print NR " " $0}' ; }
-function top-ten { sort | uniq -c | sort -r | head -n 10 ; }
-function unique-history { chop-first-column | top-ten | chop-first-column | add-line-numbers ; }
+function latest-history { history | tail -n 50; }
+function grepped-history { history | grep "$1"; }
+function chop-first-column { awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}'; }
+function add-line-numbers { awk '{print NR " " $0}'; }
+function top-ten { sort | uniq -c | sort -r | head -n 10; }
+function unique-history { chop-first-column | top-ten | chop-first-column | add-line-numbers; }
 function ghf {
   if [ $# -eq 0 ]; then latest-history | unique-history; fi
   if [ $# -eq 1 ]; then grepped-history "$1" | unique-history; fi
   if [ $# -eq 2 ]; then
-    grepped-history "$1" | unique-history | grep ^"$2" | chop-first-column;
+    grepped-history "$1" | unique-history | grep ^"$2" | chop-first-column
   fi
 }
 
 # Search for text within the current directory.
 qt() {
-    grep -ir --color=always "$*" --exclude-dir=".git" --exclude-dir="node_modules" . | less -RX
-    #     │└─ search all files under each directory, recursively
-    #     └─ ignore case
+  grep -ir --color=always "$*" --exclude-dir=".git" --exclude-dir="node_modules" . | less -RX
+  #     │└─ search all files under each directory, recursively
+  #     └─ ignore case
 }
 
 # Create new directories and enter the first one.
 mkd() {
-    if [ -n "$*" ]; then
+  if [ -n "$*" ]; then
 
-        mkdir -p "$@"
-        #      └─ make parent directories if needed
+    mkdir -p "$@"
+    #      └─ make parent directories if needed
 
-        cd "$@" \
-            || exit 1
+    cd "$@" ||
+      exit 1
 
-    fi
+  fi
 }
 
 # Human readable file size
 # (because `du -h` doesn't cut it for me).
 hrfs() {
-    printf "%s" "$1" |
+  printf "%s" "$1" |
     awk '{
             i = 1;
             split("B KB MB GB TB PB EB ZB YB WTFB", v);
@@ -200,138 +224,138 @@ hrfs() {
             }
         }' |
     sed -e ":l" \
-        -e "s/\([0-9]\)\([0-9]\{3\}\)/\1,\2/; t l"
-    #    └─ add thousands separator
-    #       (changes "1023.2 KB" to "1,023.2 KB")
+      -e "s/\([0-9]\)\([0-9]\{3\}\)/\1,\2/; t l"
+  #    └─ add thousands separator
+  #       (changes "1023.2 KB" to "1,023.2 KB")
 }
 
 # Get gzip information (gzipped file size + reduction size).
 gz() {
-    declare -i GZIPPED_SIZE=0
-    declare -i ORIGINAL_SIZE=0
+  declare -i GZIPPED_SIZE=0
+  declare -i ORIGINAL_SIZE=0
 
-    if [ -f "$1" ]; then
-        if [ -s "$1" ]; then
+  if [ -f "$1" ]; then
+    if [ -s "$1" ]; then
 
-            ORIGINAL_SIZE=$( wc -c < "$1" )
-            printf "\n original size:   %12s\n" "$(hrfs "$ORIGINAL_SIZE")"
+      ORIGINAL_SIZE=$(wc -c <"$1")
+      printf "\n original size:   %12s\n" "$(hrfs "$ORIGINAL_SIZE")"
 
-            GZIPPED_SIZE=$( gzip -c "$1" | wc -c )
-            printf " gzipped size:    %12s\n" "$(hrfs "$GZIPPED_SIZE")"
+      GZIPPED_SIZE=$(gzip -c "$1" | wc -c)
+      printf " gzipped size:    %12s\n" "$(hrfs "$GZIPPED_SIZE")"
 
-            printf " ─────────────────────────────\n"
-            printf " reduction:       %12s [%s%%]\n\n" \
-                        "$( hrfs $((ORIGINAL_SIZE - GZIPPED_SIZE)) )" \
-                        "$( printf "%s" "$ORIGINAL_SIZE $GZIPPED_SIZE" | \
-                            awk '{ printf "%.1f", 100 - $2 * 100 / $1 }' | \
-                            sed -e "s/0*$//;s/\.$//" )"
-                            #              └─ remove tailing zeros
+      printf " ─────────────────────────────\n"
+      printf " reduction:       %12s [%s%%]\n\n" \
+        "$(hrfs $((ORIGINAL_SIZE - GZIPPED_SIZE)))" \
+        "$(printf "%s" "$ORIGINAL_SIZE $GZIPPED_SIZE" |
+          awk '{ printf "%.1f", 100 - $2 * 100 / $1 }' |
+          sed -e "s/0*$//;s/\.$//")"
+      #              └─ remove tailing zeros
 
-        else
-            printf "\"%s\" is empty.\n" "$1"
-        fi
     else
-        printf "\"%s\" is not a file.\n" "$1"
+      printf "\"%s\" is empty.\n" "$1"
     fi
+  else
+    printf "\"%s\" is not a file.\n" "$1"
+  fi
 }
 
 # extract any type of compressed file
 function extract {
-    echo Extracting "$1" ...
-    if [ -f "$1" ] ; then
-        case "$1" in
-            *.tar.bz2)   tar xjf "$1"  ;;
-            *.tar.gz)    tar xzf "$1"  ;;
-            *.bz2)       bunzip2 "$1"  ;;
-            *.rar)       rar x "$1"    ;;
-            *.gz)        gunzip "$1"   ;;
-            *.tar)       tar xf "$1"  ;;
-            *.tbz2)      tar xjf "$1"  ;;
-            *.tgz)       tar xzf "$1"  ;;
-            *.zip)       unzip "$1"   ;;
-            *.Z)         uncompress "$1"  ;;
-            *.7z)        7z x "$1"  ;;
-            *)        echo "'$1' cannot be extracted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
-    fi
+  echo Extracting "$1" ...
+  if [ -f "$1" ]; then
+    case "$1" in
+    *.tar.bz2) tar xjf "$1" ;;
+    *.tar.gz) tar xzf "$1" ;;
+    *.bz2) bunzip2 "$1" ;;
+    *.rar) rar x "$1" ;;
+    *.gz) gunzip "$1" ;;
+    *.tar) tar xf "$1" ;;
+    *.tbz2) tar xjf "$1" ;;
+    *.tgz) tar xzf "$1" ;;
+    *.zip) unzip "$1" ;;
+    *.Z) uncompress "$1" ;;
+    *.7z) 7z x "$1" ;;
+    *) echo "'$1' cannot be extracted via extract()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
 }
 
 # Delete files that match a certain pattern from the current directory.
 delete_files() {
-    local q="${1:-*.DS_Store}"
+  local q="${1:-*.DS_Store}"
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    find . -type f -name "$q" -ls -delete
+  find . -type f -name "$q" -ls -delete
 }
 
 # Create data URI from a file.
 datauri() {
-    local mimeType=""
+  local mimeType=""
 
-    if [ -f "$1" ]; then
-        mimeType=$(file -b --mime-type "$1")
-        #                └─ do not prepend the FILE to the output
+  if [ -f "$1" ]; then
+    mimeType=$(file -b --mime-type "$1")
+    #                └─ do not prepend the FILE to the output
 
-        if [[ $mimeType == text/* ]]; then
-            mimeType="$mimeType;charset=utf-8"
-        fi
-
-        printf "data:%s;base64,%s" \
-                    "$mimeType" \
-                    "$(openssl base64 -in "$1" | tr -d "\n")"
-    else
-        printf "%s is not a file.\n" "$1"
+    if [[ $mimeType == text/* ]]; then
+      mimeType="$mimeType;charset=utf-8"
     fi
+
+    printf "data:%s;base64,%s" \
+      "$mimeType" \
+      "$(openssl base64 -in "$1" | tr -d "\n")"
+  else
+    printf "%s is not a file.\n" "$1"
+  fi
 }
 
 # check if a certain process is running
 function is_running {
-    declare -r PROCESS="$1"
+  declare -r PROCESS="$1"
 
-    if pgrep -f "$PROCESS" > /dev/null; then
-        echo "($PROCESS) is running"
-    else
-        echo "($PROCESS)" "is not running."
-    fi
+  if pgrep -f "$PROCESS" >/dev/null; then
+    echo "($PROCESS) is running"
+  else
+    echo "($PROCESS)" "is not running."
+  fi
 }
 
 # Process phone images.
 ppi() {
-    command -v "convert" &> /dev/null \
-        || exit 0;
+  command -v "convert" &>/dev/null ||
+    exit 0
 
-    declare query="${1:-*.jpg}"
-    declare geometry="${2:-50%}"
+  declare query="${1:-*.jpg}"
+  declare geometry="${2:-50%}"
 
-    for i in $query; do
+  for i in $query; do
 
-        if [[ "$(echo "${i##*.}" | tr '[:upper:]' '[:lower:]')" != "png" ]]; then
-            imgName="${i%.*}.png"
-        else
-            imgName="_${i%.*}.png"
-        fi
+    if [[ "$(echo "${i##*.}" | tr '[:upper:]' '[:lower:]')" != "png" ]]; then
+      imgName="${i%.*}.png"
+    else
+      imgName="_${i%.*}.png"
+    fi
 
-        convert "$i" \
-            -colorspace RGB \
-            +sigmoidal-contrast 11.6933 \
-            -define filter:filter=Sinc \
-            -define filter:window=Jinc \
-            -define filter:lobes=3 \
-            -sigmoidal-contrast 11.6933 \
-            -colorspace sRGB \
-            -background transparent \
-            -gravity center \
-            -resize "$geometry" \
-            +append \
-            "$imgName" \
-        && printf "* %s (%s)\n" \
-            "$imgName" \
-            "$geometry"
+    convert "$i" \
+      -colorspace RGB \
+      +sigmoidal-contrast 11.6933 \
+      -define filter:filter=Sinc \
+      -define filter:window=Jinc \
+      -define filter:lobes=3 \
+      -sigmoidal-contrast 11.6933 \
+      -colorspace sRGB \
+      -background transparent \
+      -gravity center \
+      -resize "$geometry" \
+      +append \
+      "$imgName" &&
+      printf "* %s (%s)\n" \
+        "$imgName" \
+        "$geometry"
 
-    done
+  done
 }
 
 # Label: Print Black on White
@@ -373,29 +397,29 @@ _toggle_total_color() {
 
 # pko <content> : copy <content> to the clipboard
 pko() {
-    if command -v "piknik" &> /dev/null; then
-        echo "$*" | piknik -copy
-    else
-        echo "(piknik) is not installed"
-    fi
+  if command -v "piknik" &>/dev/null; then
+    echo "$*" | piknik -copy
+  else
+    echo "(piknik) is not installed"
+  fi
 }
 
 # pkf <file> : copy the content of <file> to the clipboard
 pkf() {
-    if command -v "piknik" &> /dev/null; then
-        piknik -copy < "$1"
-    else
-        echo "(piknik) is not installed"
-    fi
+  if command -v "piknik" &>/dev/null; then
+    piknik -copy <"$1"
+  else
+    echo "(piknik) is not installed"
+  fi
 }
 
 # pkfr [<dir>] : send a whole directory to the clipboard, as a tar archive
 pkfr() {
-    if command -v "piknik" &> /dev/null; then
-        tar czpvf - "${1:-.}" | piknik -copy
-    else
-        echo "(piknik) is not installed"
-    fi
+  if command -v "piknik" &>/dev/null; then
+    tar czpvf - "${1:-.}" | piknik -copy
+  else
+    echo "(piknik) is not installed"
+  fi
 }
 
 #----------------------------------------------#
@@ -403,23 +427,23 @@ pkfr() {
 #----------------------------------------------#
 
 transfer() {
-    if [ $# -eq 0 ]; then
-        echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md";
-        return 1;
-    fi
+  if [ $# -eq 0 ]; then
+    echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"
+    return 1
+  fi
 
-    tmpfile=$( mktemp -t transferXXX );
+  tmpfile=$(mktemp -t transferXXX)
 
-    if tty -s; then
-        basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g');
-        curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> "$tmpfile";
-    else
-        curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> "$tmpfile" ;
-    fi;
+  if tty -s; then
+    basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
+    curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >>"$tmpfile"
+  else
+    curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >>"$tmpfile"
+  fi
 
-    cat "$tmpfile";
+  cat "$tmpfile"
 
-    rm -f "$tmpfile";
+  rm -f "$tmpfile"
 }
 
 #-----------------------------------------------------------#
@@ -497,7 +521,7 @@ sslc() {
     return 1
   fi
 
-cat > "$name.cnf" <<-EOF
+  cat >"$name.cnf" <<-EOF
   [req]
   distinguished_name = req_distinguished_name
   x509_extensions = v3_req
@@ -536,10 +560,19 @@ EOF
 # Parameters: $1 (required) - The URL.
 curli() {
   if [[ "$1" ]]; then
-    local file=$(mktemp -t suspicious_curl_file) || { printf "%s\n" "ERROR: Unable to create temporary file."; return; }
-    curl --location --fail --silent --show-error "$1" > "$file" || { printf "%s\n" "Failed to curl file."; return; }
-    $EDITOR --wait "$file" || { printf "Unable to open temporary curl file.\n"; return; }
-    rm -f "$file";
+    local file=$(mktemp -t suspicious_curl_file) || {
+      printf "%s\n" "ERROR: Unable to create temporary file."
+      return
+    }
+    curl --location --fail --silent --show-error "$1" >"$file" || {
+      printf "%s\n" "Failed to curl file."
+      return
+    }
+    $EDITOR --wait "$file" || {
+      printf "Unable to open temporary curl file.\n"
+      return
+    }
+    rm -f "$file"
   else
     printf "%s\n" "ERROR: URL must be supplied."
     return 1
@@ -553,17 +586,17 @@ curld() {
   local url="$1"
 
   printf -v diagnostics "%s\n" "\n" \
-                               "HTTP Version:   %{http_version}" \
-                               "HTTP Status:    %{http_code}" \
-                               "Content Type:   %{content_type}" \
-                               "DNS Lookup:     %{time_namelookup} seconds" \
-                               "Connect:        %{time_connect} seconds" \
-                               "App Connect:    %{time_appconnect} seconds" \
-                               "Pre-Transfer:   %{time_pretransfer} seconds" \
-                               "Start Transfer: %{time_starttransfer} seconds" \
-                               "Speed:          %{speed_upload}↑ %{speed_download}↓ bytes/second" \
-                               "Total Time:     %{time_total} seconds" \
-                               "Total Size:     %{size_download} bytes"
+    "HTTP Version:   %{http_version}" \
+    "HTTP Status:    %{http_code}" \
+    "Content Type:   %{content_type}" \
+    "DNS Lookup:     %{time_namelookup} seconds" \
+    "Connect:        %{time_connect} seconds" \
+    "App Connect:    %{time_appconnect} seconds" \
+    "Pre-Transfer:   %{time_pretransfer} seconds" \
+    "Start Transfer: %{time_starttransfer} seconds" \
+    "Speed:          %{speed_upload}↑ %{speed_download}↓ bytes/second" \
+    "Total Time:     %{time_total} seconds" \
+    "Total Size:     %{size_download} bytes"
 
   curl --write-out "$diagnostics" --url "$url"
 }
@@ -683,13 +716,13 @@ gstatsa() {
 # Label: Git Churn
 # Description: Answer commit churn for project files (sorted highest to lowest).
 ghurn() {
-  git log --all --find-renames --find-copies --name-only --format='format:' "$@" | \
-    sort | \
-    grep --invert-match '^$' | \
-    uniq -c | \
-    sort | \
-    awk '{print $1 "\t" $2}' | \
-    sort --general-numeric-sort --reverse | \
+  git log --all --find-renames --find-copies --name-only --format='format:' "$@" |
+    sort |
+    grep --invert-match '^$' |
+    uniq -c |
+    sort |
+    awk '{print $1 "\t" $2}' |
+    sort --general-numeric-sort --reverse |
     more
 }
 
@@ -836,9 +869,9 @@ guthorc() {
     return 1
   fi
 
-  git log --author="$author" --pretty=tformat: --numstat | \
-  awk -v author="$author" \
-  'BEGIN {
+  git log --author="$author" --pretty=tformat: --numstat |
+    awk -v author="$author" \
+      'BEGIN {
     initial_pattern = "\033[1;34m%s\033[0m: Added: \033[0;31m%s\033[0m, Removed: \033[0;32m%s\033[0m, "
     positive_pattern = initial_pattern "Total: \033[0;32m%s\033[0m.\n";
     neutral_pattern = initial_pattern "Total: %s.\n";
@@ -926,12 +959,14 @@ gup() {
     read -p "View Diff (y = yes, n = no, q = quit)? " response
 
     case $response in
-      'y')
-        git difftool "$commit"^!;;
-      'n');;
-      'q');;
-      *)
-        printf "%s\n" "ERROR: Invalid option.";;
+    'y')
+      git difftool "$commit"^!
+      ;;
+    'n') ;;
+    'q') ;;
+    *)
+      printf "%s\n" "ERROR: Invalid option."
+      ;;
     esac
 
     break
@@ -1023,7 +1058,7 @@ gunseta() {
 
         if [[ -d ".git" ]]; then
           # Unset key for current project with error output suppressed.
-          git config --unset "$1" &> /dev/null
+          git config --unset "$1" &>/dev/null
 
           # Print project (cyan).
           printf "\033[36m${project}\033[m: \"$1\" key removed.\n"
@@ -1162,16 +1197,19 @@ gashs() {
 
   if [[ -n "$diff_option" ]]; then
     case "$diff_option" in
-      'd')
-        _process_git_stash "git stash show --patch" "Git Stash Diff Options (select stash to diff)";;
-      't')
-        _process_git_stash "git difftool" "Git Stash Diff Options (select stash to diff)";;
-      *)
-        printf "%s\n\n" "Usage: gashs OPTION"
-        printf "%s\n" "Available options:"
-        printf "%s\n" "  d: Git diff."
-        printf "%s\n" "  t: Git difftool."
-        return;;
+    'd')
+      _process_git_stash "git stash show --patch" "Git Stash Diff Options (select stash to diff)"
+      ;;
+    't')
+      _process_git_stash "git difftool" "Git Stash Diff Options (select stash to diff)"
+      ;;
+    *)
+      printf "%s\n\n" "Usage: gashs OPTION"
+      printf "%s\n" "Available options:"
+      printf "%s\n" "  d: Git diff."
+      printf "%s\n" "  t: Git difftool."
+      return
+      ;;
     esac
   else
     _process_git_stash "_git_show_details" "Git Stash Show Options (select stash to show)"
@@ -1415,7 +1453,7 @@ gpa() {
 grbi() {
   local number_pattern="^[0-9]+$"
   local label_pattern="^[0-9a-zA-Z\_-]+$"
-  local parent_sha=$(git log --pretty=format:%h -n 1 "$(_git_branch_sha)^" 2> /dev/null || :)
+  local parent_sha=$(git log --pretty=format:%h -n 1 "$(_git_branch_sha)^" 2>/dev/null || :)
   local value="${1:-$parent_sha}"
 
   if [[ "$value" =~ $number_pattern ]]; then
@@ -1702,10 +1740,10 @@ gbdm() {
   fi
 
   # Remote
-  git branch --remotes --merged | \
-    ag "origin" | \
-    ag --invert-match "master" | \
-    sed 's/origin\///' | \
+  git branch --remotes --merged |
+    ag "origin" |
+    ag --invert-match "master" |
+    sed 's/origin\///' |
     xargs -n 1 git push --delete origin
 
   # Local
@@ -1793,15 +1831,19 @@ gwa() {
   fi
 
   case $option in
-    'd')
-      git worktree add --detach "$worktree_path" HEAD;;
-    'r')
-      git worktree add -b "$name" "$worktree_path" origin/"$name";;
-    'l')
-      git worktree add -b "$name" "$worktree_path" master;;
-    *)
-      printf "%s\n" "ERROR: Invalid worktree option: Use: (d)etach, (r)emote, or (l)ocal."
-      return 1;;
+  'd')
+    git worktree add --detach "$worktree_path" HEAD
+    ;;
+  'r')
+    git worktree add -b "$name" "$worktree_path" origin/"$name"
+    ;;
+  'l')
+    git worktree add -b "$name" "$worktree_path" master
+    ;;
+  *)
+    printf "%s\n" "ERROR: Invalid worktree option: Use: (d)etach, (r)emote, or (l)ocal."
+    return 1
+    ;;
   esac
 
   printf "%s\n" "Syncing project files..."
@@ -1963,7 +2005,7 @@ glear() {
     git reflog expire --expire=now --all
 
     printf "\n%s\n" "Clearing commit message file..."
-    echo > .git/COMMIT_EDITMSG
+    echo >.git/COMMIT_EDITMSG
 
     printf "\n%s\n" "Clearing sample Git Hooks..."
     rm -rf .git/hooks/*.sample
@@ -2199,13 +2241,13 @@ _git_branch_list() {
   local format=${1:-"%(refname) %(color:blue bold)%(authorname) %(color:green)(%(authordate:relative))"}
 
   git for-each-ref --sort="authordate:iso8601" \
-                   --sort="authorname" \
-                   --color \
-                   --format="$format" refs/heads refs/remotes/origin | \
-                   sed '/HEAD/d' | \
-                   sed 's/refs\/heads\///g' | \
-                   sed 's/refs\/remotes\/origin\///g' | \
-                   uniq
+    --sort="authorname" \
+    --color \
+    --format="$format" refs/heads refs/remotes/origin |
+    sed '/HEAD/d' |
+    sed 's/refs\/heads\///g' |
+    sed 's/refs\/remotes\/origin\///g' |
+    uniq
 }
 
 # Label: Git Stash Count
@@ -2338,10 +2380,10 @@ _gh_url() {
 _gh_pr_list() {
   local format=${1:-"%(refname) %(color:yellow)%(refname)%(color:reset) %(subject) %(color:blue bold)%(authorname) %(color:green)(%(committerdate:relative))"}
 
-  git for-each-ref --color --format="$format" refs/remotes/pull_requests | \
-                   sed 's/refs\/remotes\/pull_requests\///g' | \
-                   sort --numeric-sort | \
-                   cut -d' ' -f2-
+  git for-each-ref --color --format="$format" refs/remotes/pull_requests |
+    sed 's/refs\/remotes\/pull_requests\///g' |
+    sort --numeric-sort |
+    cut -d' ' -f2-
 }
 
 # Label: Process GitHub Commit Option
@@ -2379,14 +2421,18 @@ _process_gh_file_option() {
 # Parameters: $1 (optional) - The option.
 _process_gh_branch_option() {
   case $1 in
-    'c')
-      open "$(_gh_url)/tree/$(_git_branch_name)";;
-    'd')
-      open "$(_gh_url)/compare/$(_git_branch_name)";;
-    'r')
-      open "$(_gh_url)/compare/$(_git_branch_name)?expand=1";;
-    *)
-      open "$(_gh_url)/branches";;
+  'c')
+    open "$(_gh_url)/tree/$(_git_branch_name)"
+    ;;
+  'd')
+    open "$(_gh_url)/compare/$(_git_branch_name)"
+    ;;
+  'r')
+    open "$(_gh_url)/compare/$(_git_branch_name)?expand=1"
+    ;;
+  *)
+    open "$(_gh_url)/branches"
+    ;;
   esac
 }
 
@@ -2427,33 +2473,46 @@ _process_gh_url_option() {
 # Parameters: $1 (optional) - The first option, $2 (optional) - The second option.
 _process_gh_option() {
   case $1 in
-    'o')
-      open $(_gh_url);;
-    'i')
-      open "$(_gh_url)/issues";;
-    'c')
-      _process_gh_commit_option "$2";;
-    'f')
-      _process_gh_file_option "$2" "$3";;
-    'b')
-      _process_gh_branch_option "$2";;
-    't')
-      open "$(_gh_url)/tags";;
-    'r')
-      _process_gh_pull_request_option "$2";;
-    'w')
-      open "$(_gh_url)/wiki";;
-    'p')
-      open "$(_gh_url)/pulse";;
-    'g')
-      open "$(_gh_url)/graphs";;
-    's')
-      open "$(_gh_url)/settings";;
-    'u')
-      _process_gh_url_option "$2";;
-    'q');;
-    *)
-      printf "%s\n" "ERROR: Invalid option.";;
+  'o')
+    open $(_gh_url)
+    ;;
+  'i')
+    open "$(_gh_url)/issues"
+    ;;
+  'c')
+    _process_gh_commit_option "$2"
+    ;;
+  'f')
+    _process_gh_file_option "$2" "$3"
+    ;;
+  'b')
+    _process_gh_branch_option "$2"
+    ;;
+  't')
+    open "$(_gh_url)/tags"
+    ;;
+  'r')
+    _process_gh_pull_request_option "$2"
+    ;;
+  'w')
+    open "$(_gh_url)/wiki"
+    ;;
+  'p')
+    open "$(_gh_url)/pulse"
+    ;;
+  'g')
+    open "$(_gh_url)/graphs"
+    ;;
+  's')
+    open "$(_gh_url)/settings"
+    ;;
+  'u')
+    _process_gh_url_option "$2"
+    ;;
+  'q') ;;
+  *)
+    printf "%s\n" "ERROR: Invalid option."
+    ;;
   esac
 }
 

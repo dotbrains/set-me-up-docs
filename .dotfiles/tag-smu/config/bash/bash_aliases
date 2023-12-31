@@ -10,7 +10,6 @@ alias cd..="cd .."
 alias :q="exit"
 alias c="clear"
 alias ch="history -c && > ~/.bash_history"
-alias e="nvim --"
 alias m="man"
 alias path='printf "%b\n" "${PATH//:/\\n}"'
 alias q="exit"
