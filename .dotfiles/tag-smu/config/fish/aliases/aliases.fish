@@ -7,7 +7,6 @@ alias cd.. "cd .."
 
 alias :q "exit"
 alias c "clear"
-alias e "nvim --"
 alias whois "whois -h whois-servers.net"
 alias m "man"
 alias map "xargs -n1"
@@ -56,6 +55,31 @@ end
 
 function pgrep --description "pgrep a process interactively"
     ps aux | peco | awk "{ print $2 }"
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Better aliases for nvim
+
+alias e "nvim --"
+
+function --description "Open nvim at a specific path"
+    # Check if path is provided
+    if [ -z $argv[1] ]
+        echo "Please provide a path"
+        return 1
+    end
+
+    # Check if the path exists
+    if not test -d $argv[1]
+        echo "($argv[1]) does not exist"
+        return 1
+    end
+
+    # - - - - - - - - - - - - - - - - - - - - - - - -
+
+    cd $argv[1] # cd to the path
+    nvim -- # open nvim
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
