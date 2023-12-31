@@ -61,13 +61,11 @@ end
 
 # Better aliases for nvim
 
-alias e "nvim --"
-
-function --description "Open nvim at a specific path"
+function nvim --description "Open nvim at a specific path"
     # Check if path is provided
     if [ -z $argv[1] ]
-        echo "Please provide a path"
-        return 1
+        nvim -- # open nvim
+        return 0
     end
 
     # Check if the path exists
