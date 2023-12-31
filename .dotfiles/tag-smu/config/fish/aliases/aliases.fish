@@ -61,7 +61,7 @@ end
 
 # Better aliases for nvim
 
-function nvim --description "Open nvim at a specific path"
+function nvim --description "Open nvim at a specific path or current path"
     # Check if path is provided
     if [ -z $argv[1] ]
         nvim -- # open nvim
