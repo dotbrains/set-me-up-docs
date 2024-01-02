@@ -132,6 +132,12 @@ symlink() {
 
 main() {
 
+    if is_debian; then
+        apt_install_from_file "packages"
+    fi
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     bash "${SMU_PATH}"/.dotfiles/modules/brew/brew.sh
 
     if command -v brew &>/dev/null; then
@@ -148,8 +154,10 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    # if is_macos; then
     # No longer needed because zsh is now the default shell.
     # change_default_bash_version
+    # fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
