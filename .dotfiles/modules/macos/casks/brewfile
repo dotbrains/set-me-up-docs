@@ -53,6 +53,7 @@ cask "betterdisplay"
 cask "contexts"
 cask "topnotch"
 cask "rectangle-pro"
+cask "hyperkey"
 
 # Media players
 cask "iina"
