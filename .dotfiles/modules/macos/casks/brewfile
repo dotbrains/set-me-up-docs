@@ -52,6 +52,7 @@ cask "raycast"
 cask "betterdisplay"
 cask "contexts"
 cask "topnotch"
+cask "rectangle-pro"
 
 # Media players
 cask "iina"
