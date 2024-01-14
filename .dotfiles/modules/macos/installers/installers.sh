@@ -20,7 +20,6 @@ main() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     install_from_URL "https://updates.topnotch.app/TopNotch-latest.zip"
-    install_from_URL "https://www.withmarko.com/s/OneMenu260.zip"
 
 }
 
