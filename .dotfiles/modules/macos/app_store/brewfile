@@ -5,3 +5,4 @@ brew "mas"
 mas "CARROT Weather", id: 993487541
 mas "Pure Paste", id: 1611378436
 mas "Notability", id: 360593530
+mas "Filebar", id: 1630856656
