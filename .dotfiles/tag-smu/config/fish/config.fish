@@ -12,19 +12,22 @@ source "$HOME/.fish.local"
 
 # load 'brew' configurations
 
-# Check for Homebrew in the common macOS installation path
-if test -d (brew --prefix 2>/dev/null)
-    # Initialize Homebrew for macOS
-    set BREW_PREFIX (brew --prefix)
-    eval (BREW_PREFIX/bin/brew shellenv)
-# Check for Homebrew in the default Linux installation path
-else if test -d /home/linuxbrew/.linuxbrew
-    # Initialize Homebrew for Linux in the default location
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-# Check for Homebrew in an alternative Linux installation path
-else if test -d /usr/local/Homebrew
-    # Initialize Homebrew for Linux in an alternative location
-    eval "$(/usr/local/Homebrew/bin/brew shellenv)"
+# see: https://docs.brew.sh/Installation
+if test (uname) = "Darwin" # Check if OS is macOS
+    if test -f /opt/homebrew/bin/brew
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    end
+    
+    if test -f /usr/local/bin/brew
+        eval "$(/usr/local/bin/brew shellenv)"
+    end
+end
+
+# see: https://docs.brew.sh/Homebrew-on-Linux
+if test (uname) = "Linux" # Check if OS is Linux
+    if test -d /home/linuxbrew/.linuxbrew
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    end
 end
 
 # bootstrap installation of fisher
