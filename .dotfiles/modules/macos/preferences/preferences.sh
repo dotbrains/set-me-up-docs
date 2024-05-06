@@ -85,6 +85,7 @@ main() {
     ./system/trackpad.sh
     ./system/language_and_region.sh
     ./system/ui_and_ux.sh
+    ./system/security.sh
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
