@@ -26,6 +26,7 @@ Instead of enforcing a certain setup it tries to act as a solid template that is
 		- [Local Settings](#local-settings)
 			- [`~/.bash.local`](#bashlocal)
 			- [`~/.fish.local`](#fishlocal)
+			- [`~/.zsh.local`](#zshlocal)
 	- [Credits](#credits)
 	- [Liability](#liability)
 	- [Contributions](#contributions)
@@ -205,6 +206,27 @@ alias starwars "telnet towel.blinkenlights.nl"
 # Set PATH additions.
 
 set -gx PATH $PATH "$HOME/dotfiles/src/symlinks/.local/bin"
+```
+
+#### `~/.zsh.local`
+
+The `~/.zsh.local` file it will be automatically sourced after
+all the other [`zsh` related files](.dotfiles/tag-smu), thus, allowing
+its content to add to or overwrite the existing aliases, settings,
+PATH, etc.
+
+Here is a very simple example of a `~/.zsh.local` file:
+
+```bash
+# Set local aliases.
+
+alias starwars="telnet towel.blinkenlights.nl"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Set PATH additions.
+
+export $PATH="$HOME/dotfiles/src/symlinks/.local/bin:$PATH"
 ```
 
 ## Credits
