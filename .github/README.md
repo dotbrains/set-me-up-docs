@@ -169,7 +169,7 @@ requirements by using the following files:
 #### `~/.bash.local`
 
 The `~/.bash.local` file it will be automatically sourced after
-all the other [`bash` related files](/.dotfiles/tag-smu), thus, allowing
+all the other [`bash` related files](/.dotfiles/tag-smu/config), thus, allowing
 its content to add to or overwrite the existing aliases, settings,
 PATH, etc.
 
@@ -190,7 +190,7 @@ export $PATH="$HOME/dotfiles/src/symlinks/.local/bin:$PATH"
 #### `~/.fish.local`
 
 The `~/.fish.local` file it will be automatically sourced after
-all the other [`fish` related files](/.dotfiles/tag-smu/config/fish), thus, allowing
+all the other [`fish` related files](/.dotfiles/tag-smu/config), thus, allowing
 its content to add to or overwrite the existing aliases, settings,
 PATH, etc.
 
@@ -211,7 +211,7 @@ set -gx PATH $PATH "$HOME/dotfiles/src/symlinks/.local/bin"
 #### `~/.zsh.local`
 
 The `~/.zsh.local` file it will be automatically sourced after
-all the other [`zsh` related files](/.dotfiles/tag-smu), thus, allowing
+all the other [`zsh` related files](/.dotfiles/tag-smu/config), thus, allowing
 its content to add to or overwrite the existing aliases, settings,
 PATH, etc.
 
