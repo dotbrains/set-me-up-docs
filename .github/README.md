@@ -13,7 +13,7 @@ Instead of enforcing a certain setup it tries to act as a solid template that is
 	- [Table of Contents](#table-of-contents)
 	- [Usage](#usage)
 		- [Use the blueprint](#use-the-blueprint)
-		- [Obtaining `set-me-up`](#obtaining-set-me-up)
+		- [Obtaining `set-me-up`](#obtaining-set-me-up-via-set-me-up-installer)
 		- [Running `set-me-up`](#running-set-me-up)
 		- [Customize `set-me-up`](#customize-set-me-up)
 			- [Using hooks](#using-hooks)
