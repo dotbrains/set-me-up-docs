@@ -118,14 +118,14 @@ Use the `smu --lsrc` command to show how `rcm` would manage your dotfiles and to
 - You can add new dotfiles and modules to your tag. `rcm` symlinks all files if finds.
 - File contents are not merged between tags, your file simply has a higher precedence and will be used instead.
 
-Use `smu --rcup` command to symlink the dotfiles using [`rcup`](http://thoughtbot.github.io/rcm/rcup.1.html) contained within [`.dotfiles`](.dotfiles) using [`.rcrc`](.dotfiles/rcrc).
+Use `smu --rcup` command to symlink the dotfiles using [`rcup`](http://thoughtbot.github.io/rcm/rcup.1.html) contained within [`.dotfiles`](/.dotfiles) using [`.rcrc`](/.dotfiles/rcrc).
 
-Additionally, you can use `smu --rcdn` command to remove files listed within [`.rcrc`](.dotfiles/rcrc) that were symlinked via `rcup` from [`.dotfiles`](.dotfiles).
+Additionally, you can use `smu --rcdn` command to remove files listed within [`.rcrc`](/.dotfiles/rcrc) that were symlinked via `rcup` from [`.dotfiles`](/.dotfiles).
 
 ##### Creating a custom tag
 
-1. Create a new `rcm` tag, by creating a new folder prefixed `tag-` inside the [`.dotfiles`](.dotfiles) directory: `.dotfiles/tag-my`
-2. Add your tag to the [`.rcrc`](.dotfiles/rcrc) configuration file in front of the currently defined tags. Resulting in `TAGS="my smu"`
+1. Create a new `rcm` tag, by creating a new folder prefixed `tag-` inside the [`.dotfiles`](/.dotfiles) directory: `.dotfiles/tag-my`
+2. Add your tag to the [`.rcrc`](/.dotfiles/rcrc) configuration file in front of the currently defined tags. Resulting in `TAGS="my smu"`
 
 ### Wait! I am confused 😕
 
@@ -169,7 +169,7 @@ requirements by using the following files:
 #### `~/.bash.local`
 
 The `~/.bash.local` file it will be automatically sourced after
-all the other [`bash` related files](.dotfiles/tag-smu), thus, allowing
+all the other [`bash` related files](/.dotfiles/tag-smu), thus, allowing
 its content to add to or overwrite the existing aliases, settings,
 PATH, etc.
 
