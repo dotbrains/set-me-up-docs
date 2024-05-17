@@ -135,7 +135,7 @@ For more on using the `smu` script, simply run `smu --help`.
 
 ## A closer look 🤓
 
-### [The smu script](smu)
+### [The smu script](https://github.com/nicholasadamou/set-me-up-installer/blob/main/smu)
 
 The `smu` script is wrapped with auto-generated [argbash.io](https://argbash.io/) code. It aims to make the use of `set-me-up` as pleasant as possible.
 It runs the given modules by sourcing the appropriate scripts and ensuring a few constraints: a) always run the base module and b) prioritize the Mac OS updater script over all other modules.
