@@ -13,3 +13,12 @@
 [submodule "set-me-up-installer"]
 	path = set-me-up-installer
 	url = https://github.com/nicholasadamou/set-me-up-installer
+[submodule ".dotfiles/tag-smu/config/zsh"]
+	path = .dotfiles/tag-smu/config/zsh
+	url = https://github.com/nicholasadamou/zsh.git
+[submodule ".dotfiles/tag-smu/config/bash"]
+	path = .dotfiles/tag-smu/config/bash
+	url = https://github.com/nicholasadamou/bash.git
+[submodule ".dotfiles/tag-smu/config/fish"]
+	path = .dotfiles/tag-smu/config/fish
+	url = https://github.com/nicholasadamou/fish.git
