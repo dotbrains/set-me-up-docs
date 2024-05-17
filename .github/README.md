@@ -137,8 +137,7 @@ For more on using the `smu` script, simply run `smu --help`.
 
 ### [The smu script](https://github.com/nicholasadamou/set-me-up-installer/blob/main/smu)
 
-The `smu` script is wrapped with auto-generated [argbash.io](https://argbash.io/) code. It aims to make the use of `set-me-up` as pleasant as possible.
-It runs the given modules by sourcing the appropriate scripts and ensuring a few constraints: a) always run the base module and b) prioritize the Mac OS updater script over all other modules.
+The `smu` script is part of the `set-me-up` toolkit, designed to automate the setup of a development environment on macOS or Debian-based Linux systems. It begins by sourcing utility functions and defining key paths for the installation process. The script detects the operating system and creates necessary configuration files if they do not already exist. It then checks for the presence of essential tools like Homebrew, Python 3, RCM, and Git, installing them if necessary. The script also ensures that Homebrew is properly initialized and its paths are correctly set. Finally, it pulls the latest updates from the `set-me-up-installer` repository and runs the [`smu.py`](https://github.com/nicholasadamou/set-me-up-installer/blob/main/smu.py) script to complete the setup process. The `smu` script streamlines the configuration of a consistent development environment, saving time and reducing the potential for errors.
 
 #### How does it work?
 
