@@ -38,7 +38,7 @@ No matter how you obtain `smu`, as a sane developer you should take a look at th
 
 ### Use the blueprint
 
-The recommended way to obtain `set-me-up` is by forking the [blueprint setup](https://github.com/nicholasadamou/set-me-up-blueprint), which is its own lean repo that comes pre-configured with a [tag](#using-rcm) and module.
+The recommended way to obtain `set-me-up` is by forking the [blueprint setup](https://github.com/dotbrains/set-me-up-blueprint), which is its own lean repo that comes pre-configured with a [tag](#using-rcm) and module.
 
 You might wonder why not work directly with this repo? Having a remote and external repo for your dotfiles and `set-me-up` customizations has a few advantages:
 
@@ -49,7 +49,7 @@ You might wonder why not work directly with this repo? Having a remote and exter
 - The referenced `set-me-up` version is fixated in the installer, ensuring that your setup will work even when the master advances. Advancing to the next version is easy by bumping the version in the installer.
 - Its fancy, at least I think so 😉.
 
-### Obtaining `set-me-up` via [`set-me-up` installer](https://github.com/nicholasadamou/set-me-up-installer)
+### Obtaining `set-me-up` via [`set-me-up` installer](https://github.com/dotbrains/set-me-up-installer)
 
 To start, your default shell must be set to `bash` prior to executing the `install` snippet for the first time. This is because on newer versions of Mac OS, the default shell is `zsh` instead of `bash`. To change your default shell, run the following command in your console.
 
@@ -60,17 +60,17 @@ sudo chsh -s $(which bash) $(whoami)
 Once the default shell is `bash`, close and reopen the terminal window. Then, run the following command in your console.
 
 (⚠️ **DO NOT** run the `install` snippet if you don't fully
-understand [what it does](https://raw.githubusercontent.com/nicholasadamou/set-me-up-installer/main/install.sh). Seriously, **DON'T**!)
+understand [what it does](https://raw.githubusercontent.com/dotbrains/set-me-up-installer/main/install.sh). Seriously, **DON'T**!)
 
 ```bash
-bash <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/set-me-up-installer/main/install.sh)
+bash <(curl -s -L https://raw.githubusercontent.com/dotbrains/set-me-up-installer/main/install.sh)
 ```
 
 You can change the `smu` home directory by setting an environment variable called `SMU_HOME_DIR`. Please keep the variable declared or else the `smu` scripts are unable to pickup the sources.
 
 ```bash
 export SMU_HOME_DIR="some-path" \
-    bash <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/set-me-up-installer/main/install.sh)
+    bash <(curl -s -L https://raw.githubusercontent.com/dotbrains/set-me-up-installer/main/install.sh)
 ```
 
 ### Running `set-me-up`
@@ -129,15 +129,15 @@ Additionally, you can use `smu --rcdn` command to remove files listed within [`.
 
 ### Wait! I am confused 😕
 
-[Go to the blueprint repo](https://github.com/nicholasadamou/set-me-up-blueprint#how-to-use). Fork it. Apply your changes using the techniques from above. Use the installer inside your forked repo to obtain everything. Provision your machine through the `smu` script.
+[Go to the blueprint repo](https://github.com/dotbrains/set-me-up-blueprint#how-to-use). Fork it. Apply your changes using the techniques from above. Use the installer inside your forked repo to obtain everything. Provision your machine through the `smu` script.
 
 For more on using the `smu` script, simply run `smu --help`.
 
 ## A closer look 🤓
 
-### [The smu script](https://github.com/nicholasadamou/set-me-up-installer/blob/main/smu)
+### [The smu script](https://github.com/dotbrains/set-me-up-installer/blob/main/smu)
 
-The `smu` script is part of the `set-me-up` toolkit, designed to automate the setup of a development environment on macOS or Debian-based Linux systems. It begins by sourcing utility functions and defining key paths for the installation process. The script detects the operating system and creates necessary configuration files if they do not already exist. It then checks for the presence of essential tools like Homebrew, Python 3, RCM, and Git, installing them if necessary. The script also ensures that Homebrew is properly initialized and its paths are correctly set. Finally, it pulls the latest updates from the `set-me-up-installer` repository and runs the [`smu.py`](https://github.com/nicholasadamou/set-me-up-installer/blob/main/smu.py) script to complete the setup process. The `smu` script streamlines the configuration of a consistent development environment, saving time and reducing the potential for errors.
+The `smu` script is part of the `set-me-up` toolkit, designed to automate the setup of a development environment on macOS or Debian-based Linux systems. It begins by sourcing utility functions and defining key paths for the installation process. The script detects the operating system and creates necessary configuration files if they do not already exist. It then checks for the presence of essential tools like Homebrew, Python 3, RCM, and Git, installing them if necessary. The script also ensures that Homebrew is properly initialized and its paths are correctly set. Finally, it pulls the latest updates from the `set-me-up-installer` repository and runs the [`smu.py`](https://github.com/dotbrains/set-me-up-installer/blob/main/smu.py) script to complete the setup process. The `smu` script streamlines the configuration of a consistent development environment, saving time and reducing the potential for errors.
 
 #### How does it work?
 
@@ -230,7 +230,7 @@ export $PATH="$HOME/dotfiles/src/symlinks/.local/bin:$PATH"
 
 ## Credits
 
-- [omares/set-me-up](https://github.com/omares/set-me-up) for the initial platform that [nicholasadamou/set-me-up](https://github.com/nicholasadamou/set-me-up) was built on.
+- [omares/set-me-up](https://github.com/omares/set-me-up) for the initial platform that [dotbrains/set-me-up](https://github.com/dotbrains/set-me-up) was built on.
 - [donnemartin/dev-setup](https://github.com/donnemartin/dev-setup)
 - [mathiasbynens](https://github.com/mathiasbynens/dotfiles) for his popular [macOS script](https://github.com/mathiasbynens/dotfiles/blob/master/.macos).
 - [brew](https://brew.sh/) and [brew bundle](https://github.com/Homebrew/homebrew-bundle) for the awesome package management.

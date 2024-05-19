@@ -5,7 +5,7 @@ COMMAND_NAME=$1
 
 SMU_PATH="$HOME"/set-me-up
 
-help () {
+help() {
   echo "Usage: $BIN_NAME <command>"
   echo
   echo "Commands:"
@@ -17,42 +17,42 @@ help () {
 }
 
 edit() {
-	command -v "code" &>/dev/null && \
-  		sh -c "code $SMU_PATH"
+  command -v "code" &>/dev/null &&
+    sh -c "code $SMU_PATH"
 }
 
 update() {
   rm -rf "$SMU_PATH"
 
-	bash <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/dotfiles/master/.dotfiles/modules/install.sh)
+  bash <(curl -s -L https://raw.githubusercontent.com/dotbrains/dotfiles/master/.dotfiles/modules/install.sh)
 }
 
 clean() {
-	command -v "brew" &>/dev/null && \
-		brew cleanup
+  command -v "brew" &>/dev/null &&
+    brew cleanup
 
-	command -v "nvm" &>/dev/null && {
-		. "$NVM_DIR/nvm.sh" && \
-    nvm cache clear
+  command -v "nvm" &>/dev/null && {
+    . "$NVM_DIR/nvm.sh" &&
+      nvm cache clear
   }
 }
 
 macos() {
-  [ -d "$SMU_PATH" ] && \
-	  "$SMU_PATH"/smu -p -m preferences --no-base
+  [ -d "$SMU_PATH" ] &&
+    "$SMU_PATH"/smu -p -m preferences --no-base
 }
 
 case "$COMMAND_NAME" in
-  "" | "-h" | "--help")
+"" | "-h" | "--help")
+  help
+  ;;
+*)
+  shift
+  "${COMMAND_NAME}" "$@"
+  if [ $? = 127 ]; then
+    echo "'$COMMAND_NAME' is not a known command." >&2
     help
-    ;;
-  *)
-    shift
-    "${COMMAND_NAME}" "$@"
-    if [ $? = 127 ]; then
-      echo "'$COMMAND_NAME' is not a known command." >&2
-      help
-      exit 1
-    fi
-    ;;
+    exit 1
+  fi
+  ;;
 esac
