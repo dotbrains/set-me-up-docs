@@ -12,18 +12,16 @@ cask "rancher"
 cask "parallels"
 
 # Web browsers
-cask "google-chrome"
-cask "firefox"
+cask "brave-browser"
 
 # Music
 cask "spotify"
 
 # Core development
 cask "iterm2"
-# cask "warp"
+cask "warp"
 # cask "kaleidoscope" # removed due to requiring a subscription
 cask "ksdiff"
-cask "fig"
 cask "insomnia"
 
 # IDEs
@@ -47,7 +45,6 @@ cask "ngrok"
 cask "setapp" # Install favorite apps installing 'setapp'
 cask "appcleaner"
 cask "muzzle"
-cask "browserosaurus"
 cask "raycast"
 cask "betterdisplay"
 cask "contexts"
@@ -73,6 +70,9 @@ cask "grammarly"
 
 # Install developer friendly quick look plugins
 cask "syntax-highlight"
+
+# AI
+cask "chatgpt"
 
 # Misc.
 cask "rocket"
