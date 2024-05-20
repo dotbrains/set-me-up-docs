@@ -23,10 +23,6 @@ Instead of enforcing a certain setup it tries to act as a solid template that is
 	- [A closer look 🤓](#a-closer-look-)
 		- [The smu script](#the-smu-script)
 		- [How does it work?](#how-does-it-work)
-		- [Local Settings](#local-settings)
-			- [`~/.bash.local`](#bashlocal)
-			- [`~/.fish.local`](#fishlocal)
-			- [`~/.zsh.local`](#zshlocal)
 	- [Credits](#credits)
 	- [Liability](#liability)
 	- [Contributions](#contributions)
@@ -77,14 +73,14 @@ export SMU_HOME_DIR="some-path" \
 
 [![xkcd: Automation](http://imgs.xkcd.com/comics/automation.png)](http://xkcd.com/1319/)
 
-1. Use the `smu` script (which you will find inside the `smu` home directory) to run the base module. Check out the [base module documentation](#base) for more insights.
+1. Use the `smu` script (which you will find inside the `smu` home directory) to run the base module.
 
         smu --provision \
 			--module base
 
     ⚠️ Please note that after running the base module, moving the source folder is not recommended due to the usage of symlinks.
 
-2. Afterwards, provision your machine with [further modules](#available-modules) via the `smu` script. Repeat the `-m` switch to specify more then one module.
+2. Afterwards, provision your machine with [further modules](/dotfiles/modules/) via the `smu` script. Repeat the `-m` switch to specify more then one module.
 
         smu --provision \
 			--module app_store \
@@ -111,21 +107,21 @@ To use hooks provide a `before.sh` or `after.sh` inside the module directory. Us
 
 Through the power of [rcm tags](http://thoughtbot.github.io/rcm/rcup.1.html) `set-me-up` can favor your version of a file when you provide one. This mitigates the need to tinker directly with `set-me-up` source files.
 
-[Create your own `rcm` tag](#creating-a-custom-tag) and then duplicate the directory structure and files you would like to modify. `rcm` will combine all files from the given tags in the order you define. For example, when you would like to modify the `brewfile` of the app_store module, the path should look like this: `.dotfiles/tag-my/modules/app_store/brewfile`.
+[Create your own `rcm` tag](#creating-a-custom-tag) and then duplicate the directory structure and files you would like to modify. `rcm` will combine all files from the given tags in the order you define. For example, when you would like to modify the `brewfile` of the app_store module, the path should look like this: `dotfiles/tag-my/modules/app_store/brewfile`.
 
 Use the `smu --lsrc` command to show how `rcm` would manage your dotfiles and to verify your setup.
 
 - You can add new dotfiles and modules to your tag. `rcm` symlinks all files if finds.
 - File contents are not merged between tags, your file simply has a higher precedence and will be used instead.
 
-Use `smu --rcup` command to symlink the dotfiles using [`rcup`](http://thoughtbot.github.io/rcm/rcup.1.html) contained within [`.dotfiles`](/.dotfiles) using [`.rcrc`](/.dotfiles/rcrc).
+Use `smu --rcup` command to symlink the dotfiles using [`rcup`](http://thoughtbot.github.io/rcm/rcup.1.html) contained within [`dotfiles`](/dotfiles) using [`.rcrc`](/dotfiles/rcrc).
 
-Additionally, you can use `smu --rcdn` command to remove files listed within [`.rcrc`](/.dotfiles/rcrc) that were symlinked via `rcup` from [`.dotfiles`](/.dotfiles).
+Additionally, you can use `smu --rcdn` command to remove files listed within [`.rcrc`](/dotfiles/rcrc) that were symlinked via `rcup` from [`dotfiles`](/dotfiles).
 
 ##### Creating a custom tag
 
-1. Create a new `rcm` tag, by creating a new folder prefixed `tag-` inside the [`.dotfiles`](/.dotfiles) directory: `.dotfiles/tag-my`
-2. Add your tag to the [`.rcrc`](/.dotfiles/rcrc) configuration file in front of the currently defined tags. Resulting in `TAGS="my smu"`
+1. Create a new `rcm` tag, by creating a new folder prefixed `tag-` inside the [`dotfiles`](/dotfiles) directory: `dotfiles/tag-my`
+2. Add your tag to the [`.rcrc`](/dotfiles/rcrc) configuration file in front of the currently defined tags. Resulting in `TAGS="my"`
 
 ### Wait! I am confused 😕
 
@@ -151,82 +147,14 @@ The `smu` script is part of the `set-me-up` toolkit, designed to automate the se
 
 **TL;DR;** It symlinks all dotfiles and stupidly runs shell scripts.
 
-`smu` symlinks all dotfiles from the `.dotfiles` folder, which includes the modules, to your home directory. With the power of [rcm](https://github.com/thoughtbot/rcm), `.dotfiles/tag-smu/gitconfig` becomes `~/.gitconfig`. Using bash scripting the installation of `brew` is ensured. All this is covered by the base module and provides an opinionated base setup on which `smu` operates.
+`smu` symlinks all dotfiles from the `dotfiles` folder, which includes the modules, to your home directory. With the power of [rcm](https://github.com/thoughtbot/rcm), for example, `dotfiles/tag-my/gitconfig` becomes `~/.gitconfig`. Using bash scripting the installation of `brew` is ensured. All this is covered by the base module and provides an opinionated base setup on which `smu` operates.
 
 Depending on the module, further applications will be installed by "automating" their installation through other bash scripts.
-In most cases `set-me-up` delegates the legwork to tools that are meant to be used for the job (e.g. installing `zplugin` for zsh plugin management).
+In most cases `set-me-up` delegates the legwork to tools that are meant to be used for the job (e.g., installing `zplugin` for zsh plugin management).
 
 Nothing describes the actual functionality better than the code. It is recommended to check the appropriate module script to gain insights as to what it exactly does.
 
 `set-me-up` is a plain collection of bash scripts and tools that you probably already worked with, therefore understanding what is happening will be easy 😄.
-
-### Local Settings
-
-The `dotfiles` can be easily extended to suit additional local
-requirements by using the following files:
-
-#### `~/.bash.local`
-
-The `~/.bash.local` file it will be automatically sourced after
-all the other [`bash` related files](/.dotfiles/tag-smu/config), thus, allowing
-its content to add to or overwrite the existing aliases, settings,
-PATH, etc.
-
-Here is a very simple example of a `~/.bash.local` file:
-
-```bash
-# Set local aliases.
-
-alias starwars="telnet towel.blinkenlights.nl"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Set PATH additions.
-
-export $PATH="$HOME/dotfiles/src/symlinks/.local/bin:$PATH"
-```
-
-#### `~/.fish.local`
-
-The `~/.fish.local` file it will be automatically sourced after
-all the other [`fish` related files](/.dotfiles/tag-smu/config), thus, allowing
-its content to add to or overwrite the existing aliases, settings,
-PATH, etc.
-
-Here is a very simple example of a `~/.fish.local` file:
-
-```fish
-# Set local aliases.
-
-alias starwars "telnet towel.blinkenlights.nl"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Set PATH additions.
-
-set -gx PATH $PATH "$HOME/dotfiles/src/symlinks/.local/bin"
-```
-
-#### `~/.zsh.local`
-
-The `~/.zsh.local` file it will be automatically sourced after
-all the other [`zsh` related files](/.dotfiles/tag-smu/config), thus, allowing
-its content to add to or overwrite the existing aliases, settings,
-PATH, etc.
-
-Here is a very simple example of a `~/.zsh.local` file:
-
-```bash
-# Set local aliases.
-
-alias starwars="telnet towel.blinkenlights.nl"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Set PATH additions.
-
-export $PATH="$HOME/dotfiles/src/symlinks/.local/bin:$PATH"
-```
 
 ## Credits
 
