@@ -34,7 +34,7 @@ main() {
 
     # Check if ~/.config/nvim exists
     if [ ! -d "$HOME/.config/nvim" ]; then
-        print_error "~/.config/nvim does not exist!\n"
+        print_error "$HOME/.config/nvim does not exist!\n"
         exit 1
     fi
 
