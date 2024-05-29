@@ -47,13 +47,7 @@ You might wonder why not work directly with this repo? Having a remote and exter
 
 ### Obtaining `set-me-up` via [`set-me-up` installer](https://github.com/dotbrains/set-me-up-installer)
 
-To start, your default shell must be set to `bash` prior to executing the `install` snippet for the first time. This is because on newer versions of Mac OS, the default shell is `zsh` instead of `bash`. To change your default shell, run the following command in your console.
-
-```bash
-sudo chsh -s $(which bash) $(whoami)
-```
-
-Once the default shell is `bash`, close and reopen the terminal window. Then, run the following command in your console.
+To start, run the following command in your terminal.
 
 (⚠️ **DO NOT** run the `install` snippet if you don't fully
 understand [what it does](https://raw.githubusercontent.com/dotbrains/set-me-up-installer/main/install.sh). Seriously, **DON'T**!)
