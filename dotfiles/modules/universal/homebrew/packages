@@ -1,5 +1,0 @@
-apt "build-essential"
-apt "procps"
-apt "curl"
-apt "file"
-apt "git"
