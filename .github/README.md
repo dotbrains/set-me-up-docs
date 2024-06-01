@@ -1,9 +1,9 @@
-# `set-me-up`
+# `set-me-up` Documentation
 
 ![preview](preview.png)
 
 `set-me-up` aims to simplify the dull setup and maintenance of Mac OS development environments.
-It does so by automating the process through a collection of dotfiles and shell scripts [bundled into modules](/dotfiles/modules/).
+It does so by automating the process through a collection of dotfiles and shell scripts [bundled into modules](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/modules).
 
 Instead of enforcing a certain setup it tries to act as a solid template that is highly customizable to your needs.
 
@@ -74,7 +74,7 @@ export SMU_HOME_DIR="some-path" \
 
     ⚠️ Please note that after running the base module, moving the source folder is not recommended due to the usage of symlinks.
 
-2. Afterwards, provision your machine with [further modules](/dotfiles/modules/) via the `smu` script. Repeat the `-m` switch to specify more then one module.
+2. Afterwards, provision your machine with [further modules](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/modules) via the `smu` script. Repeat the `-m` switch to specify more then one module.
 
         smu --provision \
 			--module app_store \
@@ -110,12 +110,12 @@ Use the `smu --lsrc` command to show how `rcm` would manage your dotfiles and to
 
 Use `smu --rcup` command to symlink the dotfiles using [`rcup`](http://thoughtbot.github.io/rcm/rcup.1.html) contained within [`dotfiles`](/dotfiles) using [`.rcrc`](/dotfiles/rcrc).
 
-Additionally, you can use `smu --rcdn` command to remove files listed within [`.rcrc`](/dotfiles/rcrc) that were symlinked via `rcup` from [`dotfiles`](/dotfiles).
+Additionally, you can use `smu --rcdn` command to remove files listed within [`.rcrc`](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/rcrc) that were symlinked via `rcup` from [`dotfiles`](/dotfiles).
 
 ##### Creating a custom tag
 
 1. Create a new `rcm` tag, by creating a new folder prefixed `tag-` inside the [`dotfiles`](/dotfiles) directory: `dotfiles/tag-my`
-2. Add your tag to the [`.rcrc`](/dotfiles/rcrc) configuration file in front of the currently defined tags. Resulting in `TAGS="my"`
+2. Add your tag to the [`.rcrc`](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/rcrc) configuration file in front of the currently defined tags. Resulting in `TAGS="my"`
 
 ### Wait! I am confused 😕
 
