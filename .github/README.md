@@ -1,4 +1,4 @@
-# `set-me-up` Documentation
+# `set-me-up` Docs
 
 ![preview](preview.png)
 
