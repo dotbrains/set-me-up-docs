@@ -32,11 +32,52 @@ Instead of enforcing a certain setup it tries to act as a solid template that is
 
 No matter how you obtain `smu`, as a sane developer you should take a look at the provided modules and dotfiles to verify that no shenanigans are happening.
 
+```mermaid
+flowchart TD
+    A[Fork blueprint repo] --> B[Customize your fork]
+    B --> C[Update SMU_BLUEPRINT variable]
+    C --> D[Run installer from your fork]
+    D --> E[set-me-up downloads]
+    D --> F[Your customizations download]
+    E --> G[Run smu script]
+    F --> G
+    G --> H[Provision modules]
+    H --> I[Development environment ready!]
+
+    style A fill:#e1f5ff
+    style I fill:#c8e6c9
+```
+
 ### Use the blueprint
 
-The recommended way to obtain `set-me-up` is by forking the [blueprint setup](https://github.com/dotbrains/set-me-up-blueprint), which is its own lean repo that comes pre-configured with a [tag](#using-rcm) and module.
+The recommended way to use `set-me-up` is by forking the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint) and customizing it to your liking. The blueprint is a lean template repo that comes pre-configured with an example [tag](#using-rcm) and module structure.
 
-You might wonder why not work directly with this repo? Having a remote and external repo for your dotfiles and `set-me-up` customizations has a few advantages:
+**How it works:**
+
+1. Fork the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint) to your own GitHub account
+2. Customize your fork by adding dotfiles, modules, and configurations inside the `tag-example` directory (or create your own tag)
+3. Update the `SMU_BLUEPRINT` variable in `dotfiles/modules/install.sh` to point to your GitHub username/repository combination (e.g., `yourname/dotfiles`)
+4. Use the installer from your forked repository to download `set-me-up` and your custom blueprint setup
+
+**Example:** See [nicholasadamou/dotfiles](https://github.com/nicholasadamou/dotfiles) for a real-world example of a customized blueprint.
+
+```mermaid
+graph LR
+    A[set-me-up core] -.->|referenced by| B[Your blueprint fork]
+    B -->|contains| C[Custom dotfiles]
+    B -->|contains| D[Custom modules]
+    B -->|contains| E[install.sh]
+    E -->|downloads| A
+    E -->|uses| B
+
+    style A fill:#fff3e0
+    style B fill:#e1f5ff
+    style C fill:#f3e5f5
+    style D fill:#f3e5f5
+    style E fill:#e8f5e9
+```
+
+You might wonder why not work directly with the main `set-me-up` repo? Having a separate repo for your dotfiles and `set-me-up` customizations has several advantages:
 
 - It is loosely coupled, making your life way easier. The only connection between your repo and `set-me-up` is through the installer.
 - You can easily walk away from using `set-me-up` but can keep your precious dotfiles and shell scripts.
@@ -45,22 +86,29 @@ You might wonder why not work directly with this repo? Having a remote and exter
 - The referenced `set-me-up` version is fixated in the installer, ensuring that your setup will work even when the master advances. Advancing to the next version is easy by bumping the version in the installer.
 - Its fancy, at least I think so 😉.
 
-### Obtaining `set-me-up` via [`set-me-up` installer](https://github.com/dotbrains/set-me-up-installer)
+### Obtaining `set-me-up` via your customized blueprint
 
-To start, run the following command in your terminal.
+Once you've forked and customized the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint), run the installer from your fork to obtain `set-me-up` on top of your custom blueprint.
 
-(⚠️ **DO NOT** run the `install` snippet if you don't fully
-understand [what it does](https://raw.githubusercontent.com/dotbrains/set-me-up-installer/main/install.sh). Seriously, **DON'T**!)
+(⚠️ **DO NOT** run the `install` snippet if you don't fully understand what it does. Seriously, **DON'T**!)
+
+Replace `YOUR-USERNAME` with your GitHub username and `BRANCH-NAME-HERE` with the appropriate branch (typically `main` or `master`, depending on your OS):
 
 ```bash
-bash <(curl -s -L https://raw.githubusercontent.com/dotbrains/set-me-up-installer/main/install.sh)
+bash <(curl -s -L https://raw.githubusercontent.com/YOUR-USERNAME/set-me-up-blueprint/BRANCH-NAME-HERE/dotfiles/modules/install.sh)
+```
+
+For fish shell users:
+
+```bash
+curl -s -L https://raw.githubusercontent.com/YOUR-USERNAME/set-me-up-blueprint/BRANCH-NAME-HERE/dotfiles/modules/install.sh | bash
 ```
 
 You can change the `smu` home directory by setting an environment variable called `SMU_HOME_DIR`. Please keep the variable declared or else the `smu` scripts are unable to pickup the sources.
 
 ```bash
 export SMU_HOME_DIR="some-path" \
-    bash <(curl -s -L https://raw.githubusercontent.com/dotbrains/set-me-up-installer/main/install.sh)
+    bash <(curl -s -L https://raw.githubusercontent.com/YOUR-USERNAME/set-me-up-blueprint/BRANCH-NAME-HERE/dotfiles/modules/install.sh)
 ```
 
 ### Running `set-me-up`
@@ -119,7 +167,13 @@ Additionally, you can use `smu --rcdn` command to remove files listed within [`.
 
 ### Wait! I am confused 😕
 
-[Go to the blueprint repo](https://github.com/dotbrains/set-me-up-blueprint#how-to-use). Fork it. Apply your changes using the techniques from above. Use the installer inside your forked repo to obtain everything. Provision your machine through the `smu` script.
+Here's the quick version:
+
+1. [Fork the blueprint repo](https://github.com/dotbrains/set-me-up-blueprint)
+2. Customize your fork by adding/modifying files in `tag-example` (or create your own tag)
+3. Update the `SMU_BLUEPRINT` variable in `dotfiles/modules/install.sh` to point to your fork
+4. Run the installer from your fork to download `set-me-up` and your customizations
+5. Use the `smu` script to provision your machine with the modules you need
 
 For more on using the `smu` script, simply run `smu --help`.
 
@@ -140,6 +194,24 @@ The `smu` script is part of the `set-me-up` toolkit, designed to automate the se
 > Rambo: It turns blue.
 
 **TL;DR;** It symlinks all dotfiles and stupidly runs shell scripts.
+
+```mermaid
+flowchart LR
+    A[dotfiles/tag-my/gitconfig] -->|rcm symlink| B[~/.gitconfig]
+    E[smu script] -->|runs| F[base module]
+    F -->|installs| G[brew]
+    F -->|installs| H[rcm]
+    F -->|installs| I[git]
+    E -->|runs| J[other modules]
+    J -->|delegates to| K[brew bundle]
+    J -->|delegates to| L[package managers]
+    J -->|delegates to| M[custom scripts]
+
+    style A fill:#e3f2fd
+    style B fill:#c8e6c9
+    style E fill:#fff3e0
+    style F fill:#ffecb3
+```
 
 `smu` symlinks all dotfiles from the `dotfiles` folder, which includes the modules, to your home directory. With the power of [rcm](https://github.com/thoughtbot/rcm), for example, `dotfiles/tag-my/gitconfig` becomes `~/.gitconfig`. Using bash scripting the installation of `brew` is ensured. All this is covered by the base module and provides an opinionated base setup on which `smu` operates.
 
