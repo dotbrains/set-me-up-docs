@@ -1,4 +1,4 @@
-# set-me-up
+# set-me-up 👷🏼
 
 > Simplify the setup and maintenance of macOS development environments through automated dotfiles and modular shell scripts.
 
