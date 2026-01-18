@@ -243,7 +243,6 @@ The `smu` script is part of the `set-me-up` toolkit, designed to automate the se
 ```mermaid
 flowchart LR
     A[dotfiles/tag-my/gitconfig] -->|rcm symlink| B[~/.gitconfig]
-    C[dotfiles/tag-my/modules/] -->|rcm symlink| D[~/modules/]
     E[smu script] -->|runs| F[base module]
     F -->|installs| G[brew]
     F -->|installs| H[rcm]
