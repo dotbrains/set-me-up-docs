@@ -43,9 +43,6 @@ flowchart TD
     F --> G
     G --> H[Provision modules]
     H --> I[Development environment ready!]
-
-    style A fill:#e1f5ff
-    style I fill:#c8e6c9
 ```
 
 ### Use the blueprint
@@ -69,12 +66,6 @@ graph LR
     B -->|contains| E[install.sh]
     E -->|downloads| A
     E -->|uses| B
-
-    style A fill:#fff3e0
-    style B fill:#e1f5ff
-    style C fill:#f3e5f5
-    style D fill:#f3e5f5
-    style E fill:#e8f5e9
 ```
 
 You might wonder why not work directly with the main `set-me-up` repo? Having a separate repo for your dotfiles and `set-me-up` customizations has several advantages:
@@ -198,6 +189,7 @@ The `smu` script is part of the `set-me-up` toolkit, designed to automate the se
 ```mermaid
 flowchart LR
     A[dotfiles/tag-my/gitconfig] -->|rcm symlink| B[~/.gitconfig]
+    C[dotfiles/tag-my/modules/] -->|rcm symlink| D[~/modules/]
     E[smu script] -->|runs| F[base module]
     F -->|installs| G[brew]
     F -->|installs| H[rcm]
@@ -206,13 +198,7 @@ flowchart LR
     J -->|delegates to| K[brew bundle]
     J -->|delegates to| L[package managers]
     J -->|delegates to| M[custom scripts]
-
-    style A fill:#e3f2fd
-    style B fill:#c8e6c9
-    style E fill:#fff3e0
-    style F fill:#ffecb3
 ```
-
 `smu` symlinks all dotfiles from the `dotfiles` folder, which includes the modules, to your home directory. With the power of [rcm](https://github.com/thoughtbot/rcm), for example, `dotfiles/tag-my/gitconfig` becomes `~/.gitconfig`. Using bash scripting the installation of `brew` is ensured. All this is covered by the base module and provides an opinionated base setup on which `smu` operates.
 
 Depending on the module, further applications will be installed by "automating" their installation through other bash scripts.
