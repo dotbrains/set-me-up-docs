@@ -1,36 +1,54 @@
-# `set-me-up` Docs
+# set-me-up
+
+> Simplify the setup and maintenance of macOS development environments through automated dotfiles and modular shell scripts.
 
 ![preview](preview.png)
 
-`set-me-up` aims to simplify the dull setup and maintenance of Mac OS development environments.
-It does so by automating the process through a collection of dotfiles and shell scripts [bundled into modules](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/modules).
+## Overview
 
-Instead of enforcing a certain setup it tries to act as a solid template that is highly customizable to your needs.
+`set-me-up` automates the tedious process of configuring development environments by providing:
+
+- 🔧 **Modular architecture** - Pick only the modules you need
+- 📦 **Package management** - Automated installation via Homebrew and other package managers
+- 🔗 **Dotfile management** - Intelligent symlinking powered by `rcm`
+- 🎨 **Highly customizable** - Fork the blueprint and make it your own
+- 🔄 **Version control friendly** - Keep your customizations separate from the core tool
 
 ## Table of Contents
 
-- [`set-me-up`](#set-me-up)
-	- [Table of Contents](#table-of-contents)
-	- [Usage](#usage)
-		- [Use the blueprint](#use-the-blueprint)
-		- [Obtaining `set-me-up`](#obtaining-set-me-up-via-set-me-up-installer)
-		- [Running `set-me-up`](#running-set-me-up)
-		- [Customize `set-me-up`](#customize-set-me-up)
-			- [Using hooks](#using-hooks)
-			- [Using `rcm`](#using-rcm)
-				- [Creating a custom tag](#creating-a-custom-tag)
-		- [Wait! I am confused 😕](#wait-i-am-confused-)
-	- [A closer look 🤓](#a-closer-look-)
-		- [The smu script](#the-smu-script)
-		- [How does it work?](#how-does-it-work)
-	- [Credits](#credits)
-	- [Liability](#liability)
-	- [Contributions](#contributions)
-	- [License](#license)
+- [Overview](#overview)
+- [Quick Start](#quick-start)
+- [Getting Started](#getting-started)
+  - [1. Fork the Blueprint](#1-fork-the-blueprint)
+  - [2. Install set-me-up](#2-install-set-me-up)
+  - [3. Run the Setup](#3-run-the-setup)
+- [Customization](#customization)
+  - [Using Hooks](#using-hooks)
+  - [Using RCM Tags](#using-rcm-tags)
+  - [Creating a Custom Tag](#creating-a-custom-tag)
+- [How It Works](#how-it-works)
+  - [The Architecture](#the-architecture)
+  - [The smu Script](#the-smu-script)
+  - [Under the Hood](#under-the-hood)
+- [Credits](#credits)
+- [License](#license)
 
-## Usage
+## Quick Start
 
-No matter how you obtain `smu`, as a sane developer you should take a look at the provided modules and dotfiles to verify that no shenanigans are happening.
+> ⚠️ **Important**: Always review the modules and dotfiles before running any installation commands. Your system, your responsibility!
+
+```bash
+# 1. Fork https://github.com/dotbrains/set-me-up-blueprint
+# 2. Customize your fork
+# 3. Run the installer from YOUR fork
+bash <(curl -s -L https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/BRANCH/dotfiles/modules/install.sh)
+
+# 4. Provision your system
+smu --provision --module base
+smu --provision --module casks --module php --no-base
+```
+
+## Getting Started
 
 ```mermaid
 flowchart TD
@@ -45,18 +63,20 @@ flowchart TD
     H --> I[Development environment ready!]
 ```
 
-### Use the blueprint
+### 1. Fork the Blueprint
 
-The recommended way to use `set-me-up` is by forking the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint) and customizing it to your liking. The blueprint is a lean template repo that comes pre-configured with an example [tag](#using-rcm) and module structure.
+The recommended approach is to fork the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint) and customize it to your needs. The blueprint is a lean template with an example [tag](#using-rcm-tags) and module structure.
 
-**How it works:**
+**Steps:**
 
-1. Fork the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint) to your own GitHub account
-2. Customize your fork by adding dotfiles, modules, and configurations inside the `tag-example` directory (or create your own tag)
-3. Update the `SMU_BLUEPRINT` variable in `dotfiles/modules/install.sh` to point to your GitHub username/repository combination (e.g., `yourname/dotfiles`)
-4. Use the installer from your forked repository to download `set-me-up` and your custom blueprint setup
+1. **Fork** the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint)
+2. **Customize** by adding dotfiles, modules, and configurations in `tag-example` (or create your own tag)
+3. **Update** the `SMU_BLUEPRINT` variable in `dotfiles/modules/install.sh` to point to your fork (e.g., `yourname/dotfiles`)
+4. **Use** the installer from your fork to download `set-me-up` and your customizations
 
-**Example:** See [nicholasadamou/dotfiles](https://github.com/nicholasadamou/dotfiles) for a real-world example of a customized blueprint.
+**Real-world example:** [nicholasadamou/dotfiles](https://github.com/nicholasadamou/dotfiles)
+
+**Why fork instead of using the main repo directly?**
 
 ```mermaid
 graph LR
@@ -68,65 +88,81 @@ graph LR
     E -->|uses| B
 ```
 
-You might wonder why not work directly with the main `set-me-up` repo? Having a separate repo for your dotfiles and `set-me-up` customizations has several advantages:
+- **Loose coupling** - Your repo connects to `set-me-up` only through the installer
+- **Portable dotfiles** - Keep your configurations even if you stop using `set-me-up`
+- **Privacy friendly** - Easy to make your setup private with no direct ties to the main repo
+- **Clean history** - Your commit history stays focused on your customizations
+- **Version pinning** - The installer locks to a specific `set-me-up` version; upgrade by bumping the version
 
-- It is loosely coupled, making your life way easier. The only connection between your repo and `set-me-up` is through the installer.
-- You can easily walk away from using `set-me-up` but can keep your precious dotfiles and shell scripts.
-- It is easier to make your setup private because there are no direct ties to the blueprint or `set-me-up` repo.
-- Your commit history and file list will stay clean.
-- The referenced `set-me-up` version is fixated in the installer, ensuring that your setup will work even when the master advances. Advancing to the next version is easy by bumping the version in the installer.
-- Its fancy, at least I think so 😉.
+### 2. Install set-me-up
 
-### Obtaining `set-me-up` via your customized blueprint
+Once you've forked and customized the blueprint, run the installer from your fork.
 
-Once you've forked and customized the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint), run the installer from your fork to obtain `set-me-up` on top of your custom blueprint.
+> ⚠️ **Warning**: Do NOT run this if you don't understand what it does. Review the installer script first!
 
-(⚠️ **DO NOT** run the `install` snippet if you don't fully understand what it does. Seriously, **DON'T**!)
+Replace:
+- `YOUR-USERNAME` with your GitHub username
+- `BRANCH-NAME-HERE` with your branch (typically `main` or `master`)
 
-Replace `YOUR-USERNAME` with your GitHub username and `BRANCH-NAME-HERE` with the appropriate branch (typically `main` or `master`, depending on your OS):
+**For bash/zsh:**
 
 ```bash
 bash <(curl -s -L https://raw.githubusercontent.com/YOUR-USERNAME/set-me-up-blueprint/BRANCH-NAME-HERE/dotfiles/modules/install.sh)
 ```
 
-For fish shell users:
+**For fish shell:**
 
 ```bash
 curl -s -L https://raw.githubusercontent.com/YOUR-USERNAME/set-me-up-blueprint/BRANCH-NAME-HERE/dotfiles/modules/install.sh | bash
 ```
 
-You can change the `smu` home directory by setting an environment variable called `SMU_HOME_DIR`. Please keep the variable declared or else the `smu` scripts are unable to pickup the sources.
+**Custom installation directory:**
 
 ```bash
-export SMU_HOME_DIR="some-path" \
-    bash <(curl -s -L https://raw.githubusercontent.com/YOUR-USERNAME/set-me-up-blueprint/BRANCH-NAME-HERE/dotfiles/modules/install.sh)
+export SMU_HOME_DIR="/path/to/directory"
+bash <(curl -s -L https://raw.githubusercontent.com/YOUR-USERNAME/set-me-up-blueprint/BRANCH-NAME-HERE/dotfiles/modules/install.sh)
 ```
 
-### Running `set-me-up`
+> 💡 **Tip**: Keep `SMU_HOME_DIR` in your shell profile so the `smu` scripts can find the sources.
+
+### 3. Run the Setup
 
 [![xkcd: Automation](http://imgs.xkcd.com/comics/automation.png)](http://xkcd.com/1319/)
 
-1. Use the `smu` script (which you will find inside the `smu` home directory) to run the base module.
+**Step 1: Run the base module**
 
-        smu --provision \
-		    --module base
+The base module sets up essential tools (Homebrew, Git, RCM) and symlinks your dotfiles.
 
-    ⚠️ Please note that after running the base module, moving the source folder is not recommended due to the usage of symlinks.
+```bash
+smu --provision --module base
+```
 
-2. Afterwards, provision your machine with [further modules](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/modules) via the `smu` script. Repeat the `-m` switch to specify more then one module.
+> ⚠️ **Important**: Don't move the source folder after running the base module (symlinks will break).
 
-        smu --provision \
-			--module app_store \
-			--module casks \
-			--module php \
-			--no-base
+**Step 2: Provision additional modules**
 
-    As a general rule of thumb, only pick the modules you need, running all modules can take quite some time.
-    Fear not, all modules can be installed when you need it.
+Install only what you need. View [available modules](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/modules).
 
-### Customize `set-me-up`
+```bash
+smu --provision \
+    --module app_store \
+    --module casks \
+    --module php \
+    --no-base
+```
 
-#### Using hooks
+**Useful commands:**
+
+```bash
+smu --help              # Show all available options
+smu --lsrc              # Preview how rcm will manage your dotfiles
+smu --rcup              # Manually re-run dotfile symlinking
+smu --rcdn              # Remove symlinked dotfiles
+```
+
+## Customization
+
+### Using Hooks
 
 To customize the setup to your needs `set-me-up` provides two hook points: Before and after sourcing the module script.
 
@@ -136,45 +172,63 @@ Polishing module setups or using module functionality can be done with after hoo
 
 To use hooks provide a `before.sh` or `after.sh` inside the module directory. Use `rcm` tags to provide the hook files.
 
-#### Using `rcm`
+### Using RCM Tags
 
-Through the power of [rcm tags](http://thoughtbot.github.io/rcm/rcup.1.html) `set-me-up` can favor your version of a file when you provide one. This mitigates the need to tinker directly with `set-me-up` source files.
+[RCM tags](http://thoughtbot.github.io/rcm/rcup.1.html) allow you to override default files without modifying `set-me-up` source files.
 
-[Create your own `rcm` tag](#creating-a-custom-tag) and then duplicate the directory structure and files you would like to modify. `rcm` will combine all files from the given tags in the order you define. For example, when you would like to modify the `brewfile` of the app_store module, the path should look like this: `dotfiles/tag-my/modules/app_store/brewfile`.
+**How it works:**
 
-Use the `smu --lsrc` command to show how `rcm` would manage your dotfiles and to verify your setup.
+1. [Create your own tag](#creating-a-custom-tag)
+2. Duplicate the directory structure and files you want to modify
+3. Your files take precedence over the defaults
 
-- You can add new dotfiles and modules to your tag. `rcm` symlinks all files if finds.
-- File contents are not merged between tags, your file simply has a higher precedence and will be used instead.
+**Example:** To override the `brewfile` for the `app_store` module:
 
-Use `smu --rcup` command to symlink the dotfiles using [`rcup`](http://thoughtbot.github.io/rcm/rcup.1.html) contained within [`dotfiles`](/dotfiles) using [`.rcrc`](/dotfiles/rcrc).
+```
+dotfiles/tag-my/modules/app_store/brewfile
+```
 
-Additionally, you can use `smu --rcdn` command to remove files listed within [`.rcrc`](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/rcrc) that were symlinked via `rcup` from [`dotfiles`](/dotfiles).
+**Key points:**
 
-##### Creating a custom tag
+- `rcm` symlinks all files it finds in your tags
+- Files aren't merged—your version completely replaces the default
+- You can add entirely new dotfiles and modules
 
-1. Create a new `rcm` tag, by creating a new folder prefixed `tag-` inside the [`dotfiles`](/dotfiles) directory: `dotfiles/tag-my`
-2. Add your tag to the [`.rcrc`](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/rcrc) configuration file in front of the currently defined tags. Resulting in `TAGS="my"`
+**Useful commands:**
 
-### Wait! I am confused 😕
+```bash
+smu --lsrc    # Preview how rcm manages your dotfiles
+smu --rcup    # Symlink dotfiles using rcup
+smu --rcdn    # Remove symlinked dotfiles
+```
 
-Here's the quick version:
+### Creating a Custom Tag
 
-1. [Fork the blueprint repo](https://github.com/dotbrains/set-me-up-blueprint)
-2. Customize your fork by adding/modifying files in `tag-example` (or create your own tag)
-3. Update the `SMU_BLUEPRINT` variable in `dotfiles/modules/install.sh` to point to your fork
-4. Run the installer from your fork to download `set-me-up` and your customizations
-5. Use the `smu` script to provision your machine with the modules you need
+**Steps:**
 
-For more on using the `smu` script, simply run `smu --help`.
+1. Create a folder with the `tag-` prefix in the `dotfiles` directory:
+   ```bash
+   mkdir dotfiles/tag-my
+   ```
 
-## A closer look 🤓
+2. Add your tag to `.rcrc` (place it before existing tags for higher precedence):
+   ```bash
+   TAGS="my example"
+   ```
 
-### [The smu script](https://github.com/dotbrains/set-me-up-installer/blob/main/smu)
+3. Add your custom files following the same structure as the main dotfiles directory
+
+## How It Works
+
+### The Architecture
+
+The blueprint and core are loosely coupled through the installer, giving you complete control over your dotfiles while benefiting from `set-me-up`'s automation.
+
+### [The smu Script](https://github.com/dotbrains/set-me-up-installer/blob/main/smu)
 
 The `smu` script is part of the `set-me-up` toolkit, designed to automate the setup of a development environment on macOS or Debian-based Linux systems. It begins by sourcing utility functions and defining key paths for the installation process. The script detects the operating system and creates necessary configuration files if they do not already exist. It then checks for the presence of essential tools like Homebrew, Python 3, RCM, and Git, installing them if necessary. The script also ensures that Homebrew is properly initialized and its paths are correctly set. Finally, it pulls the latest updates from the `set-me-up-installer` repository and runs the [`smu.py`](https://github.com/dotbrains/set-me-up-installer/blob/main/smu.py) script to complete the setup process. The `smu` script streamlines the configuration of a consistent development environment, saving time and reducing the potential for errors.
 
-#### How does it work?
+### Under the Hood
 
 > Hamid: What's that?
 
@@ -199,14 +253,24 @@ flowchart LR
     J -->|delegates to| L[package managers]
     J -->|delegates to| M[custom scripts]
 ```
-`smu` symlinks all dotfiles from the `dotfiles` folder, which includes the modules, to your home directory. With the power of [rcm](https://github.com/thoughtbot/rcm), for example, `dotfiles/tag-my/gitconfig` becomes `~/.gitconfig`. Using bash scripting the installation of `brew` is ensured. All this is covered by the base module and provides an opinionated base setup on which `smu` operates.
 
-Depending on the module, further applications will be installed by "automating" their installation through other bash scripts.
-In most cases `set-me-up` delegates the legwork to tools that are meant to be used for the job (e.g., installing `zplugin` for zsh plugin management).
+**What `smu` does:**
 
-Nothing describes the actual functionality better than the code. It is recommended to check the appropriate module script to gain insights as to what it exactly does.
+1. **Symlinks dotfiles** - Uses [rcm](https://github.com/thoughtbot/rcm) to symlink files from `dotfiles/` to your home directory
+   - Example: `dotfiles/tag-my/gitconfig` → `~/.gitconfig`
 
-`set-me-up` is a plain collection of bash scripts and tools that you probably already worked with, therefore understanding what is happening will be easy 😄.
+2. **Installs base tools** - The base module ensures Homebrew, Git, and RCM are installed
+
+3. **Runs modules** - Each module automates installation of specific tools:
+   - Delegates to appropriate package managers (Homebrew, npm, pip, etc.)
+   - Runs custom scripts for specialized setup
+   - Respects hooks for pre/post-installation customization
+
+**Want to know more?**
+
+The best documentation is the code itself. Check out the [module scripts](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/modules) to see exactly what they do.
+
+`set-me-up` is just bash scripts and familiar tools—nothing magical, just automation done right! 😄
 
 ## Credits
 
@@ -217,15 +281,7 @@ Nothing describes the actual functionality better than the code. It is recommend
 - [thoughtbot rcm](https://github.com/thoughtbot/rcm) for easy dotfile management.
 - All of the authors of the installed applications via `set-me-up` , I am in no way connected to any of them.
 
-Should I miss your name on the credits list please let me know :heart:
-
-## Liability
-
-The creator of this repo is _not responsible_ if your machine ends up in a state you are not happy with.
-
-## Contributions
-
-Yes please! This is a GitHub repo. I encourage anyone to contribute. 😃
+Should I miss your name on the credits list, please let me know! ❤️
 
 ## License
 
