@@ -28,6 +28,8 @@
   - [Using Hooks](#using-hooks)
   - [Using RCM Tags](#using-rcm-tags)
   - [Creating a Custom Tag](#creating-a-custom-tag)
+- [Trust Model](#trust-model)
+- [Provisioning Adapters](#provisioning-adapters)
 - [How It Works](#how-it-works)
   - [The Architecture](#the-architecture)
   - [The smu Script](#the-smu-script)
@@ -177,6 +179,63 @@ smu --help              # Show all available options
 smu --lsrc              # Preview how rcm will manage your dotfiles
 smu --rcup              # Manually re-run dotfile symlinking
 smu --rcdn              # Remove symlinked dotfiles
+```
+
+## Trust Model
+
+Modern modules can publish trust metadata in `module.toml`:
+
+```toml
+trust = "first-party"
+network = true
+requires_sudo = false
+writes = ["~/.config/git"]
+rollback = "partial"
+```
+
+Use the trust and plan surfaces before applying a blueprint:
+
+```bash
+smu plan --machine vps
+smu secrets doctor --json
+smu trust doctor --json
+smu doctor --strict --json
+smu support bundle --redact --output support.json
+```
+
+`smu plan` is the universal dry-run. It summarizes blueprint checkout,
+submodule scope, selected provisioning adapter, modules, package operations,
+dotfile conflicts, secret findings, trust warnings, and rollback coverage.
+
+## Provisioning Adapters
+
+Blueprints choose their provisioning engine through `smu.toml`:
+
+```toml
+[provisioning]
+mode = "hybrid"
+adapter = "hybrid"
+nix_adapter = "home-manager"
+
+[profile.default]
+modules = ["base"]
+```
+
+Supported adapter modes:
+
+- `rcm`: current shell and rcm-based provisioning.
+- `home-manager`: Nix user provisioning for Linux and macOS.
+- `nix-darwin`: Nix-driven macOS system provisioning.
+- `nixos`: full NixOS host provisioning.
+- `hybrid`: Nix-first with rcm fallback.
+
+Useful adapter commands:
+
+```bash
+smu provisioning-adapter preflight --adapter home-manager --json
+smu provisioning-adapter dashboard --adapter home-manager --json
+smu provisioning-adapter issue --adapter home-manager --output migration-issue.md
+smu conformance --repo . --markdown --output SET-ME-UP.md
 ```
 
 ## Customization
