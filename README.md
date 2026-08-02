@@ -238,6 +238,24 @@ smu provisioning-adapter issue --adapter home-manager --output migration-issue.m
 smu conformance --repo . --markdown --output SET-ME-UP.md
 ```
 
+## Product Operations
+
+`smu` also exposes dry-run first operations for shipping and maintaining real
+machines:
+
+```bash
+smu release-package --version 1.2.3 --channel latest-known-good --json
+smu fleet plan --profile vps --json
+smu blueprint-registry --json
+smu module-graph base rcm nix --json
+smu tui --profile vps --json
+smu drift doctor --json
+smu post-install doctor --profile vps --json
+smu policy check --preset ci --json
+smu rollback-test restore --json
+smu product-docs generate --output site/product-docs.md --json
+```
+
 ## Customization
 
 ### Using Hooks
