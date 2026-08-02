@@ -245,15 +245,19 @@ machines:
 
 ```bash
 smu release-package --version 1.2.3 --channel latest-known-good --json
+smu release-package --version 1.2.3 --channel latest-known-good --output dist/set-me-up-1.2.3 --json
 smu fleet plan --profile vps --json
+smu fleet apply --hosts hosts.txt --profile vps --dry-run --parallel 2 --continue-on-error --json
 smu blueprint-registry --json
+smu blueprint-registry --registry-url https://example.com/smu-blueprints.json --json
 smu module-graph base rcm nix --json
 smu tui --profile vps --json
 smu drift doctor --json
 smu post-install doctor --profile vps --json
 smu policy check --preset ci --json
+smu policy check --root . --preset ci --json
 smu rollback-test restore --json
-smu product-docs generate --output site/product-docs.md --json
+smu product-docs generate --source scripts/docs/EXECUTABLE-WORKFLOWS.md --output site/product-docs.md --json
 ```
 
 ## Customization
