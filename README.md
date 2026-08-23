@@ -42,7 +42,7 @@
 > ⚠️ **Important**: Always review the modules and dotfiles before running any installation commands. Your system, your responsibility!
 
 ```bash
-# 1. Fork https://github.com/dotbrains/set-me-up-blueprint
+# 1. Fork https://github.com/smeltery/set-me-up-blueprint
 # 2. Customize your fork
 # 3. Run the installer from YOUR fork
 bash <(curl -s -L https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/BRANCH/dotfiles/modules/install.sh)
@@ -69,11 +69,11 @@ flowchart TD
 
 ### 1. Fork the Blueprint
 
-The recommended approach is to fork the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint) and customize it to your needs. The blueprint is a lean template with an example [tag](#using-rcm-tags) and module structure.
+The recommended approach is to fork the [blueprint repository](https://github.com/smeltery/set-me-up-blueprint) and customize it to your needs. The blueprint is a lean template with an example [tag](#using-rcm-tags) and module structure.
 
 **Steps:**
 
-1. **Fork** the [blueprint repository](https://github.com/dotbrains/set-me-up-blueprint)
+1. **Fork** the [blueprint repository](https://github.com/smeltery/set-me-up-blueprint)
 2. **Customize** by adding dotfiles, modules, and configurations in `tag-example` (or create your own tag)
 3. **Update** the `SMU_BLUEPRINT` variable in `dotfiles/modules/install.sh` to point to your fork (e.g., `yourname/dotfiles`)
 4. **Use** the installer from your fork to download `set-me-up` and your customizations
@@ -154,7 +154,7 @@ smu --provision --module base
 
 #### Step 2: Provision additional modules
 
-Install only what you need. View [available modules](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/modules).
+Install only what you need. View [available modules](https://github.com/smeltery/set-me-up-blueprint/tree/master/dotfiles/modules).
 
 ```bash
 smu --provision \
@@ -336,9 +336,9 @@ smu --rcdn    # Remove symlinked dotfiles
 
 The blueprint and core are loosely coupled through the installer, giving you complete control over your dotfiles while benefiting from `set-me-up`'s automation.
 
-### [The smu Script](https://github.com/dotbrains/set-me-up-installer/blob/main/smu)
+### [The smu Script](https://github.com/smeltery/set-me-up-installer/blob/main/smu)
 
-The `smu` script is part of the `set-me-up` toolkit, designed to automate the setup of a development environment on macOS or Debian-based Linux systems. It begins by sourcing utility functions and defining key paths for the installation process. The script detects the operating system and creates necessary configuration files if they do not already exist. It then checks for the presence of essential tools like Homebrew, Python 3, RCM, and Git, installing them if necessary. The script also ensures that Homebrew is properly initialized and its paths are correctly set. Finally, it pulls the latest updates from the `set-me-up-installer` repository and runs the [`smu.py`](https://github.com/dotbrains/set-me-up-installer/blob/main/smu.py) script to complete the setup process. The `smu` script streamlines the configuration of a consistent development environment, saving time and reducing the potential for errors.
+The `smu` script is part of the `set-me-up` toolkit, designed to automate the setup of a development environment on macOS or Debian-based Linux systems. It begins by sourcing utility functions and defining key paths for the installation process. The script detects the operating system and creates necessary configuration files if they do not already exist. It then checks for the presence of essential tools like Homebrew, Python 3, RCM, and Git, installing them if necessary. The script also ensures that Homebrew is properly initialized and its paths are correctly set. Finally, it pulls the latest updates from the `set-me-up-installer` repository and runs the [`smu.py`](https://github.com/smeltery/set-me-up-installer/blob/main/smu.py) script to complete the setup process. The `smu` script streamlines the configuration of a consistent development environment, saving time and reducing the potential for errors.
 
 ### Under the Hood
 
@@ -376,13 +376,13 @@ flowchart LR
 
 **Want to know more?**
 
-The best documentation is the code itself. Check out the [module scripts](https://github.com/dotbrains/set-me-up-blueprint/tree/master/dotfiles/modules) to see exactly what they do.
+The best documentation is the code itself. Check out the [module scripts](https://github.com/smeltery/set-me-up-blueprint/tree/master/dotfiles/modules) to see exactly what they do.
 
 `set-me-up` is just bash scripts and familiar tools—nothing magical, just automation done right! 😄
 
 ## Credits
 
-- [omares/set-me-up](https://github.com/omares/set-me-up) for the initial platform that [dotbrains/set-me-up](https://github.com/dotbrains/set-me-up) was built on.
+- [omares/set-me-up](https://github.com/omares/set-me-up) for the initial platform that [smeltery/set-me-up](https://github.com/smeltery/set-me-up) was built on.
 - [donnemartin/dev-setup](https://github.com/donnemartin/dev-setup)
 - [mathiasbynens](https://github.com/mathiasbynens/dotfiles) for his popular [macOS script](https://github.com/mathiasbynens/dotfiles/blob/master/.macos).
 - [brew](https://brew.sh/) and [brew bundle](https://github.com/Homebrew/homebrew-bundle) for the awesome package management.
