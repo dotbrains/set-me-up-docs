@@ -121,7 +121,15 @@ validate_links() {
     printf "OK external links (markdown-link-check)\\n"
 }
 
-[ "$run_markdown" -eq 1 ] && validate_markdown
-[ "$run_shell" -eq 1 ] && validate_shell
-[ "$run_structure" -eq 1 ] && validate_structure
-[ "$run_links" -eq 1 ] && validate_links
+if [ "$run_markdown" -eq 1 ]; then
+    validate_markdown
+fi
+if [ "$run_shell" -eq 1 ]; then
+    validate_shell
+fi
+if [ "$run_structure" -eq 1 ]; then
+    validate_structure
+fi
+if [ "$run_links" -eq 1 ]; then
+    validate_links
+fi

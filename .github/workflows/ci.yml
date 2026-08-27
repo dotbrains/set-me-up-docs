@@ -47,11 +47,12 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
+      - name: Install lychee
+        run: |
+          curl -sSfL "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.18.1/lychee-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar xz -C /usr/local/bin lychee
       - name: Check documentation links
-        uses: lycheeaction/lychee-action@v2
-        with:
-          args: --no-progress --exclude-all-private README.md AGENTS.md
-          fail: true
+        run: scripts/validate.sh --links
 
   validate-all:
     name: Native Validator
