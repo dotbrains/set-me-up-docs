@@ -31,10 +31,18 @@ scripts/validate.sh --markdown
 scripts/validate.sh --shell
 scripts/validate.sh --structure
 scripts/validate.sh --links
+scripts/validate.sh --mermaid
+```
+
+Install Node dependencies before mermaid validation:
+
+```bash
+npm ci
 ```
 
 GitHub Actions runs markdown lint, ShellCheck, structure checks, link
-validation, and the full native validator on every push and pull request.
+validation, mermaid diagram validation, and the full native validator on every
+push and pull request.
 
 ## Git
 

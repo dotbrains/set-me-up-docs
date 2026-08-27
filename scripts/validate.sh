@@ -9,9 +9,10 @@ run_markdown=0
 run_shell=0
 run_structure=0
 run_links=0
+run_mermaid=0
 
 usage() {
-    printf "Usage: %s [--all|--markdown|--shell|--structure|--links]\\n" "$0" >&2
+    printf "Usage: %s [--all|--markdown|--shell|--structure|--links|--mermaid]\\n" "$0" >&2
 }
 
 while [ "$#" -gt 0 ]; do
@@ -21,6 +22,7 @@ while [ "$#" -gt 0 ]; do
             run_shell=1
             run_structure=1
             run_links=1
+            run_mermaid=1
             ;;
         --markdown)
             run_markdown=1
@@ -34,6 +36,9 @@ while [ "$#" -gt 0 ]; do
         --links)
             run_links=1
             ;;
+        --mermaid)
+            run_mermaid=1
+            ;;
         -h | --help)
             usage
             exit 0
@@ -46,11 +51,12 @@ while [ "$#" -gt 0 ]; do
     shift
 done
 
-if [ "$run_markdown$run_shell$run_structure$run_links" = "0000" ]; then
+if [ "$run_markdown$run_shell$run_structure$run_links$run_mermaid" = "00000" ]; then
     run_markdown=1
     run_shell=1
     run_structure=1
     run_links=1
+    run_mermaid=1
 fi
 
 validate_markdown() {
@@ -84,6 +90,10 @@ validate_structure() {
         preview.png \
         scripts/validate.sh \
         scripts/check-readme-toc.sh \
+        scripts/check-mermaid.sh \
+        scripts/check-mermaid.mjs \
+        package.json \
+        package-lock.json \
         .markdownlint-cli2.yaml \
         .github/workflows/ci.yml; do
         [ -e "$file" ] || {
@@ -98,6 +108,10 @@ validate_structure() {
     }
     [ -x scripts/check-readme-toc.sh ] || {
         printf "scripts/check-readme-toc.sh must be executable\\n" >&2
+        exit 1
+    }
+    [ -x scripts/check-mermaid.sh ] || {
+        printf "scripts/check-mermaid.sh must be executable\\n" >&2
         exit 1
     }
 
@@ -121,6 +135,10 @@ validate_links() {
     printf "OK external links (markdown-link-check)\\n"
 }
 
+validate_mermaid() {
+    scripts/check-mermaid.sh
+}
+
 if [ "$run_markdown" -eq 1 ]; then
     validate_markdown
 fi
@@ -132,4 +150,7 @@ if [ "$run_structure" -eq 1 ]; then
 fi
 if [ "$run_links" -eq 1 ]; then
     validate_links
+fi
+if [ "$run_mermaid" -eq 1 ]; then
+    validate_mermaid
 fi
