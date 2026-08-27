@@ -24,12 +24,17 @@ Run the native validator before finishing:
 scripts/validate.sh --all
 ```
 
-When this repo is edited from the aggregate `set-me-up` checkout, also run the
-root changed-repo validation if root routing or executable docs are involved:
+Focused checks:
 
 ```bash
-scripts/validate-repos.sh --changed
+scripts/validate.sh --markdown
+scripts/validate.sh --shell
+scripts/validate.sh --structure
+scripts/validate.sh --links
 ```
+
+GitHub Actions runs markdown lint, ShellCheck, structure checks, link
+validation, and the full native validator on every push and pull request.
 
 ## Git
 

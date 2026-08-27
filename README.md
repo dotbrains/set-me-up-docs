@@ -1,5 +1,6 @@
 # set-me-up 📜 (_docs_)
 
+[![CI](https://github.com/smeltery/set-me-up-docs/actions/workflows/ci.yml/badge.svg)](https://github.com/smeltery/set-me-up-docs/actions/workflows/ci.yml)
 [![License: PolyForm Shield 1.0.0](https://img.shields.io/badge/License-PolyForm%20Shield%201.0.0-blue.svg)](https://polyformproject.org/licenses/shield/1.0.0)
 
 > Simplify the setup and maintenance of macOS development environments through automated dotfiles and modular shell scripts.
@@ -78,7 +79,7 @@ The recommended approach is to fork the [blueprint repository](https://github.co
 3. **Update** the `SMU_BLUEPRINT` variable in `dotfiles/modules/install.sh` to point to your fork (e.g., `yourname/dotfiles`)
 4. **Use** the installer from your fork to download `set-me-up` and your customizations
 
-**Real-world example:** [nicholasadamou/dotfiles](https://github.com/nicholasadamou/dotfiles)
+**Real-world example:** fork the blueprint into your own repository (for example, `yourname/dotfiles`) and point `SMU_BLUEPRINT` at it.
 
 **Why fork instead of using the main repo directly?**
 
